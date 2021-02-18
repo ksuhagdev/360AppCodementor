@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "332965939519",
+    "firebase_url": "https://app-ede7a.firebaseio.com",
+    "project_id": "app-ede7a",
+    "storage_bucket": "app-ede7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332965939519:android:0acd5e2fee641a46db6b8a",
+        "android_client_info": {
+          "package_name": "com.threesixtyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332965939519-odcqjtlu6pro1bg43v6h1qvc9fq4bv9n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAof-Ps-HX514s37ptQJd93g69oP2-3u9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332965939519-odcqjtlu6pro1bg43v6h1qvc9fq4bv9n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "332965939519-000j557o4qj3elvqal6bba2b3mbctk7p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "AZ7PGZ858M.io.360app.ios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
