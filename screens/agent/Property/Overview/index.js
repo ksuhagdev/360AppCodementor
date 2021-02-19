@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, StatusBar, Image, Text, Modal, ScrollView, Alert, FlatList, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, StatusBar, Image, Text, Modal, ScrollView, PermissionsAndroid,Alert, FlatList, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ActionSheet from 'react-native-action-sheet';
 import styles from './styles';
@@ -10,14 +10,15 @@ import { colors } from '../../../../theme/constants';
 import { handleNewProperty, setCurrentCampaign, getPropertyById, setCurrentProperty, setLiveStatus, deleteProperty } from '../../../../actions/property';
 import EditInspectionTime from '../NewProperty/Auction/EditInspectionTime';
 import Hashtags from './Hashtags';
-import ImagePicker from 'react-native-image-picker'
+import {launchImageLibrary, launchCamera } from 'react-native-image-picker'
 import { getPayload } from '../../../../utils/TokenService';
+import {VESDK, Configuration, TintMode} from 'react-native-videoeditorsdk'
 
 const addIcon = require('../../../../assets/image/add.png');
 const editIcon = require('../../../../assets/image/edit.png');
 const defaultHeroImage = require('../../../../assets/image/property-placeholder.png');
 const defaultAgentPic = require('../../../../assets/image/default-profile-pic.png');
-
+// VESDK.unlockWithLicense(require('../../../../vesdk_license'))
 export default function PropertyAddress({ navigation }) {
   const [hasAccess, setHasAccess] = React.useState(false);
   const [scrollRef, setScrollRef] = React.useState(null);
@@ -26,6 +27,7 @@ export default function PropertyAddress({ navigation }) {
   const [isHashtagsOpen, setIsHashtagsOpen] = React.useState(false);
   const dispatch = useDispatch();
   const { currentProperty } = useSelector(state => state.property);
+  const [libraryVideoPath, setlibraryVideoPath ] = React.useState(null);
   // if(currentProperty){
   //   console.log("Current Property", currentProperty.property.videos)
   // }
@@ -232,62 +234,146 @@ export default function PropertyAddress({ navigation }) {
     if (!type) throw new Error('No type defined for video');
     displayVideoAddingOptions(type)
   };
+  const requestCameraPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Camera Permission',
+            message: 'App needs camera permission',
+          },
+        );
+        // If CAMERA Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
+    } else return true;
+  };
+
+  const requestExternalWritePermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'External Storage Write Permission',
+            message: 'App needs write permission',
+          },
+        );
+        // If WRITE_EXTERNAL_STORAGE Permission is granted
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        alert('Write permission err', err);
+      }
+      return false;
+    } else return true;
+  };
+
 
   const displayVideoAddingOptions = (type) => {
-    // const options = [
-    //   'Gallery',
-    //   'Record',
-    //   'Cancel',
-    // ];
+    const options = [
+      'Gallery',
+      'Record',
+      'Cancel',
+    ];
 
-    // const menuOptions = {
-    //   title: 'Source',
-    //   mediaType: 'video', 
-    // //   storageOptions:{
-    // //     skipBackup:true,
-    // //     path:'images',
-    // //     cameraRoll: true,
-    // // waitUntilSaved: true,
-    // //   }
-    // }
+    const menuOptions = {
+      title: 'Source',
+      mediaType: 'video', 
+    //   storageOptions:{
+    //     skipBackup:true,
+    //     path:'images',
+    //     cameraRoll: true,
+    // waitUntilSaved: true,
+    //   }
+    }
 
-    // ActionSheet.showActionSheetWithOptions(
-    //   {
-    //     options,
-    //     title: 'Options',
-    //     cancelButtonIndex: 2,
-    //   },
-    //   buttonIndex => {
-    //     switch (buttonIndex) {
-    //       case 0:
-    //         ImagePicker.showImagePicker({mediaType: 'video',title:'Source'},(response) => {
-    //           if(response.didCancel){
-    //             console.log('User Cancelled')
-    //           }else if(response.error){
-    //             console.log('ERROR'+response.error)
-    //           }else if (response.customButton){
-    //             console.log('user tapped '+response.customButton)
-    //           }else{
-    //             const data = response.uri;
-    //             console.log("Image Address", data);
-    //             navigation.navigate('TrimVideo', {
-    //               videoUri: data,
-    //               videoPath: response.path,
-    //               videoType: type,
-    //             });
-    //           }
-    //         });
-    //         break;
-    //       case 1:
+    ActionSheet.showActionSheetWithOptions(
+      {
+        options,
+        title: 'Options',
+        cancelButtonIndex: 2,
+      },
+     async buttonIndex =>  {
+        switch (buttonIndex) {
+          case 0:
+            // ImagePicker.showImagePicker({mediaType: 'video',title:'Source'},(response) => {
+            //   if(response.didCancel){
+            //     console.log('User Cancelled')
+            //   }else if(response.error){
+            //     console.log('ERROR'+response.error)
+            //   }else if (response.customButton){
+            //     console.log('user tapped '+response.customButton)
+            //   }else{
+            //     const data = response.uri;
+
+            //     // console.log("Image Address", data);
+            //     // navigation.navigate('TrimVideo', {
+            //     //   videoUri: data,
+            //     //   videoPath: response.path,
+            //     //   videoType: type,
+            //     // });
+
+            //   }
+            // });
+            let options = {
+              mediaType: 'video',
+              maxWidth: 300,
+              maxHeight: 550,
+              quality: 1,
+            };
+            launchImageLibrary(options, (response) => {
+              console.log('Response = ', response);
+        
+              if (response.didCancel) {
+                alert('User cancelled camera picker');
+                return;
+              } else if (response.errorCode == 'camera_unavailable') {
+                alert('Camera not available on device');
+                return;
+              } else if (response.errorCode == 'permission') {
+                alert('Permission not satisfied');
+                return;
+              } else if (response.errorCode == 'others') {
+                alert(response.errorMessage);
+                return;
+              }
+
+              console.log('base64 -> ', response.base64);
+              console.log('uri -> ', response.uri);
+              console.log('width -> ', response.width);
+              console.log('height -> ', response.height);
+              console.log('fileSize -> ', response.fileSize);
+              console.log('type -> ', response.type);
+              console.log('fileName -> ', response.fileName);
+              setlibraryVideoPath(response)
+              if(response){
+                VESDK.openEditor(response.uri).then(result => {
+                  // console.log("Result", result)
+                  navigation.navigate('EditVideo', {
+                    videoUri: result.video,
+                    videoType:type,
+                    Trim:false,
+                  });
+                })
+              }
+              // setlibraryVideoPath(response);
+            });
+            break;
+          case 1:
             if (hasAccess) {
               navigation.navigate('CameraSession', {
                 videoType: type,
               });
             }
-    //         break;
-    //     }
-    //   },
-    // );
+            break;
+        }
+      },
+    );
   };
 
 

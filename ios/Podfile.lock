@@ -385,6 +385,8 @@ PODS:
     - React
     - React-RCTImage
     - VideoEditorSDK (~> 10.18)
+  - toolbar-android (0.1.0-rc.2):
+    - React
   - UMAppLoader (1.0.2)
   - UMBarCodeScannerInterface (5.1.0)
   - UMCameraInterface (5.1.0)
@@ -488,6 +490,7 @@ DEPENDENCIES:
   - RNSound (from `../node_modules/react-native-sound`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - RNVideoEditorSDK (from `../node_modules/react-native-videoeditorsdk`)
+  - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
@@ -638,6 +641,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-vector-icons"
   RNVideoEditorSDK:
     :path: "../node_modules/react-native-videoeditorsdk"
+  toolbar-android:
+    :path: "../node_modules/@react-native-community/toolbar-android"
   UMAppLoader:
     :path: "../node_modules/unimodules-app-loader/ios"
   UMBarCodeScannerInterface:
@@ -739,6 +744,7 @@ SPEC CHECKSUMS:
   RNSound: c980916b596cc15c8dcd2f6ecd3b13c4881dbe20
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   RNVideoEditorSDK: dcd88ab19dcb3800252afc0af9af9e3da9ac46b2
+  toolbar-android: 404f4450b203597e7b417f714ff417bed562a1be
   UMAppLoader: ae5eaee9f3c8cc847c631a579fed20d217de5913
   UMBarCodeScannerInterface: aa3409ab9d108866e55c09ad0292e4a6c08a7775
   UMCameraInterface: 9d5da92c521e0af7815afbf77ea19bd0312b4928
