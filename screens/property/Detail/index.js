@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   Share, Easing,
   StyleSheet, Animated,
-  Dimensions, Button,Modal,
+  Dimensions, Button, Modal,
   ActivityIndicator, StatusBar, Platform
 } from 'react-native';
 import MarqueeText from 'react-native-marquee';
@@ -68,7 +68,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const imageUrl = property.main_image_url ? { uri: property.main_image_url } : propertyImage;
   const placeholderImage = propertyImage;
   const videoPlayer = useRef(null)
-  const formatter = new Intl.NumberFormat('en-US',{ style:'currency', currency:'AUD'})
+  // const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AUD' })
   const onShare = async item => {
     const type = item.campaign_type === 'RENTAL' ? 'rent' : 'sale';
 
@@ -94,7 +94,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
     }
   };
 
-console.log("Property data", property)
+  console.log("Property data", property)
 
 
   const onPropertyPressed = (id, title) => {
@@ -177,7 +177,7 @@ console.log("Property data", property)
   };
 
 
-  console.log("Checking Mathe Shit44y3333t", 999999 > Math.abs(property.prices[0].max_price)   )
+  console.log("Checking Mathe Shit44y3333t", 999999 > Math.abs(property.prices[0].max_price))
 
   const getCampaignType = campaignType => {
     let type = 'Rent';
@@ -276,7 +276,7 @@ console.log("Property data", property)
         <SafeAreaView style={styles.container}>
           <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 5 }}>
             {/* Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num) */}
-            <Text style={[styles.text, styles.textShadow, {}]}> A${999<Math.abs(property.prices[0].min_price)<999999 ? ((Math.abs(property.prices[0].min_price)/1000).toFixed(0)) + 'K': 999999<Math.abs(property.prices[0].min_price) ? ((Math.abs(property.prices[0].min_price)/1000000).toFixed(0)) + 'M':Math.abs(property.prices[0].min_price)} - A${999< Math.abs(property.prices[0].max_price)> 999999 ? ((Math.abs(property.prices[0].max_price)/1000).toFixed(1)) + 'k':  Math.abs(property.prices[0].max_price) > 999999 ? ((Math.abs(property.prices[0].max_price)/1000000).toFixed(0)) + 'M':Math.abs(property.prices[0].max_price)}</Text>
+            <Text style={[styles.text, styles.textShadow, {}]}> A${999 < Math.abs(property.prices[0].min_price) < 999999 ? ((Math.abs(property.prices[0].min_price) / 1000).toFixed(0)) + 'K' : 999999 < Math.abs(property.prices[0].min_price) ? ((Math.abs(property.prices[0].min_price) / 1000000).toFixed(0)) + 'M' : Math.abs(property.prices[0].min_price)} - A${999 < Math.abs(property.prices[0].max_price) > 999999 ? ((Math.abs(property.prices[0].max_price) / 1000).toFixed(1)) + 'k' : Math.abs(property.prices[0].max_price) > 999999 ? ((Math.abs(property.prices[0].max_price) / 1000000).toFixed(0)) + 'M' : Math.abs(property.prices[0].max_price)}</Text>
             <Text style={[styles.text, styles.textShadow]}>{property.agency} {property.agencies[0].name} - {property.agencies[0].address}</Text>
 
           </View>
@@ -379,20 +379,20 @@ console.log("Property data", property)
                 <View style={{ marginRight: 5 }}>
                   <FontAwesomeIcon style={styles.alignCenter} name="music" size={15} color="#fff" />
                 </View>
-                  <View style={{width:'65%'}}>
+                <View style={{ width: '65%' }}>
                   <TextTicker
-          style={{ fontSize: 13, color:'white' }}
-          duration={5000}
-          loop
-          bounce={false}
-          repeatSpacer={50}
-          marqueeDelay={100}
-          shouldAnimateTreshold={40}
-        >
-                  Dojo Cat - Say So "Why don't you say so?"  
+                    style={{ fontSize: 13, color: 'white' }}
+                    duration={5000}
+                    loop
+                    bounce={false}
+                    repeatSpacer={50}
+                    marqueeDelay={100}
+                    shouldAnimateTreshold={40}
+                  >
+                    Dojo Cat - Say So "Why don't you say so?"
         </TextTicker>
-                  </View>
-                
+                </View>
+
               </View>
             </View>
 
@@ -424,7 +424,7 @@ console.log("Property data", property)
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {setShareModalVisible(true)}}>
+                  <TouchableOpacity onPress={() => { setShareModalVisible(true) }}>
                     <View style={styles.btns}>
                       <Iconss style={styles.alignCenter} name="forward" size={36} color="#fff" />
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>
@@ -466,27 +466,41 @@ console.log("Property data", property)
               <Button title='OK' onPress={toggleModal}></Button>
 
               {/* <TouchableOpacity style={{backgroundColor:'#FF3257', justifyContent:'center'}} onPress={toggleModal}><Text style={{alignContent: 'center'}}>Hide Modal</Text></TouchableOpacity> */}
-            {/* </View>
+          {/* </View>
           </Modal> */}
         </SafeAreaView>
         <Modal
-            animationType = {"slide"}
-            transparent={false}
-            visible={shareModalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has now been closed.');
+          animationType={"slide"}
+          transparent={true}
+          presentationStyle="overFullScreen"
+          visible={shareModalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has now been closed.');
+          }}>
+
+          <View style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            alignItems: 'center'
+          }}>
+            <View style={{
+              width: '100%',
+              height: Dimensions.get('window').height / 3, backgroundColor: '#fff'
             }}>
+              <View>
 
-            
-              <Text style = { styles.text }>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                  Maecenas eget tempus augue, a convallis velit.</Text>
+              </View>
 
-              <Text 
+              <Text
                 style={styles.closeText}
                 onPress={() => {
-                  setShareModalVisible(!shareModalVisible)}}>Close Modal</Text>
-          </Modal>
+                  setShareModalVisible(!shareModalVisible)
+                }}>Close Modal</Text>
+            </View>
+          </View>
+
+        </Modal>
       </View>
     </Root>
   );

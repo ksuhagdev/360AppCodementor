@@ -18,7 +18,8 @@ import Onboarding from '../auth/Onboarding/OnboardingScreen';
 // import Hero from '../agent/AgentHome/Hero'
 import React from 'react';
 import  VideoPlayScreen from '../user/Search/VideoPlayScreen'
-import {Platform, Text} from 'react-native'
+import {Platform, Text} from 'react-native';
+import Contacts from '../agent/UserProfile/Contacts';
 // import AgentHome from '../agent/NewAgentHome'
 const UnauthedNavigator = createStackNavigator(
   {
@@ -63,6 +64,10 @@ const HomeNav = createStackNavigator({
   AgentProfile,
   PropertyAddress,
   RoomVideo,
+})
+const UserProfileNav = createStackNavigator({
+  UserProfile,
+  Contacts
 })
 const searchNav = createStackNavigator({
   Search,
@@ -112,7 +117,7 @@ const unauth = createMaterialBottomTabNavigator({
       "Offers"
     ),
   }},
-  UserProfile: {screen: UserProfile, navigationOptions:{
+  UserProfile: {screen: UserProfileNav, navigationOptions:{
     tabBarIcon:(tabInfo) => {
       return <Icon name="person-outline" size={26} color={tabInfo.tintColor} />
     }

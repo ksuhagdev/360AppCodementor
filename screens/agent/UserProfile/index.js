@@ -249,7 +249,7 @@ export default function UserProfile({ navigation }) {
 
                 <ListSection style={styles.listGroup} title="Account">
                   {role === 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Login" onPress={() => navigation.navigate('Login')} />}
-
+                  {role === 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Invite Contacts" onPress={() => navigation.navigate('Contacts')} />}
                   {/* {role !== 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Personal Information" onPress={() => editUserProfile()} />} */}
 
                   {role === 'AGENT' && <ListItem hasBorderBottom={true} text="Edit Profile Details" onPress={() => editAgentProfile()} />}
