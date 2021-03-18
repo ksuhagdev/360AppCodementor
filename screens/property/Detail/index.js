@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   Share, Easing,
   StyleSheet, Animated,
-  Dimensions, Button,
+  Dimensions, Button,Modal,
   ActivityIndicator, StatusBar, Platform
 } from 'react-native';
 import MarqueeText from 'react-native-marquee';
@@ -18,7 +18,7 @@ import TextTicker from 'react-native-text-ticker'
 
 import { GradientButton } from '../../../components/Button'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Modal from 'react-native-modal'
+// import Modal from 'react-native-modal'
 import Iconss from 'react-native-vector-icons/Entypo'
 import Video from 'react-native-video';
 import { Viewport } from '@skele/components'
@@ -61,6 +61,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const [iconColor, setIconColor] = useState(property.is_liked ? '#f00' : '#fff');
   const { accessToken } = useSelector(store => store.account);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [shareModalVisible, setShareModalVisible] = useState(false)
   const dispatch = useDispatch();
 
   const [videos, setVideo] = useState()
@@ -423,7 +424,7 @@ console.log("Property data", property)
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => onShare(property)}>
+                  <TouchableOpacity onPress={() => {setShareModalVisible(true)}}>
                     <View style={styles.btns}>
                       <Iconss style={styles.alignCenter} name="forward" size={36} color="#fff" />
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>
@@ -458,17 +459,34 @@ console.log("Property data", property)
             </View>
 
           </View>
-          <Modal style={{ borderRadius: 10 }} isVisible={isModalVisible}>
+          {/* <Modal style={{ borderRadius: 10 }} isVisible={isModalVisible}>
             <View style={{ backgroundColor: '#fff', padding: 100, borderRadius: 30 }}>
               <Text style={{ bottom: 20, fontSize: 20 }}>Coming Soon </Text>
 
               <Button title='OK' onPress={toggleModal}></Button>
 
               {/* <TouchableOpacity style={{backgroundColor:'#FF3257', justifyContent:'center'}} onPress={toggleModal}><Text style={{alignContent: 'center'}}>Hide Modal</Text></TouchableOpacity> */}
-            </View>
-          </Modal>
+            {/* </View>
+          </Modal> */}
         </SafeAreaView>
+        <Modal
+            animationType = {"slide"}
+            transparent={false}
+            visible={shareModalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has now been closed.');
+            }}>
 
+            
+              <Text style = { styles.text }>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                  Maecenas eget tempus augue, a convallis velit.</Text>
+
+              <Text 
+                style={styles.closeText}
+                onPress={() => {
+                  setShareModalVisible(!shareModalVisible)}}>Close Modal</Text>
+          </Modal>
       </View>
     </Root>
   );

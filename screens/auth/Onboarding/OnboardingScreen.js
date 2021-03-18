@@ -42,9 +42,14 @@ export default class Obboarding extends React.Component {
                 <TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => {this.props.navigation.navigate('AgentOnboarding')}} >
                         <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline'}}>Agent Access</Text>
                    </TouchableOpacity>
+                   <TouchableOpacity activeOpacity={0.7} onPress={() => {this.props.navigation.navigate('UNAUTHED')}}>
+                        <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline'}}>Guest</Text>
+                    </TouchableOpacity>
                 </View>
+                
                     
                 <View style={styles.buttonContainer}>
+                
                     <TouchableOpacity activeOpacity={0.7} style={styles.signUpContainer} onPress={() => {this.props.navigation.navigate('AgencyApprovalMessage',{type:'userSignUp'})}}>
                         <Text style={styles.signUp}>Sign Up</Text>
                     </TouchableOpacity>
