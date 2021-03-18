@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, Text, View, ImageBackground, ActivityIndicator, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import ColorFade from '../../../components/helper/ColorFade';
 
-const placeholderImage = require('../../../assets/image/property-placeholder.png');
+const placeholderImage = require('../../../assets/image/property-placeholder2.jpg');
 
 const width = Dimensions.get('window').width;
 const imgDimension = width / 3 - 2;
@@ -23,12 +23,12 @@ export default function PropertiesPanel({hasAccess, data, type, isLoading, navig
           numColumns={3}
           data={data}
           renderItem={({ item, index }) => (
-             <TouchableOpacity onPress={() => hasAccess ? navigation.navigate('PropertyAddress', { propertyId: item.id, title: item.title }) : onTrendingPressed(index, item)}>
+             <TouchableOpacity onPress={() => navigation.navigate('PropertyAddress', { propertyId: item.id, title: item.title })}>
              {/* <TouchableOpacity onPress={() =>onTrendingPressed(index, item)}> */}
               <ImageBackground style={styles.imgItem} source={item.main_image_url ? { uri: item.main_image_url } : placeholderImage}>
                 <ColorFade height={118} colors={['transparent', 'rgba(0, 0, 0, 0.3)']} />
 
-                <Text style={styles.textOverlay}>{item.title}</Text>
+                <Text style={styles.textOverlay}>{item.street}</Text>
               </ImageBackground>
             </TouchableOpacity>
           )}

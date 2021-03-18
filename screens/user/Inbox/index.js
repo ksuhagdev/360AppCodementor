@@ -9,7 +9,9 @@ export default function Inbox({ navigation }) {
   const dispatch = useDispatch();
   const { allConversations } = useSelector(state => state.message);
   const { data } = useSelector(state => state.account);
-  const loggedInUserId = data.user.id;
+  const loggedInUserId = data.user.id || 0;
+
+
 
   useEffect(() => {
     dispatch(getConversations());

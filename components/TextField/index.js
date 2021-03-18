@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   textField: {
-    height: 80,
+    height: 130,
   },
   textInput: {
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
@@ -118,6 +118,33 @@ export function TitleTextField({ title, value, prefix, name, handleChange, error
     </View>
   );
 }
+
+export function TitleTextField2({ title, value, prefix, name, handleChange, errors, optional = false, ...rest }) {
+  return (
+    <View style={{ flexDirection: 'row', margin: 10 }}>
+      <View style={{ width: '30%' }}>
+        <Text style={{ fontSize: 16 }}>
+          {title}
+        </Text>
+      </View>
+
+
+      {/* <View style={styles.flexRow}> */}
+      {/* {prefix && <Text style={[styles.wot, styles.prefix]}>{prefix}</Text>} */}
+<View style={{width:'60%', borderBottomWidth: 0.25, }}>
+<TextInput
+        style={{marginBottom:15}}
+        onChangeText={handleChange}
+        value={value}
+        {...rest}
+      />
+</View>
+      
+      {/* </View> */}
+    </View>
+  );
+}
+
 
 export function CashTextField({ title, value, name, errors, handleChange, optional = false, customStyles = {}, ...rest }) {
   return (
@@ -179,5 +206,46 @@ export function TextArea({ title, labelType = 'label', optional = true, maxLengt
         {...rest}
       />
     </>
+  );
+}
+
+export function TextArea2({ title, labelType = 'label', optional = true, maxLength, value, handleChange, placeholder = '', containerStyles = {}, ...rest }) {
+  const [remainingLength, setRemainingLength] = React.useState(maxLength);
+
+  useEffect(() => {
+    if (maxLength > 0) {
+      if (remainingLength >= 0) {
+        if (value) {
+          setRemainingLength(maxLength - value.length);
+        } else {
+          setRemainingLength(maxLength);
+        }
+      }
+    }
+  }, [maxLength, remainingLength, value]);
+
+  return (
+    <View style={{ flexDirection: 'row', margin: 10 }}>
+      <View style={{ width: '30%' }}>
+        <Text style={{ fontSize: 17 }}>
+          {title}
+        </Text>
+
+        {/* <Text style={styles.maxLengthHint}>{remainingLength}</Text> */}
+      </View>
+
+      <TextField
+        value={value}
+        onChangeText={text => handleChange(text)}
+        multiline={true}
+        numberOfLines={15}
+        maxLength={maxLength || 255}
+        underlineColorAndroid="transparent"
+        placeholder={placeholder}
+        placeholderTextColor="rgba(0,0,0,0.4)"
+        style={[styles.textInput, styles.textField, { width: '65%' }]}
+        {...rest}
+      />
+    </View>
   );
 }

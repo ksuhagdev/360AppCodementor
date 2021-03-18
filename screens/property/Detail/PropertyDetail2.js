@@ -14,16 +14,17 @@ import {
   ActivityIndicator,StatusBar, Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Video from 'react-native-video';
+// import Video from 'react-native-video';
+import {Video} from 'expo-av'
 import {Viewport} from '@skele/components'
-
-
+import {NavigationEvents} from 'react-navigation'
+// import InViewPort from './InViewPort'
 import request from '../../../helper/functions/request';
 import { shareProperty } from '../../../actions/property';
 import { handleSnackbar } from '../../../helper/functions/snackbar';
 import NumberShortner from '../../../utils/NumberShortner';
 
-// import convertToProxyURL from 'react-native-video-cache'
+// import convertToProxyURL from 'react-native-video-cache';
 
 const propertyImage = require('../../../assets/image/property-placeholder.png');
 const bedImg = require('../../../assets/image/bed.png');
@@ -39,6 +40,7 @@ export default function PropertyDetail2({ property, shouldPlay, navigation, vide
   
   const [likes, setLikes] = useState(property.total_likes);
   const [shares, setShares] = useState(property.total_shares);
+  const [play, setPlay] = useState(false);
   const [isLiked, setIsLiked] = useState(property.is_liked || false);
   const [iconColor, setIconColor] = useState(property.is_liked ? '#f00' : '#fff');
   const { accessToken } = useSelector(store => store.account);
@@ -47,7 +49,7 @@ export default function PropertyDetail2({ property, shouldPlay, navigation, vide
   const [videos, setVideo] = useState()
   const imageUrl = property.main_image_url ? { uri: property.main_image_url } : propertyImage;
   const placeholderImage = propertyImage;
-  const videoPlayer = useRef(null)
+  let videoPlayer = useRef()
   const onShare = async item => {
     const type = item.campaign_type === 'RENTAL' ? 'rent' : 'sale';
    
@@ -168,6 +170,22 @@ export default function PropertyDetail2({ property, shouldPlay, navigation, vide
     return type;
   };
 
+  const pauseVideo = () => {
+    if(videoPlayer) {
+      console.log("Videoplayer Refrenece ", videoPlayer)
+      // videoPlayer.current.stop();
+    }
+  }
+
+ const playVideo = () => {
+    if(videoPlayer) {
+      // videoPlayer.current.playAsync();
+    }
+  }
+
+  const handlePlaying = (isVisible) => {
+    isVisible ? playVideo() : pauseVideo();
+  }
   const onBuffer = () => {
     setState({
       ...state,
@@ -182,14 +200,39 @@ export default function PropertyDetail2({ property, shouldPlay, navigation, vide
     });
   };
 
-  useEffect(() => {
-    setVideo(getMainVideo(property.videos).video_url)
-  console.log("VIdoe url", videos)
+  const playVideoPlayer = () => {
+    videoPlayer.current.playAsync();
+  }
 
-  },[property])
+const stop = () => {
+  videoPlayer.current.stopAsync();
+}
+  useEffect(async() => {
+    let source = getMainVideo(property.videos).video_url
+    // videoPlayer.current.loadAsync(source, initialState={}, downloadFirst = false);
+  if(!shouldPlay){
+  // console.log("Inside Video Async Mode", shouldPlay)
+    // videoPlayer.current.unloadAsync();
+  if(videoPlayer){
+    console.log("Inside Unload Async Videplayer")
+    videoPlayer.current.unloadAsync();
+  }
+  }
+     return () => {
+      videoPlayer.current.unloadAsync();
+    }
+    
+  },[])
+
+  const checkVisible = visible => {
+    console.log("Inside Checking Visibility", visible)
+  }
   return (
     <View style={styles.propertyContainer}>
-      {video && getMainVideo(property.videos) ? (
+				{/* <InViewPort onChange={checkVisible}> */}
+      {shouldPlay ? (
+        // <InViewPort onChange={handlePlaying()}>
+        
         <>
           {state.showLoadingIndicator && (
             <View style={styles.loading}>
@@ -197,31 +240,38 @@ export default function PropertyDetail2({ property, shouldPlay, navigation, vide
             </View>
           )}
            <Video
-            repeat={true}
+            repeat={false}
             source={{ uri:getMainVideo(property.videos).video_url }}
-            poster={getMainVideo(property.videos).thumbnail_url}
+            posterSource={getMainVideo(property.videos).thumbnail_url}
             onBuffer={onBuffer}
             onLoad={onLoad}
             rate={1.0}
+            shouldPlay={shouldPlay}
+            isLooping
             posterResizeMode="cover"
             resizeMode={'cover'}
-            ref={(ref) => (videoPlayer.current)}
-            paused={!shouldPlay} 
-            progressUpdateInterval={250.0}
-            ignoreSilentSwitch="ignore"
+            ref={videoPlayer}
+            // muted={true}
+            // paused={!shouldPlay } 
+            // volume={1}
+            isMuted={false}
+            // progressUpdateInterval={250.0}
+            // ignoreSilentSwitch="ignore"
             style={styles.backgroundVideo}
             playInBackground={false}
             bufferConfig={{
-                minBufferMs: 5000,
+                minBufferMs: 0,
                 maxBufferMs: 15000,
-                bufferForPlaybackMs: 2500,
-                bufferForPlaybackAfterRebufferMs: 5000
+                bufferForPlaybackMs: 0,
+                bufferForPlaybackAfterRebufferMs: 50
               }}
           />
         </>
       ) : (
-        <Image source={{uri: property.main_image_url}} resizeMode="cover" style={styles.propertyImage} loadingIndicatorSource={placeholderImage} />
+        <Image source={{uri: getMainVideo(property.videos).thumbnail_url}} resizeMode="cover" style={styles.propertyImage} loadingIndicatorSource={placeholderImage} />
       )}
+         {/* </InViewPort> */}
+
       <View style={styles.overlay} />
       <SafeAreaView style={styles.container}>
         <View style={styles.summary}>
@@ -272,7 +322,7 @@ export default function PropertyDetail2({ property, shouldPlay, navigation, vide
                 </View>
               ))}
               </View>
-            <View style={[styles.propertyInfo, styles.flexRow]}>
+            {/* <View style={[styles.propertyInfo, styles.flexRow]}>
               <View style={styles.infoIcon}>
                 <Image source={bedImg} style={styles.propertyInfoIcon} />
                 <Text style={[styles.text, styles.propertyInfoText, styles.textShadow]}>{property.num_bedrooms}</Text>
@@ -287,7 +337,7 @@ export default function PropertyDetail2({ property, shouldPlay, navigation, vide
                 <Image source={garageImg} style={styles.propertyInfoIcon} />
                 <Text style={[styles.text, styles.propertyInfoText, styles.textShadow]}>{property.num_garages}</Text>
               </View>
-            </View>
+            </View> */}
 
             <View style={styles.hashtagsContainer}>
               {property.hashtags.map(hashtag => (

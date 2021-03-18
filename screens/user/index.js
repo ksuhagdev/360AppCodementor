@@ -61,11 +61,7 @@ const AgentHomeNav = createStackNavigator({
     RoomVideo,
     EditProfileInfo,
     LikedProperties,
-    Search:{
-      screen: Search, navigationOptions:{
-        headerShown: false
-      }
-    },
+    Search,
     VideoPlayScreen:{screen: VideoPlayScreen, navigationOptions:{
       headerTransparent: true,
       title:"",
@@ -92,9 +88,7 @@ const AgentHomeNav = createStackNavigator({
 
 
 const searchNav = createStackNavigator({
-  Search : {screen: Search, navigationOptions:{
-    headerShown: false
-    }},
+  Search,
    VideoPlayScreen:{screen: VideoPlayScreen, navigationOptions:{
       headerTransparent: true,
       title:"",

@@ -1,4 +1,5 @@
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
+import { Button } from 'react-native'
 import AgentHome from './AgentHome';
 import UserProfile from './UserProfile';
 import AgentProfile from './AgentProfile';
@@ -32,16 +33,20 @@ import TrimVideo from '../agent/CameraSession/TrimVideo';
 import VideoScroll from '../../components/List/VideoScroll';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import React from 'react'
-import {Platform, Text, Image} from 'react-native'
-import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs'
-import plusIcon from '../../assets/image/plus-icon.png'
+import { Platform, Text, Image } from 'react-native'
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
+import plusIcon from '../../assets/image/plusButton2.png'
 import Hero from './AgentHome/Hero'
-import  VideoPlayScreen from '../user/Search/VideoPlayScreen'
+import VideoPlayScreen from '../user/Search/VideoPlayScreen'
+
+import FollowContainer from '../follow/FollowContainer';
+
+import LikedProperties from '../like/LikedProperties';
 
 const AgentNavigator = createStackNavigator(
   {
     Home: AgentHome,
-    Hero:Hero,
+    Hero: Hero,
     AgentProfile,
     PropertyAddress,
     UserProfile,
@@ -71,10 +76,12 @@ const AgentNavigator = createStackNavigator(
     Chat,
     RoomVideo,
     TrimVideo,
-    VideoScroll: {screen: VideoScroll, navigationOptions:{
-      headerShown: false
-    }}
-   // VideoTrim
+    VideoScroll: {
+      screen: VideoScroll, navigationOptions: {
+        headerShown: false
+      }
+    }
+    // VideoTrim
   },
   {
     initialRouteName: 'Home',
@@ -90,11 +97,12 @@ const AgentNavigator = createStackNavigator(
 
 const AgentHomeNav = createStackNavigator({
   Home: AgentHome,
-    AgentProfile,
-    Hero:{screen: Hero, navigationOptions:{headerShown: false}},
-    VideoPlayScreen:{screen: VideoPlayScreen, navigationOptions:{
+  AgentProfile,
+  Hero: { screen: Hero, navigationOptions: { headerShown: false } },
+  VideoPlayScreen: {
+    screen: VideoPlayScreen, navigationOptions: {
       headerTransparent: true,
-      title:"",
+      title: "",
       headerStyle: {
         position: 'absolute',
         backgroundColor: 'transparent',
@@ -106,49 +114,54 @@ const AgentHomeNav = createStackNavigator({
         shadowOpacity: 0,
         borderBottomWidth: 0,
       }
-    }},
-    PropertyAddress,
-    UserProfile,
-    CameraSession,
-    DiscoverSoundtrack,
-    TrackList,
-    NewProperty_Screen1: NewProperty,
-    NewProperty_Screen2: PropertyDetails,
-    NewProperty_Screen3: ChooseCampaign,
-    RentalSetup,
-    PrivateSale,
-    Auction,
-    EditDateAndTime,
-    EditInspectionTime,
-    InviteOthers,
-    Verification,
-    PrivateEmail,
-    OpenContacts,
-    CaptureVideo,
-    EditVideo,
-    EditPersonalInfo,
-    EditAgentProfile,
-    AddFloorPlan,
-    Search,
-    SuburbSelection,
-    Inbox,
-    Chat,
-    RoomVideo,
-    TrimVideo,
-    VideoScroll: {screen: VideoScroll, navigationOptions:{
+    }
+  },
+  PropertyAddress,
+  UserProfile,
+  CameraSession,
+  DiscoverSoundtrack,
+  TrackList,
+  NewProperty_Screen1: NewProperty,
+  NewProperty_Screen2: PropertyDetails,
+  NewProperty_Screen3: ChooseCampaign,
+  RentalSetup,
+  PrivateSale,
+  Auction,
+  EditDateAndTime,
+  EditInspectionTime,
+  InviteOthers,
+  Verification,
+  PrivateEmail,
+  OpenContacts,
+  CaptureVideo,
+  EditVideo,
+  EditPersonalInfo,
+  EditAgentProfile,
+  AddFloorPlan,
+  Search,
+  SuburbSelection,
+  Inbox,
+  Chat,
+  RoomVideo,
+  TrimVideo,
+  VideoScroll: {
+    screen: VideoScroll, navigationOptions: {
       headerShown: false
-    }}
+    }
+  }
 })
 
 const searchNav = createStackNavigator({
   Search,
-    SuburbSelection,
-    PropertyAddress,
-    UserProfile,
-    Hero:{screen: Hero, navigationOptions:{headerShown: false}},
-    VideoPlayScreen:{screen: VideoPlayScreen, navigationOptions:{
+  SuburbSelection,
+  PropertyAddressNew: { screen: PropertyAddress },
+  UserProfile,
+  Hero: { screen: Hero, navigationOptions: { headerShown: false } },
+  VideoPlayScreen: {
+    screen: VideoPlayScreen, navigationOptions: {
       headerTransparent: true,
-      title:"",
+      tabBarVisible: false,
+      title: "",
       headerStyle: {
         position: 'absolute',
         backgroundColor: 'transparent',
@@ -160,164 +173,188 @@ const searchNav = createStackNavigator({
         shadowOpacity: 0,
         borderBottomWidth: 0,
       }
-    }},
-    CameraSession,
-    DiscoverSoundtrack,
-    TrackList,
-    NewProperty_Screen1: NewProperty,
-    NewProperty_Screen2: PropertyDetails,
-    NewProperty_Screen3: ChooseCampaign,
-    RentalSetup,
-    PrivateSale,
-    Auction,
-    EditDateAndTime,
-    EditInspectionTime,
-    InviteOthers,
-    Verification,
-    PrivateEmail,
-    OpenContacts,
-    CaptureVideo,
-    EditVideo,
-    EditPersonalInfo,
-    EditAgentProfile,
-    AddFloorPlan,
-    Inbox,
-    Chat,
-    RoomVideo,
-    TrimVideo,
-    VideoScroll: {screen: VideoScroll, navigationOptions:{
-      headerShown: false
-    }}
+    }
+  },
+  CameraSession,
+  DiscoverSoundtrack,
+  TrackList,
+  NewProperty_Screen1: NewProperty,
+  NewProperty_Screen2: PropertyDetails,
+  NewProperty_Screen3: ChooseCampaign,
+  RentalSetup,
+  PrivateSale,
+  Auction,
+  EditDateAndTime,
+  EditInspectionTime,
+  InviteOthers,
+  Verification,
+  PrivateEmail,
+  OpenContacts,
+  CaptureVideo,
+  EditVideo,
+  EditPersonalInfo,
+  EditAgentProfile,
+  AddFloorPlan,
+  Inbox,
+  Chat,
+  RoomVideo,
+  TrimVideo,
+  // VideoScroll: {screen: VideoScroll, navigationOptions:{
+  //   headerShown: false
+  // }}
 })
 
 const newPropertyNav = createStackNavigator({
   NewProperty_Screen1: NewProperty,
-    NewProperty_Screen2: PropertyDetails,
-    NewProperty_Screen3: ChooseCampaign,
-    RentalSetup,
-    PrivateSale,
-    Auction,
-    EditDateAndTime,
-    EditInspectionTime,
-    InviteOthers,
-    Verification,
-    PrivateEmail,
-    OpenContacts,
-    CaptureVideo,
-    EditVideo,
-    EditPersonalInfo,
-    EditAgentProfile,
-    AddFloorPlan,
-    Inbox,
-    Chat,
-    RoomVideo,
-    TrimVideo,
-    VideoScroll: {screen: VideoScroll, navigationOptions:{
+  NewProperty_Screen2: PropertyDetails,
+  NewProperty_Screen3: ChooseCampaign,
+  RentalSetup,
+  PrivateSale,
+  Auction,
+  EditDateAndTime,
+  EditInspectionTime,
+  InviteOthers,
+  Verification,
+  PrivateEmail,
+  OpenContacts,
+  CaptureVideo,
+  EditVideo,
+  EditPersonalInfo,
+  EditAgentProfile,
+  AddFloorPlan,
+  Inbox,
+  Chat,
+
+  RoomVideo,
+  TrimVideo,
+  VideoScroll: {
+    screen: VideoScroll, navigationOptions: {
       headerShown: false
-    }},
-    Search,
-    SuburbSelection,
-    PropertyAddress,
-    UserProfile,
-    CameraSession,
-    DiscoverSoundtrack,
-    TrackList,
-    AgentProfile,
+    }
+  },
+  Search,
+  SuburbSelection,
+  PropertyAddress: {
+    screen: PropertyAddress, navigationOptions: ({ navigation }) => {
+      return {
+        headerLeft: (<HeaderBackButton onPress={() => { navigation.navigate('Home') }} />)
+      }
+    }
+  },
+  UserProfile,
+  CameraSession,
+  DiscoverSoundtrack,
+  TrackList,
+  AgentProfile,
 })
 
 const InboxNav = createStackNavigator({
   Inbox,
-    Chat,
+  Chat,
 })
 
 const UserProfileNav = createStackNavigator({
-  UserProfile: {screen:UserProfile, navigationOptions:{
-    headerShown: false
-  }},
-  NewProperty_Screen1: NewProperty,
-    NewProperty_Screen2: PropertyDetails,
-    NewProperty_Screen3: ChooseCampaign,
-    RentalSetup,
-    PrivateSale,
-    Auction,
-    EditDateAndTime,
-    EditInspectionTime,
-    InviteOthers,
-    Verification,
-    PrivateEmail,
-    OpenContacts,
-    CaptureVideo,
-    EditVideo,
-    EditPersonalInfo,
-    EditAgentProfile,
-    AddFloorPlan,
-    Inbox,
-    Chat,
-    RoomVideo,
-    TrimVideo,
-    VideoScroll: {screen: VideoScroll, navigationOptions:{
+  UserProfile: {
+    screen: UserProfile, navigationOptions: {
       headerShown: false
-    }},
-    Search,
-    SuburbSelection,
-    PropertyAddress,
-    CameraSession,
-    DiscoverSoundtrack,
-    TrackList,
-    AgentProfile,
+    }
+  },
+  NewProperty_Screen1: NewProperty,
+  NewProperty_Screen2: PropertyDetails,
+  NewProperty_Screen3: ChooseCampaign,
+  RentalSetup,
+  PrivateSale,
+  Auction,
+  EditDateAndTime,
+  EditInspectionTime,
+  InviteOthers,
+  Verification,
+  PrivateEmail,
+  LikedProperties,
+  FollowContainer,
+  OpenContacts,
+  CaptureVideo,
+  EditVideo,
+  EditPersonalInfo,
+  EditAgentProfile,
+  AddFloorPlan,
+  Inbox,
+  Chat,
+  RoomVideo,
+  TrimVideo,
+  VideoScroll: {
+    screen: VideoScroll, navigationOptions: {
+      headerShown: false
+    }
+  },
+  Search,
+  SuburbSelection,
+  PropertyAddress,
+  CameraSession,
+  DiscoverSoundtrack,
+  TrackList,
+  AgentProfile,
 })
 
 const agentAuth = createMaterialBottomTabNavigator({
-  Home: {screen: AgentHomeNav, navigationOptions:{
-    tabBarIcon:(tabInfo) => {
-      return <Icon name="home" size={26} color={tabInfo.tintColor} />
+  Home: {
+    screen: AgentHomeNav, navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return <Icon name="home" size={26} color={tabInfo.tintColor} />
+      }
     }
-  }},
-  Search: {screen: searchNav, navigationOptions:{
-    tabBarIcon:(tabInfo) => {
-      return <Icon name="search" size={26} color={tabInfo.tintColor} />
+  },
+  Search: {
+    screen: searchNav, navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return <Icon name="search" size={26} color={tabInfo.tintColor} />
+      }
     }
-  }},
+  },
   NewProperty: {
-    screen: newPropertyNav, navigationOptions:{
-      tabBarIcon:(tabInfo) => {
+    screen: newPropertyNav, navigationOptions: {
+      tabBarIcon: (tabInfo) => {
         return <Image
-        source={plusIcon}
-        style={{height: 35, resizeMode: 'contain'}}
-      />
+          source={plusIcon}
+          style={{ height: 35, resizeMode: 'contain' }}
+        />
       },
-      tabBarLabel:Platform.OS === "android" ? (
-        <Text style={{ 
+      tabBarLabel: Platform.OS === "android" ? (
+        <Text style={{
           // fontFamily: "roboto-bold" 
-        }}></Text>
+        }}> </Text>
       ) : (
-        ''
-      ),
+          ' '
+        ),
     },
   },
-  Inbox: {screen: InboxNav, navigationOptions:{
-    tabBarIcon:(tabInfo) => {
-      return <Icon name="chat-bubble-outline" size={26} color={tabInfo.tintColor} />
+  Inbox: {
+    screen: InboxNav, navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return <Icon name="chat-bubble-outline" size={26} color={tabInfo.tintColor} />
+      },
+      tabBarLabel: Platform.OS === "android" ? (
+        <Text style={{
+          // fontFamily: "roboto-bold" 
+        }}>Inbox</Text>
+      ) : (
+          Inbox
+        ),
+    }
+  },
+  UserProfile: {
+    screen: UserProfileNav, navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return <Icon name="person-outline" size={26} color={tabInfo.tintColor} />
+      },
     },
-    tabBarLabel:Platform.OS === "android" ? (
-      <Text style={{ 
-        // fontFamily: "roboto-bold" 
-      }}>Inbox</Text>
-    ) : (
-      Inbox
-    ),
-  }},
-  UserProfile: {screen: UserProfileNav, navigationOptions:{
-    tabBarIcon:(tabInfo) => {
-      return <Icon name="person-outline" size={26} color={tabInfo.tintColor} />
-    }, 
-  },}
-},{
+  }
+}, {
   activeColor: '#fff',
-  barStyle:{
-    backgroundColor:'#000'
+  barStyle: {
+    backgroundColor: '#000'
   },
-  
+
 })
 
 

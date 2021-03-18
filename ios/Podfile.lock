@@ -3,6 +3,10 @@ PODS:
   - CocoaAsyncSocket (7.6.5)
   - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
+  - EXAV (9.0.0):
+    - UMCore
+    - UMFileSystemInterface
+    - UMPermissionsInterface
   - EXConstants (9.0.0):
     - UMConstantsInterface
     - UMCore
@@ -86,6 +90,10 @@ PODS:
     - glog
   - glog (0.3.5)
   - imglyKit (10.21.6)
+  - lottie-ios (3.1.9)
+  - lottie-react-native (3.5.0):
+    - lottie-ios (~> 3.1.8)
+    - React
   - mobile-ffmpeg-full-gpl (4.4)
   - OpenSSL-Universal (1.0.2.20):
     - OpenSSL-Universal/Static (= 1.0.2.20)
@@ -266,13 +274,13 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
-  - react-native-camera (3.42.2):
+  - react-native-camera (3.43.0):
     - React-Core
-    - react-native-camera/RCT (= 3.42.2)
-    - react-native-camera/RN (= 3.42.2)
-  - react-native-camera/RCT (3.42.2):
+    - react-native-camera/RCT (= 3.43.0)
+    - react-native-camera/RN (= 3.43.0)
+  - react-native-camera/RCT (3.43.0):
     - React-Core
-  - react-native-camera/RN (3.42.2):
+  - react-native-camera/RN (3.43.0):
     - React-Core
   - react-native-contacts (6.0.4):
     - React-Core
@@ -285,14 +293,14 @@ PODS:
     - React
   - react-native-image-picker (3.2.1):
     - React-Core
-  - react-native-safe-area-context (3.1.9):
+  - react-native-safe-area-context (3.2.0):
     - React-Core
   - react-native-video (5.1.1):
     - React-Core
     - react-native-video/Video (= 5.1.1)
   - react-native-video/Video (5.1.1):
     - React-Core
-  - react-native-viewpager (4.2.3):
+  - react-native-viewpager (4.2.4):
     - React-Core
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
@@ -362,7 +370,7 @@ PODS:
     - React-Core
   - RNFS (2.16.6):
     - React
-  - RNGestureHandler (1.10.1):
+  - RNGestureHandler (1.10.3):
     - React-Core
   - RNPermissions (2.0.9):
     - React
@@ -370,9 +378,9 @@ PODS:
     - React-Core
   - RNReanimated (1.13.2):
     - React-Core
-  - RNScreens (2.17.1):
+  - RNScreens (2.18.1):
     - React-Core
-  - RNSnackbar (2.3.2):
+  - RNSnackbar (2.4.0):
     - React-Core
   - RNSound (0.11.0):
     - React
@@ -412,6 +420,7 @@ PODS:
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
@@ -441,6 +450,7 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.54.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
   - Permission-Contacts (from `../node_modules/react-native-permissions/ios/Contacts.podspec`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
@@ -519,6 +529,7 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - imglyKit
+    - lottie-ios
     - mobile-ffmpeg-full-gpl
     - OpenSSL-Universal
     - VideoEditorSDK
@@ -527,6 +538,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXAV:
+    :path: "../node_modules/expo-av/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   EXFileSystem:
@@ -547,6 +560,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
   Permission-Contacts:
@@ -677,6 +692,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cde416483dac037923206447da6e1454df403714
+  EXAV: 7178c86262c2925a1e5ec42a14b5773c123da559
   EXConstants: 9f18e9ef229706394f41735d9c7f309d479b36c0
   EXFileSystem: b82693d78de152efe10a77d4aac781f782e10916
   EXFont: 87df0024767574709454d955ef896077663e7dd6
@@ -695,6 +711,8 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   imglyKit: cf341e6a4ed2fa0b8070df9f6ec1e71e579cd50f
+  lottie-ios: 3a3758ef5a008e762faec9c9d50a39842f26d124
+  lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
   mobile-ffmpeg-full-gpl: 77de728206f08f30c70f530b18abb4e8f6413eb6
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
   Permission-Camera: b0fec577b27488314a885f9c74433e02f3585b9b
@@ -712,15 +730,15 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-camera: 48557b70b49c5c8a099b0600d774ba374cf18587
+  react-native-camera: c2cb270b2546bb6d99352455676cd01a1cbeb1d5
   react-native-contacts: f97ea51a576325eade1c1e6a9e3be224ccbd466d
   react-native-ffmpeg: 9fbe53d5afd6f35978804756f58238cf9340d1d8
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-geolocation-service: 7c9436da6dfdecd9526c62eac62ea2bc3f0cc8ea
   react-native-image-picker: 0c28bf3cb089cfe840bc5cc9fac3dcc10f2188d9
-  react-native-safe-area-context: 86612d2c9a9e94e288319262d10b5f93f0b395f5
+  react-native-safe-area-context: e471852c5ed67eea4b10c5d9d43c1cebae3b231d
   react-native-video: 1574074179ecaf6a9dd067116c8f31bf9fec15c8
-  react-native-viewpager: b84aa4fd267966c4eea604979f573e62e1cc3676
+  react-native-viewpager: 2bd854c85a76bfe6f75dc232f3889301bcb3a720
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -735,12 +753,12 @@ SPEC CHECKSUMS:
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCPicker: 6780c753e9e674065db90d9c965920516402579d
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
-  RNGestureHandler: 5e58135436aacc1c5d29b75547d3d2b9430d052c
+  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
   RNReactNativeHapticFeedback: 653a8c126a0f5e88ce15ffe280b3ff37e1fbb285
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
-  RNScreens: b6c9607e6fe47c1b6e2f1910d2acd46dd7ecea3a
-  RNSnackbar: 2c5f131fe85b333ff497a34c3ba94a0c1e9ee1f0
+  RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
+  RNSnackbar: b6cbf294923b8d6c6056592bca87527c81a0130b
   RNSound: c980916b596cc15c8dcd2f6ecd3b13c4881dbe20
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   RNVideoEditorSDK: dcd88ab19dcb3800252afc0af9af9e3da9ac46b2

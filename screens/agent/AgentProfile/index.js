@@ -250,25 +250,25 @@ export default function AgentProfile({ navigation }) {
 
             <Text style={styles.agencyInfo}>{profile.agency.address}</Text>
           </View>
+          </View>
 
           {!hasAccess && (
             <View style={styles.ctaContainer}>
-              <TouchableOpacity onPress={() => onMessagePressed()}>
-                <View style={styles.alignCenter}>
-                  <Image source={messageIcon} style={styles.infoBtn} />
+              <TouchableOpacity style={styles.alignCenter} onPress={() => onMessagePressed()}>
+                {/* <View > */}
+                  {/* <Image source={messageIcon} style={styles.infoBtn} /> */}
                   <Text style={styles.ctaText}>Message</Text>
-                </View>
+                {/* </View> */}
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={handlePhoneCall}>
-                <View style={[styles.alignCenter, styles.ctaMargin]}>
-                  <Image source={callIcon} style={styles.infoBtn} />
+              <TouchableOpacity style={styles.alignCenter} onPress={handlePhoneCall}>
+                {/* <View > */}
+                  {/* <Image source={callIcon} style={styles.infoBtn} /> */}
                   <Text style={styles.ctaText}>Call</Text>
-                </View>
+                {/* </View> */}
               </TouchableOpacity>
             </View>
           )}
-        </View>
 
         <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionText}>{profile.agent.profile_description}</Text>
@@ -323,23 +323,35 @@ const styles = StyleSheet.create({
   },
   alignCenter: {
     alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: 7,
+    borderWidth: 0.5,
+    width:'46%',
+    borderRadius:5
+
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#000',
   },
   containerView: {
     padding: 20,
   },
   ctaContainer: {
     flexDirection: 'row',
+    justifyContent:'space-between',
   },
   ctaMargin: {
     marginLeft: 20,
   },
   ctaText: {
-    marginTop: 4,
-    fontFamily: 'font-light',
+    justifyContent: 'center',
+    alignSelf:'center',
+    // marginTop: 4,
+    // fontFamily: 'font-light',
+    fontWeight: "bold",
+    // textAlign: 'center',
   },
   descriptionContainer: {
     paddingVertical: 13.5,

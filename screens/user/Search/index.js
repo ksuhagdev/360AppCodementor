@@ -24,6 +24,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Autocomplete from 'react-native-autocomplete-input';
 import ResultTile from './ResultTile';
 import SearchFilter from './Filter';
+import request from '../../../helper/functions/request';
+
 // import useSearchLocation from '../../../hooks/useSearchLocation';
 import { searchProperties, updateSearchFilters, getTrendingProperties } from '../../../actions/property';
 
@@ -32,24 +34,27 @@ const placeholderImage = require('../../../assets/image/property-placeholder.png
 
 export default function Search({ navigation }) {
   const [currentHero, setCurrentHero] = useState(null);
-  const [searchValue, setSearchValue] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
   const { width } = Dimensions.get('window');
   const imageDimension = width / 3 - 2;
+  const [searchItem, setSearchItem] = useState(null)
   const [interval, updateInterval] = useState(null);
   const [hideResults, setHideResults] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   var { isSearchLoading, searchResults, searchFilters, trendingProperties } = useSelector(state => state.property);
-
+  const [isHashtag, setisHashtags] = useState(false);
   const [trendLoading, settrendLoading] = useState(false)
   // const { query, setQuery, search } = useSearchLocation();
   const [searchResult, setSearchResult] = useState([])
   const [query, setQuery] = useState(null)
   const [mainImage, setmainImage] = useState(null)
   const onLocationSelect = async item => {
-    console.log('So the detasil', item.address_components)
+    // console.log('So the detasil', item.address_components)
+    if(!isHashtag){
     let Postcode, State, Country, Suburb;
     let results = []
+
     for (var i = 0; i < item.address_components.length; i++) {
       if (item.address_components[i].types.includes('postal_code')) {
         console.log("Success", item.address_components[i])
@@ -81,6 +86,8 @@ export default function Search({ navigation }) {
         suburb: Postcode,
         state: State,
         country: Country,
+        hashtag: false,
+        hastag: null
       }),
     );
 
@@ -104,7 +111,32 @@ export default function Search({ navigation }) {
       console.log("Error from Search", err.message)
       Alert.alert(err.message)
     }
-    
+  }else{
+    console.log("Hashtag Name", item)
+    await dispatch(
+      updateSearchFilters({
+        ...searchFilters,
+        hashtag: true,
+        hastag: item
+      }),
+    );
+    try{
+      await dispatch(searchProperties());
+      // const { searchResults} = useSelector(state => state.property);
+      console.log("Search Results", searchResults)
+      // if(searchResults){
+        
+          navigation.navigate('SuburbSelection', {
+            item,
+            properties: searchResults,
+            filters: searchFilters,
+          });
+        
+    }catch(err){
+      console.log("Error from Search", err.message)
+      Alert.alert(err.message)
+    }
+  }
       
    
     // }
@@ -112,11 +144,12 @@ export default function Search({ navigation }) {
 
   const onTrendingPressed = (index, item) => {
     // console.log("Going Into Hero")
+    
     navigation.navigate('VideoPlayScreen', { data: trendingProperties, CurrentIndex: index, item: item });
   };
 
   const onPropertyPressed = (propertyId, title) => {
-    navigation.navigate('PropertyAddress', { propertyId, title });
+    navigation.navigate('PropertyAddressNew', { propertyId, title });
   };
 
   const onSuburbPressed = (suburb, data) => {
@@ -141,16 +174,16 @@ export default function Search({ navigation }) {
       }),
     );
 
-    if (searchFilters.suburb) {
-      // Perform a new search
-      if (interval) {
-        clearInterval(interval);
-        updateInterval(null);
-      }
+    // if (searchFilters.suburb) {
+    //   // Perform a new search
+    //   if (interval) {
+    //     clearInterval(interval);
+    //     updateInterval(null);
+    //   }
 
-      dispatch(searchProperties());
-    }
-
+    //   dispatch(searchProperties());
+    // }
+      onSelect(searchItem)
     setIsModalOpen(false);
   };
 
@@ -183,24 +216,41 @@ export default function Search({ navigation }) {
 
   useEffect(() => {
     console.log("Search BValie", searchValue)
-    fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchValue}&types=(regions)&key=AIzaSyCyWctabwPuw3UNXU7cSQ0ZmNLNrbyXDsU`).then(result => result.json()).then(final => {
-      setSearchResult(final.predictions)
-      console.log("Final", final)
-    })
-
-
+    // if(searchValue)
+  
+    if(searchValue.length > 0){
+      if(searchValue.charAt(0) !=='#'){
+        setisHashtags(false)
+        fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchValue}&types=(regions)&key=AIzaSyCyWctabwPuw3UNXU7cSQ0ZmNLNrbyXDsU`).then(result => result.json()).then(final => {
+          setSearchResult(final.predictions)
+          console.log("Final", final)
+        })
+      }else{
+        setisHashtags(true)
+        // console.log("Search Value hastagfss", searchValue)
+        fetch(`http://13.211.132.117:3600/api/hashtags?tag=%23${searchValue.substring(1)}`).then(result => result.json()).then(result => {
+          setSearchResult(result) 
+        console.log("result from server", result)})
+      }
+    }else{
+      setSearchResult([])
+    }
   }, [searchValue])
   const onSelect = item => {
     // onLocationSelect(item);
-    setSearchValue(item.description)
+    console.log("Item in onSelect", item)
+    setSearchValue(isHashtag ? item : item.description)
     // setSearchValue(`${item.name}, ${item.admin_name1}`);
     // setHideResults(true);
-    fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${item.place_id}&fields=address_component&key=AIzaSyCyWctabwPuw3UNXU7cSQ0ZmNLNrbyXDsU`).then(result => result.json()).then(final => {
-      console.log("Final Result", final.result.address_components
-
-      )
-      onLocationSelect(final.result)
-    })
+    if(!isHashtag){
+      fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${item.place_id}&fields=address_component&key=AIzaSyCyWctabwPuw3UNXU7cSQ0ZmNLNrbyXDsU`).then(result => result.json()).then(final => {
+        console.log("Final Result", final.result.address_components)
+        onLocationSelect(final.result)
+      })
+    }else{
+      onLocationSelect(item)
+    }
+    
     // console.log("Item", item)
     Keyboard.dismiss();
   };
@@ -269,57 +319,28 @@ export default function Search({ navigation }) {
         <TouchableOpacity style={styles.searchIcon}>
           <Icon name="search" size={20} color="#a8a9a8" />
         </TouchableOpacity>
-        {/* <GooglePlacesAutocomplete
-                placeholder='Suburb or City'
-                fetchDetails={true}
-                autoFocus={false}
-                styles={{textInput: {
-                  marginLeft: 40,
-                  borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-                  borderColor: 'transparent',
-                  borderWidth: 0.5,
-                  color: 'rgba(0,0,0,0.99)',
-                  fontFamily: 'font-light',
-                  fontSize: 15,
-                  paddingHorizontal: 0,
-                  paddingVertical: 10,
-                  zIndex: 1,
-                }}}
-                onPress={async (data, details = null) => {
-                  // 'details' is provided when fetchDetails = true
-                  // console.log("Selected Address",details);
-                  onSelect(details)
-                  
-                }}
-                // getDefaultValue={() => ''}
-                // listViewDisplayed='true'
-                // keyboardShouldPersistTaps="handled"
-                // GooglePlacesDetailsQuery={{ fields: 'formatted_address' }}
-                // debounce={300}
-                
-                query={{
-                  key:'AIzaSyCyWctabwPuw3UNXU7cSQ0ZmNLNrbyXDsU',
-                  language: 'en',
-                  type:'(cities)',
-                  // components:'country:au'
-                }}
-              /> */}
         <Autocomplete
           autoCorrect={false}
           data={searchResult}
           value={searchValue}
           hideResults={hideResults}
           onBlur={() => setHideResults(true)}
-          placeholder="Enter a suburb"
+          placeholder="Search by Hastags # or Suburbs"
           keyExtractor={item => `${item.name}-${item.postcode}`}
           onChangeText={text => handleChange(text)}
           renderItem={({ item }) => (
 
-            <TouchableOpacity style={styles.itemAlign} onPress={() => onSelect(item)}>
+            <TouchableOpacity style={styles.itemAlign} onPress={async () => {
+              console.log("ITEM name for Search", item.name)
+             await setSearchItem(isHashtag ? item.name : item)
+              console.log("Search Item checking", searchItem)
+              setIsModalOpen(isHashtag ? false : true)
+      isHashtag ? onSelect(item.name) : null
+
+            }}>
               <View style={styles.autoCompleteItem}>
                 <Text style={styles.autoCompleteText}>
-                  {item.description}
-
+                  {!isHashtag ? item.description : item.name}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -334,21 +355,6 @@ export default function Search({ navigation }) {
           <Image source={filterIcon} />
         </TouchableOpacity>
       </View>
-
-
-      {/* {isSearchLoading && !searchResults && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#d81b60" />
-
-          <Text>Finding properties...</Text>
-        </View>
-      )} */}
-
-      {/* {!isSearchLoading && searchResults && Object.entries(searchResults).length === 0 && (
-        <View style={styles.loadingContainer}>
-          <Text style={styles.greyText}>No properties found matching your search criteria. Try another search?</Text>
-        </View>
-      )} */}
         <View style={[styles.container, styles.resultsContainer]}>
           <ScrollView>
             {currentHero !== null && (
@@ -367,9 +373,10 @@ export default function Search({ navigation }) {
                 data={trendingProperties}
                 renderItem={({ item, index }) =>{
                   // console.log("ITEM IN FLAT", item)
-                  return <TouchableOpacity onPress={() => onTrendingPressed(index, item)}>
-                  <Image style={[styles.imgItem, { width: imageDimension, height: imageDimension }]} source={{ uri: item.main_image_url }}>
-                  </Image>
+                  return <TouchableOpacity onPress={() => onPropertyPressed(item.id, item.title)}>
+                  <ImageBackground style={[styles.imgItem, { width: imageDimension, height: imageDimension }]} source={{ uri: item.main_image_url }}>
+                  <Text style={styles.textOverlay}>{item.suburb}</Text>
+                  </ImageBackground>
                 </TouchableOpacity>
                 }
               
@@ -377,32 +384,6 @@ export default function Search({ navigation }) {
                 keyExtractor={(item, index) => index}
               />
             </View>
-            {/* {Object.entries(searchResults).map(([suburb, data]) => {
-              return (
-                <View style={styles.container} key={suburb}>
-                  <View key={suburb}>
-                    <View style={styles.heading}>
-                      <Text style={styles.sectionTitle}>{suburb}</Text>
-
-                      <TouchableOpacity onPress={() => onSuburbPressed(suburb, data)}>
-                        <View style={styles.greyBox}>
-                          <Text style={styles.btnText}>See all {data.length} properties</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-
-                    <FlatList
-                      data={data}
-                      horizontal={true}
-                      renderItem={({ item }) => (
-                        <ResultTile key={item.id.toString()} property={item} handlePress={() => onPropertyPressed(item.id, item.title)} />
-                      )}
-                      keyExtractor={property => property.id.toString()}
-                    />
-                  </View>
-                </View>
-              );
-            })} */}
           </ScrollView>
         </View>
       <View>
@@ -461,7 +442,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'android' ? 20:0
+    paddingTop: 0
     // flexDirection: 'row'
   },
   filterIcon: {
@@ -470,7 +451,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 14 : 30,
+    top: Platform.OS === 'ios' ? 21 : 22,
     right: 12,
     zIndex: 1,
   },
@@ -522,7 +503,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
   resultsContainer: {
-    paddingTop: Platform.OS === 'ios' ? 70 : 0,
+    paddingTop: 0,
   },
   searchBox: {
     alignItems: 'center',
@@ -534,7 +515,7 @@ const styles = StyleSheet.create({
   },
   searchBoxContainer: {
     backgroundColor: 'transparent',
-    paddingVertical: 14,
+    paddingVertical: 5,
     width: '100%',
     height: 'auto',
     flexDirection:'row',
@@ -545,7 +526,7 @@ const styles = StyleSheet.create({
   searchIcon: {
     position: 'absolute',
     zIndex: 2,
-    top: Platform.OS === 'ios' ? 25 : 28,
+    top: 18,
     left: 16,
   },
   sectionTitle: {
@@ -575,5 +556,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: '#f1f1f1',
     zIndex: 1,
+  },textOverlay: {
+    fontFamily: 'font-bold',
+    fontSize: 12,
+    padding: 6,
+    zIndex: 2,
+    color: '#fff',
+    textShadowColor: 'rgba(0, 0, 0, 0.6)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 4,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
 });

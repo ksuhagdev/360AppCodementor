@@ -22,7 +22,10 @@ import store from './store';
 import Axios from './utils/axios-plugin';
 import requestInterceptors from './utils/request-interceptors';
 import NavigationService from './utils/NavigationService';
-import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+
+import {AgentLogin,AgencyApprovalMessage, OnboardingScreen, Username,AgencyDetail, PhoneVerification, VerificationCode, AgentOnboarding, PersonalInfo, Password } from './screens/auth/Onboarding'
+
 const showAlert = (title, message) => {
   Alert.alert(title, message, [{ text: 'OK', onPress: () => console.log('OK Pressed') }], { cancelable: false });
 };
@@ -117,8 +120,59 @@ const MainNavigator = createStackNavigator(
   {
     AGENT: AgentNavigator,
     USER: UserNavigator,
-    UNAUTHED: UnauthedNavigator,
-    Login,
+    Login: {
+      screen: OnboardingScreen, navigationOptions: {
+        headerShown: false
+      },
+    },
+    AgentLogin:{ screen: AgentLogin, navigationOptions: {
+      headerShown: false
+    },},
+    // Login,
+    PhoneVerification: {
+      screen: PhoneVerification, navigationOptions: {
+        headerShown: false
+      },
+    },
+    VerificationCode: {
+      screen: VerificationCode, navigationOptions: {
+        headerShown: false
+      },
+    },AgencyDetail: {
+      screen: AgencyDetail, navigationOptions: {
+        headerShown: false
+      },
+    },
+    AgencyApprovalMessage: {
+      screen: AgencyApprovalMessage, navigationOptions: {
+        headerShown: false
+      },
+    },
+    Username: {
+      screen: Username, navigationOptions: {
+        headerShown: false
+      },
+    },
+    AgentOnboarding: {
+      screen: AgentOnboarding, navigationOptions: {
+        headerShown: false
+      },
+    },
+    PersonalInfo: {
+      screen: PersonalInfo, navigationOptions: {
+        headerShown: false
+      },
+    },
+    Password: {
+      screen: Password, navigationOptions: {
+        headerShown: false
+      },
+    },
+    UNAUTHED: {
+      screen: UnauthedNavigator, navigationOptions: {
+        headerShown: false
+      },
+    },
     SignupAsUser,
     SignupAsAgent,
     ForgotPassword,
@@ -139,11 +193,11 @@ export default function App() {
   const fontLoaded = useFont();
 
   console.disableYellowBox = true;
-// return(
-//   <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
-//     <Text>Testing</Text>
-//   </View>
-// )
+  // return(
+  //   <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
+  //     <Text>Testing</Text>
+  //   </View>
+  // )
   return (
     <Provider store={store}>
       <View style={{ flex: 1 }}>

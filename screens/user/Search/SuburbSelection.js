@@ -11,11 +11,11 @@ export default function SuburbSelection({ navigation }) {
   const filters = navigation.getParam('filters', null);
   var {searchResults } = useSelector(state => state.property);
   const properties = searchResults;
-  console.log("Suburb Selection properties", properties)
+  // console.log("Suburb Selection properties", properties)
   let interval;
 
   const onPropertyPressed = (propertyId, title) => {
-    navigation.navigate('PropertyAddress', { propertyId, title });
+    navigation.navigate('PropertyAddressNew', { propertyId, title });
   };
 
   const onBackPressed = () => {
@@ -78,7 +78,7 @@ export default function SuburbSelection({ navigation }) {
 
               <View style={styles.heroTextContainer}>
                 <Text style={[styles.suburb, styles.textShadow]}>{suburb}</Text>
-                <Text style={[styles.propertiesCount, styles.textShadow]}>
+                <Text style={[styles.propertiesCount, styles.textShadow, {textAlign:'center'}]}>
                  Number of properties in this area: {properties.length} {filters.property_type}
                 </Text>
                 <Text style={[styles.filterText, styles.textShadow]}>

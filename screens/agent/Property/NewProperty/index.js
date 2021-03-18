@@ -100,7 +100,7 @@ export default function NewProperty({ navigation }) {
     // console.log("Chnage Request",key, value)
     setState({ ...state, [key]: value });
     setValue(key, value);
-    triggerValidation();
+    // triggerValidation();
   };
 
   const handleChange2 = (value, key) => {
@@ -120,7 +120,7 @@ export default function NewProperty({ navigation }) {
   };
 
   const handleBtnPress = async () => {
-    triggerValidation();
+    // triggerValidation();
     Keyboard.dismiss();
 
     const { property_type, area,num_bathrooms, num_bedrooms, num_garages  } = state;
@@ -141,16 +141,18 @@ export default function NewProperty({ navigation }) {
       const data = {
         ...state,
         area: parseInt(area, 10),
-        state: state, country: country, state: usstate,postcode: postcode,street: street, suburb: suburb,num_bathrooms: num_bathrooms[0],
-        num_bedrooms: num_bedrooms[0],
-        num_garages: num_garages[0],
-         campaign_type: "PRIVATE_SALE"
+        state: state, country: country, state: usstate,postcode: postcode,street: street, suburb: suburb,
+        campaign_type: "PRIVATE_SALE"
+        // num_bathrooms: num_bathrooms[0],
+        // num_bedrooms: num_bedrooms[0],
+        // num_garages: num_garages[0],
+        //  campaign_type: "PRIVATE_SALE"
       };
-      const data2 = {
-        list_price: isSwitchOn,
-      min_price: price[0],
-      max_price: price[1],
-      }
+      // const data2 = {
+      //   list_price: isSwitchOn,
+      // min_price: price[0],
+      // max_price: price[1],
+      // }
       if (state.lat) {
         data.lat = parseFloat(state.lat);
       }
@@ -162,7 +164,13 @@ export default function NewProperty({ navigation }) {
       delete data.hashtags;
 
      await dispatch(handleNewProperty(data));
-      dispatch(handleNewPropertyCampaign(data2));
+      // dispatch(handleNewPropertyCampaign(data2));
+      handleChange('', 'title')
+      setStreet(' ')
+      setValue('property_type', '');
+      handleChange('', 'area')
+      navigation.navigate('NewProperty_Screen2', { editing: isEditing });
+
       // navigation.navigate('NewProperty_Screen3', { editing: isEditing });
       // navigation.navigate('PrivateSale')
     } else {
@@ -224,7 +232,7 @@ export default function NewProperty({ navigation }) {
             property_type: ActionSheetButtonsAndroid[buttonIndex].toLowerCase(),
           });
           setValue('property_type', ActionSheetButtonsAndroid[buttonIndex].toLowerCase());
-          triggerValidation();
+          // triggerValidation();
         }
       },
     );
@@ -509,7 +517,7 @@ export default function NewProperty({ navigation }) {
           <Switch ios_backgroundColor="#ddd" trackColor="#d81b60" value={state.has_open_area} onValueChange={onHasOpenAreaChanged} style={styles.switch} />
         </View> */}
 
-        <View style={styles.formGroup}>
+        {/* <View style={styles.formGroup}>
           <TitleTextField
             title="More information"
             placeholder="Link to property website"
@@ -518,7 +526,7 @@ export default function NewProperty({ navigation }) {
             value={state.property_site_url}
             handleChange={text => handleChange(text, 'property_site_url')}
           />
-        </View>
+        </View> */}
 
         <View style={[styles.formGroup, styles.formGroupLast]}>
           <TextArea
@@ -531,7 +539,7 @@ export default function NewProperty({ navigation }) {
           />
         </View>
         
-        <View style={styles.containerView}>
+        {/* <View style={styles.containerView}>
         <View style={styles.sliderWrapper}>
           <Text style={styles.text}>How many bedrooms</Text>
           <Slider values={state.num_bedrooms} type="single" handleValuesChange={values => handleChange(values, 'num_bedrooms')} />
@@ -539,22 +547,22 @@ export default function NewProperty({ navigation }) {
 
         <View style={styles.sliderWrapper}>
           <Text style={styles.text}>How many bathrooms</Text>
-          <Slider values={state.num_bathrooms} type="single" handleValuesChange={values => handleChange(values, 'num_bathrooms')} />
+          <Slider values={state.num_bathrooms}  type="single" handleValuesChange={values => handleChange(values, 'num_bathrooms')} />
         </View>
 
         <View style={styles.sliderWrapper}>
           <Text style={styles.text}>How many car spaces</Text>
           <Slider values={state.num_garages} type="single" handleValuesChange={values => handleChange(values, 'num_garages')} />
-        </View>
-
-        {/* <View style={styles.buttonWrapper}>
-          <GradientButton onPress={handleBtnPress}>CONTINUE</GradientButton>
         </View> */}
-      </View>
+
+        <View style={styles.buttonWrapper}>
+          <GradientButton onPress={handleBtnPress}>CONTINUE</GradientButton>
+        </View>
+      {/* </View> */}
       
 
       
-      <View style={styles.sliderWrapper}>
+      {/* <View style={styles.sliderWrapper}>
         <SwitchSliderList
           text="Show Price?"
           switchState={state2.isSwitchOn}
@@ -567,11 +575,11 @@ export default function NewProperty({ navigation }) {
         />
       </View>
 
-      
+       */}
 
-      <View style={[styles.justifyEnd, styles.btnContainer]}>
+      {/* <View style={[styles.justifyEnd, styles.btnContainer]}>
           <GradientButton onPress={handleSubmit(handleBtnPress)}>DONE</GradientButton>
-        </View>
+        </View> */}
       </KeyboardAwareScrollView>
       {/* </KeyboardAvoidingView>
           

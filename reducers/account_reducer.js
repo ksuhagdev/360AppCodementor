@@ -9,7 +9,7 @@ import {
   CLEAR_USER_PROFILE,
   LOGOUT_SUCCESS,
   RESET_PASSWORD_LOADING,
-  RESET_PASSWORD_SUBMITTED,
+  RESET_PASSWORD_SUBMITTED,MOBILE_VERIFYING
 } from '../store/types';
 
 const initialState = {
@@ -20,10 +20,17 @@ const initialState = {
   isProfileUpdating: false,
   isResetPasswordLoading: false,
   isResetPasswordSubmitted: false,
+  mobile_verify: null
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case MOBILE_VERIFYING:{
+      return{
+        ...state,
+        mobile_verify: action.payload
+      }
+    }
     case AUTH_SUCCESS: {
       return {
         ...state,

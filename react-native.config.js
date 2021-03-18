@@ -8,5 +8,5 @@ module.exports = {
       }
     }
   },
-  assets: ['./assets/music', './assets/video'],
+  // assets: ['./assets/music', './assets/video'],
 };

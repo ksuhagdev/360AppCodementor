@@ -163,7 +163,7 @@ const createProperty = () => async (dispatch, getState) => {
     }
   } catch (error) {
     console.log("Error",error)
-    handleSnackbar({ message: parseError(error.response.data) });
+    handleSnackbar({ message: parseError(error.response.data)});
   } finally {
     dispatch(handleLoading(false));
   }
@@ -196,9 +196,11 @@ export const getTrendingProperties =  () => async(dispatch, getState) => {
   // }).catch(error => {
   //   console.log( error);
   // });
-    await axios({url: `http://13.211.132.117:3600/properties/trending`, method:'GET'}).then(result => {
+  // let baseurl1 = "http://13.211.132.117:3600"
+  let baseurl = 'https://api.360app.io/api'
+    await axios({url: baseurl + `/properties/trending`, method:'GET'}).then(result => {
       // console.log("Trending Resuylt", result)
-    data = result.data
+    data = result.data  
     // console.log("Trending Properties", data)
   }).catch(error => { 
     console.error( error);
@@ -226,7 +228,7 @@ export const getAllProperties = () => (dispatch, getState) => {
     type: ALL_PROPERTIES_ERROR,
     payload: 0,
   });
-
+  console.log("Video Time Before Calling the API", new Date().getTime());
   const { allProperties } = getState().property;
   const start = allProperties.length;
   const limit = 5;
@@ -300,8 +302,10 @@ export const getAllProperties = () => (dispatch, getState) => {
                 config: { method: 'GET' },
               }).catch(err => console.error(err));
               // console.log("Data", data)
-               console.log("Response Data from Get Properties",url, data)
+              //  console.log("Response Data from Get Properties",url, data)
               if (data && data.length) {
+              console.log("Video Time After the result from the API", new Date().getTime());
+
                 dispatch({
                   type: ALL_PROPERTIES,
                   payload: allProperties.concat(data),
@@ -562,6 +566,8 @@ export const uploadPropertyVideo = payload => async (dispatch, getState) => {
       // Video type exists, so we need to do an UPDATE API call
       url += `/video/${existingVideo.id}`;
     }
+    handleSnackbar({ type: 'success', message: 'Uploading and Processing your video' });
+    dispatch(setCurrentProperty(property.id, property));
 
     const res = await Axios.post(url, createFormData(payload), {
       headers: {
@@ -577,7 +583,7 @@ export const uploadPropertyVideo = payload => async (dispatch, getState) => {
     property.videos = updatedVideos;
     property.campaign = currentProperty.campaign;
 
-    dispatch(setCurrentProperty(property.id, property));
+    // dispatch(setCurrentProperty(property.id, property));
     handleSnackbar({ type: 'success', message: 'Property video successfully uploaded, Processing Video......' });
 
     return {
@@ -703,6 +709,8 @@ export const updateSearchFilters = filters => async (dispatch, getState) => {
 
 export const searchProperties = () => async (dispatch, getState) => {
   const { searchFilters } = getState().property;
+  console.log("Search Property API", searchFilters)
+  
   const filters = {
     bedrooms: searchFilters.bedrooms[0],
     bathrooms: searchFilters.bathrooms[0],
@@ -749,6 +757,10 @@ let url;
     .join('&');
     url = `/properties/newSearchCity?${queryString2}`
   }
+  if(searchFilters.hashtag){
+    console.log('Hashtags',searchFilters.hastag)
+    url = `/properties/getTaggedProperties?tag=%23${searchFilters.hastag.substring(1)}`
+  }
   try {
     const { data } = await request({
       url: url,
@@ -756,7 +768,7 @@ let url;
         method: 'GET',
       },
     });
-    console.log('Serch Data', data)
+    console.log('Serch Data', data, url)
     dispatch({
       type: PROPERTY_SEARCH_RESULTS,
       payload: data,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Dimensions, View,Text , StyleSheet, AppState} from 'react-native'
+import { Dimensions, View, FlatList ,Text , StyleSheet, AppState} from 'react-native'
 
 // import { LinearGradient } from 'expo-linear-gradient'
 
@@ -8,11 +8,11 @@ import styled from 'styled-components/native'
 
 import ViewPager from '@react-native-community/viewpager'
 
-import PropertyDetail from '../../property/Detail/PropertyDetail2';
-import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview'
+import PropertyDetail2 from '../../property/Detail/PropertyDetail2';
+// import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview'
 import {Viewport} from '@skele/components'
-
-
+import {NavigationEvents} from 'react-navigation'
+import Post from './Post'
 // import { super } from 'jscodeshift'
 const { height, width } = Dimensions.get('screen')
 
@@ -86,71 +86,78 @@ const Center = styled.View`
 // 	}	
 // }
 
+const  VideoPlayScreen = (props) => {
 
-const VideoPlayScreen = (props) => {
-	const [selected, setSelected] = useState(0)
-	const min = selected - 1 >= 0 ? selected - 1 : 0
-	const max = selected + 1 
-    // console.log("Hero Props",  props.navigation.getParam('data'))
-    var videos =  props.navigation.getParam('data')
-	useEffect(() => {
-		console.log("Videos Length", videos.length - selected)
+	const data = props.navigation.getParam('data')
+	const [scrolledIndex, setscrolledIndex] = useState(0)
+	const _onViewableItemsChanged = ({viewableItems, changed}) => {
+		console.log("Visible items are", viewableItems);
+    	console.log("Changed in this iteration", changed);
+		this.setState({playItem: changed.key})
+		// const changed = props.changed;
+		// changed.forEach((item) => {
+		//   const cell = this.cellRefs[item.key];
+		//   if (cell) {
+		// 	if (item.isViewable) {
+		// 	  cell.playVideoPlayer;
+		// 	} else {
+		// 	  cell.pause;
+		// 	}
+		//   }
+		// });
+	  };
+	//   useEffect(() => {
+	// 	const unsubscribeFocus = props.navigation.addListener('didFocus', () => {
+	// 		// setVideoShouldPlay(true);
+	// 	  });
+	// 	  return () => {
+	// 		unsubscribeFocus.remove();
+	// 		// unsubscribeBlur.remove();
+	// 	  };	  
+	//   })
 
-		// if((videos.length) - (selected+1) < 2){
-		// 	props.getMoreProperties()
-		// }
-		console.log("App State", AppState.currentState)
-	}, [selected])
-	const [pause, setPause] = useState(true)
-	useEffect(() => {
-		// dispatch(clearNewProperty())
-		const unsubscribeFocus = props.navigation.addListener('didFocus', () => {
-			console.log("Videos in Focus didFocus")
-		  setPause(true);
-		});
-		console.log("Navigation Changed")
-		const unsubscribeBlur = props.navigation.addListener('willBlur', () => {
-			console.log("Videos in Focus didBlur")
-
-		  setPause(false);
-		});
+	   const onViewRef = (event) => {
+		let index = 0;
+		const scrollHeight = event.nativeEvent.layoutMeasurement.height;
+		const currentScrollPos = event.nativeEvent.contentOffset.y;
 	
-		return () => {
-			setPause(false);
-
-		  unsubscribeFocus.remove();
-		  unsubscribeBlur.remove();
-		};
-	  },[]);
-	  const items = videos.map((item, index) => {
-				console.log("Select and Index",index, props.navigation.getParam('CurrentIndex'), selected)
-				return <View key={index}>
-					{index === selected || index === selected - 1 || index === selected + 1 || index === selected - 2 || index === selected + 2 ? <PropertyDetail property={item} shouldPlay={selected == index && pause} navigation={props.navigation} video={true} />: null}
-				</View>
-				// return <View>
-				// 	<Text>Index No {index}</Text>
-				// 	<Text>Selected</Text>
-				// </View>
-			})
-	  
-	return(
-		<Viewport.Tracker>
-	<Container orientation='vertical'
-		onPageScroll={({ nativeEvent }) => 
-			 setSelected(nativeEvent.position)
+		if (Number.isInteger(event.nativeEvent.contentOffset.y)) {
+		  if (currentScrollPos >= scrollHeight) {
+			index = currentScrollPos / scrollHeight;
 		  }
-
-		// onPageSelected={e => setSelected(e.nativeEvent.position)}
-		initialPage={props.navigation.getParam('CurrentIndex')}>
-			{items}
-		</Container>
-		</Viewport.Tracker>
-    )
-    // return(
-    //     <View>
-    //         <Text> Inside Video SCreel</Text>
-    //     </View>
-    // )
+		  setscrolledIndex(parseInt(index, 10))
+		//   this.setState({
+		// 	playItem: parseInt(index, 10),
+		//   });
+		}
+	  };
+	
+	// render(){
+		return (
+			<View>
+					<FlatList
+					data={data}
+					renderItem={({item, index}) => <PropertyDetail2 ref={(ref) => {
+						this.cellRefs[item.id] = ref;
+					  }} property={item} shouldPlay={scrolledIndex === index} navigation={props.navigation} video={true}/>}
+					showsVerticalScrollIndicator={false}
+					// onViewableItemsChanged={_onViewableItemsChanged}
+					initialNumToRender={20}
+					maxToRenderPerBatch={20}
+					onScroll={onViewRef}
+					getItemLayout={(_data, index) => ({
+						        length: Dimensions.get('screen').height,
+						        offset: Dimensions.get('screen').height * index,
+						        index,
+						      })}
+					snapToInterval={Dimensions.get('window').height}
+					snapToAlignment={'start'}
+					decelerationRate={'fast'}
+					/>
+				</View>
+		)
+	// }
+	
 }
 
 export default VideoPlayScreen;

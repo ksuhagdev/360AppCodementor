@@ -203,15 +203,15 @@ export default function UserProfile({ navigation }) {
                     {user.first_name} {user.last_name}
                   </Text>
 
-                  <TouchableOpacity onPress={handleActionsPress}>
+                  {/* <TouchableOpacity onPress={handleActionsPress}>
                     <Text style={[styles.text, styles.editLink]}>Edit photo</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             )}
 
       
-              {role === 'USER' && (
+              {role !== 'UNAUTHED' && (
                 <View style={styles.ctaContainer}>
                   <TouchableOpacity onPress={() => navigation.navigate('LikedProperties')}>
                     <View style={styles.cta}>
@@ -250,9 +250,9 @@ export default function UserProfile({ navigation }) {
                 <ListSection style={styles.listGroup} title="Account">
                   {role === 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Login" onPress={() => navigation.navigate('Login')} />}
 
-                  {role !== 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Personal Information" onPress={() => editUserProfile()} />}
+                  {/* {role !== 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Personal Information" onPress={() => editUserProfile()} />} */}
 
-                  {role === 'AGENT' && <ListItem hasBorderBottom={true} text="Edit personal description" onPress={() => editAgentProfile()} />}
+                  {role === 'AGENT' && <ListItem hasBorderBottom={true} text="Edit Profile Details" onPress={() => editAgentProfile()} />}
                 </ListSection>
 
                 {(role === 'UNAUTHED') && (
@@ -347,9 +347,9 @@ const styles = StyleSheet.create({
   },
   img: {
     borderRadius: 50,
-    height: 50,
+    height: 100,
     marginRight: 13,
-    width: 50,
+    width: 100,
   },
   listContainer: {
     paddingHorizontal: 20,
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   photoContainer: {
     alignItems: 'center',
-    flexDirection: 'row',
+    // flexDirection: 'row',
     backgroundColor: 'rgba(0, 0, 0, 0.04)',
     padding: 20,
   },

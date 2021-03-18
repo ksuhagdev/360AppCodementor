@@ -9,7 +9,7 @@ import styled from 'styled-components/native'
 import ViewPager from '@react-native-community/viewpager'
 
 import PropertyDetail from '../../property/Detail';
-import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview'
+// import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview'
 // import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Viewport} from '@skele/components'
 
@@ -94,6 +94,7 @@ const Hero = (props) => {
 	// console.log("Hero Props",  props)
 	useEffect(() => {
 		console.log("Videos Length", props.videos)
+		console.log("Video Time Before Load on Videoplayer", new Date().getTime())
 
 		if((props.videos.length) - (selected+1) < 2){
 			props.getMoreProperties()
@@ -105,6 +106,8 @@ const Hero = (props) => {
 		// dispatch(clearNewProperty())
 		const unsubscribeFocus = props.navigation.addListener('didFocus', () => {
 		  setPause(true);
+		console.log("Video Time when onFocus", new Date().getTime())
+
 		});
 	
 		const unsubscribeBlur = props.navigation.addListener('didBlur', () => {
@@ -131,7 +134,9 @@ const Hero = (props) => {
 		<Viewport.Tracker>
 	<Container orientation='vertical'
 		onPageScroll={({ nativeEvent }) => 
-			 setSelected(nativeEvent.position)
+{		console.log("Video Time when changing screen ", new Date().getTime(), nativeEvent.position)
+			
+			 setSelected(nativeEvent.position)}
 		  }
 
 		// onPageSelected={e => setSelected(e.nativeEvent.position)}

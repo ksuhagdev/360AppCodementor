@@ -5,20 +5,21 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ActionSheet from 'react-native-action-sheet';
 import styles from './styles';
 import AgentInfo from './Info';
-import VideoTile from './Video';
+import VideoTile from './Video'; 
 import { colors } from '../../../../theme/constants';
 import { handleNewProperty, setCurrentCampaign, getPropertyById, setCurrentProperty, setLiveStatus, deleteProperty } from '../../../../actions/property';
 import EditInspectionTime from '../NewProperty/Auction/EditInspectionTime';
 import Hashtags from './Hashtags';
 import {launchImageLibrary, launchCamera } from 'react-native-image-picker'
 import { getPayload } from '../../../../utils/TokenService';
-import {VESDK, Configuration, TintMode} from 'react-native-videoeditorsdk'
+import {VESDK, Configuration, TintMode, Tool} from 'react-native-videoeditorsdk';
 
 const addIcon = require('../../../../assets/image/add.png');
 const editIcon = require('../../../../assets/image/edit.png');
-const defaultHeroImage = require('../../../../assets/image/property-placeholder.png');
+const defaultHeroImage = require('../../../../assets/image/property-placeholder2.jpg');
 const defaultAgentPic = require('../../../../assets/image/default-profile-pic.png');
-// VESDK.unlockWithLicense(require('../../../../vesdk_license'))
+VESDK.unlockWithLicense(require('../../../../vesdk_license'))
+
 export default function PropertyAddress({ navigation }) {
   const [hasAccess, setHasAccess] = React.useState(false);
   const [scrollRef, setScrollRef] = React.useState(null);
@@ -26,6 +27,12 @@ export default function PropertyAddress({ navigation }) {
   const [isInspectionsOpen, setIsInspectionsOpen] = React.useState(false);
   const [isHashtagsOpen, setIsHashtagsOpen] = React.useState(false);
   const dispatch = useDispatch();
+  let tool: Configuration = {
+    tools: [Tool.TRIM, Tool.TRANSFORM]
+  }
+  // let configuration = Configuration = {
+
+  // }
   const { currentProperty } = useSelector(state => state.property);
   const [libraryVideoPath, setlibraryVideoPath ] = React.useState(null);
   // if(currentProperty){
@@ -43,7 +50,7 @@ export default function PropertyAddress({ navigation }) {
     const options = [
       'Add another agent',
       // currentProperty.property.is_live ? 'Go Offline' : 'Go Live',
-      'Invite others to edit this page',
+      // 'Invite others to edit this page',
     
       'Edit property details',
       'Delete property profile',
@@ -70,26 +77,26 @@ export default function PropertyAddress({ navigation }) {
           // case 1:
           //   togglePropertyStatus();
           //   break;
-          case 1:
-            navigation.navigate('InviteOthers', {
-              propertyId: currentProperty.property.id,
-              agencyId: currentProperty.property.agency.id,
-            });
-            break;
+          // case 1:
+          //   navigation.navigate('InviteOthers', {
+          //     propertyId: currentProperty.property.id,
+          //     agencyId: currentProperty.property.agency.id,
+          //   });
+          //   break;
           
-          case 2:
+          case 1:
             dispatch(handleNewProperty(currentProperty.property));
             dispatch(setCurrentCampaign(currentProperty.campaign));
             navigation.navigate('NewProperty_Screen1', { editing: true });
             break;
-          case 3:
+          case 2:
             Alert.alert(
               'Delete property',
               'Deleting a property profile will remove all data related to it, and cannot be undone. Are you sure you want to proceed?',
               [{ text: 'Yes, Delete', onPress: () => _deleteProperty() }, { text: 'Cancel', style: 'cancel' }],
             );
             break;
-          case 4:
+          case 3:
             setIsHashtagsOpen(true);
             break;
         }
@@ -276,8 +283,8 @@ export default function PropertyAddress({ navigation }) {
 
   const displayVideoAddingOptions = (type) => {
     const options = [
-      'Gallery',
-      'Record',
+      'Upload Video',
+      'Shoot Video',
       'Cancel',
     ];
 
@@ -330,16 +337,16 @@ export default function PropertyAddress({ navigation }) {
               console.log('Response = ', response);
         
               if (response.didCancel) {
-                alert('User cancelled camera picker');
+                // alert('User cancelled camera picker');
                 return;
               } else if (response.errorCode == 'camera_unavailable') {
-                alert('Camera not available on device');
+                // alert('Camera not available on device');
                 return;
               } else if (response.errorCode == 'permission') {
-                alert('Permission not satisfied');
+                // alert('Permission not satisfied');
                 return;
               } else if (response.errorCode == 'others') {
-                alert(response.errorMessage);
+                // alert(response.errorMessage);
                 return;
               }
 
@@ -349,15 +356,18 @@ export default function PropertyAddress({ navigation }) {
               console.log('height -> ', response.height);
               console.log('fileSize -> ', response.fileSize);
               console.log('type -> ', response.type);
+              console.log('Path -> ', response.path);
               console.log('fileName -> ', response.fileName);
               setlibraryVideoPath(response)
               if(response){
-                VESDK.openEditor(response.uri).then(result => {
+                VESDK.openEditor(response.uri, tool).then(result => {
                   // console.log("Result", result)
                   navigation.navigate('EditVideo', {
                     videoUri: result.video,
                     videoType:type,
                     Trim:false,
+                    propertyId: propertyId, 
+                    title: navigation.getParam('title')
                   });
                 })
               }
@@ -365,9 +375,45 @@ export default function PropertyAddress({ navigation }) {
             });
             break;
           case 1:
+            // let options2 = {
+            //   mediaType: 'video',
+            //   maxWidth: 300,
+            //   maxHeight: 550,
+            //   quality: 1,
+            //   videoQuality: 'high',
+            //   durationLimit: 60, //Video max duration in seconds
+            //   saveToPhotos: true,
+            // };
+            // launchCamera(options2, (response) => {
+            //   console.log('Response = ', response);
+      
+            //   if (response.didCancel) {
+            //     alert('User cancelled camera picker');
+            //     return;
+            //   } else if (response.errorCode == 'camera_unavailable') {
+            //     alert('Camera not available on device');
+            //     return;
+            //   } else if (response.errorCode == 'permission') {
+            //     alert('Permission not satisfied');
+            //     return;
+            //   } else if (response.errorCode == 'others') {
+            //     alert(response.errorMessage);
+            //     return;
+            //   }
+            //   console.log('base64 -> ', response.base64);
+            //   console.log('uri -> ', response.uri);
+            //   console.log('width -> ', response.width);
+            //   console.log('height -> ', response.height);
+            //   console.log('fileSize -> ', response.fileSize);
+            //   console.log('type -> ', response.type);
+            //   console.log('fileName -> ', response.fileName);
+            //   setFilePath(response);
+            // });
             if (hasAccess) {
               navigation.navigate('CameraSession', {
                 videoType: type,
+                propertyId: propertyId,
+                title: navigation.getParam('title')
               });
             }
             break;
@@ -409,7 +455,9 @@ export default function PropertyAddress({ navigation }) {
 
       <View style={styles.equalFlex}>
         <View style={styles.name}>
-          <Text style={styles.agencyName}>{currentProperty.property.agency.name}</Text>
+          <Text style={styles.agencyName}>360Test</Text>
+          {/* <Text style={styles.agencyName}>{currentProperty.property.agency.name}</Text> */}
+
         </View>
 
         <ScrollView
@@ -435,14 +483,16 @@ export default function PropertyAddress({ navigation }) {
                     {getMainVideo() !== undefined && (
                       <>
                         <Image style={styles.addIcon} source={editIcon} />
-                        <Text style={[styles.text, styles.textShadow]}>Update Main Video</Text>
+                        <Text style={[styles.text, styles.textShadow]}>Update Main Video </Text>
+                        <Text style={[styles.text, styles.textShadow]}>60 Seconds </Text>
+
                       </>
                     )}
 
                     {getMainVideo() === undefined && (
                       <>
                         <Image style={styles.addIcon} source={addIcon} />
-                        <Text style={[styles.text, styles.textShadow]}>Shoot Main Video</Text>
+                        <Text style={[styles.text, styles.textShadow]}>Shoot Main Video (60 Seconds)</Text>
                       </>
                     )}
                   </TouchableOpacity>
