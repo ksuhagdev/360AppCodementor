@@ -231,7 +231,7 @@ export const getAllProperties = () => (dispatch, getState) => {
   console.log("Video Time Before Calling the API", new Date().getTime());
   const { allProperties } = getState().property;
   const start = allProperties.length;
-  const limit = 5;
+  const limit = 20;
   let url;
   Geolocation.getCurrentPosition( 
     async position => {

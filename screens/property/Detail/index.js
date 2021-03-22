@@ -8,20 +8,22 @@ import {
   Alert,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Share, Easing,
+   Easing,
   StyleSheet, Animated,
   Dimensions, Button, Modal,
-  ActivityIndicator, StatusBar, Platform
+  ActivityIndicator, StatusBar, Platform, FlatList
 } from 'react-native';
+import * as Progress from 'react-native-progress';
 import MarqueeText from 'react-native-marquee';
 import TextTicker from 'react-native-text-ticker'
-
+import Share from 'react-native-share';
 import { GradientButton } from '../../../components/Button'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import Modal from 'react-native-modal'
 import Iconss from 'react-native-vector-icons/Entypo'
 import Video from 'react-native-video';
-import { Viewport } from '@skele/components'
+import { Viewport } from '@skele/components';
+import RNFetchBlob from 'rn-fetch-blob';
 // import convertToProxyURL from 'react-native-video-cache';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
@@ -46,7 +48,32 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const [state, setState] = useState({
     showLoadingIndicator: true,
   });
-
+  const data = [
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something two"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something three"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something four"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something five"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something six"
+    }
+  ];
 
   // const rotate = useRotation()
 
@@ -69,34 +96,82 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const placeholderImage = propertyImage;
   const videoPlayer = useRef(null)
   // const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'AUD' })
-  const onShare = async item => {
-    const type = item.campaign_type === 'RENTAL' ? 'rent' : 'sale';
+  // const onShare = async item => {
+  //   const type = item.campaign_type === 'RENTAL' ? 'rent' : 'sale';
 
-    try {
-      const result = await Share.share(
-        {
-          title: `${item.title}`,
-          message: `Hey, you should totally check out this ${item.property_type} for ${type} on 360app! Get the app on the Apple Store and Google Play!`,
-        },
-        {
-          dialogTitle: `Share ${item.title}`,
-          subject: `${item.title}`,
-        },
-      );
+  //   try {
+  //     const result = await Share.share(
+  //       {
+  //         title: `${item.title}`,
+  //         message: `Hey, you should totally check out this ${item.property_type} for ${type} on 360app! Get the app on the Apple Store and Google Play!`,
+  //       },
+  //       {
+  //         dialogTitle: `Share ${item.title}`,
+  //         subject: `${item.title}`,
+  //       },
+  //     );
 
-      if (result.action === Share.sharedAction) {
-        setShares(shares + 1);
-        dispatch(shareProperty({ shareType: 'external', propertyId: item.id }));
-        handleSnackbar({ message: 'Property shared successfully', type: 'success' });
-      }
-    } catch (error) {
-      Alert.alert('', error.message, [{ text: 'OK' }]);
-    }
-  };
+  //     if (result.action === Share.sharedAction) {
+  //       setShares(shares + 1);
+  //       dispatch(shareProperty({ shareType: 'external', propertyId: item.id }));
+  //       handleSnackbar({ message: 'Property shared successfully', type: 'success' });
+  //     }
+  //   } catch (error) {
+  //     Alert.alert('', error.message, [{ text: 'OK' }]);
+  //   }
+  // };
 
   console.log("Property data", property)
-
-
+  
+const shareUrl = async () => {
+  
+            let video = 'https://d3qk4bte9py5ck.cloudfront.net/44a1550b-0107-42bb-b3f8-385f6f5d5c15/mp4/watermark1_Mp4_Avc_Aac_16x9_1920x1080p_24Hz_6Mbps_qvbr.mp4'
+            let uploadOptions = { fileCache: true, appendExt: 'mp4', timeout: 60000, indicator: true, IOSBackgroundTask: true, }
+            RNFetchBlob.config(uploadOptions).fetch('GET', video, {}).progress((received, total) => {
+                      // this.setState({ uploadingStatus: (received / total) * 100 })
+                      console.log('Progress', (received / total) * 100);
+                  })
+            .then(async (res) => {
+              console.log("Res", res.path())
+              const base64String = await res.base64();
+              const url = `data:video/mp4;base64,${base64String}`;
+              let shareOptions = {
+                title: "Check out my video",
+                message: "Check out my video!",
+                url: 'file://' + res.path(),
+                type: 'video/mp4',
+                subject: "Check out my video!",
+                social: Share.Social.INSTAGRAM,
+              }
+             await Share.shareSingle(shareOptions)
+                .then((res) => console.log('res:', res))
+                .catch((err) => console.log('err', err))
+              });
+            
+            // const res = await RNFetchBlob.config(uploadOptions).fetch('GET', video, {})
+            //     .progress((received, total) => {
+            //         // this.setState({ uploadingStatus: (received / total) * 100 })
+            //         console.log('Progress', (received / total) * 100);
+            //     })
+            // const filePath = res.path(); //to delete video
+            // console.log("File Path", filePath)
+            // const base64String = await res.base64();
+            // const url = `data:video/mp4;base64,${base64String}`;
+            //  //deleted the video from path of Sexy lady.
+            // // this.setState({ isSliderModalVisible: false })
+            // setTimeout(() => {
+            //     const shareOptions = {
+            //         title: 'Sexy Lady',
+            //         url: 'file://' + filePath,
+            //         type: 'video/mp4',
+                    
+            //     };
+            //     await Share.open(shareOptions).then((res) => console.log("Result", res))
+            //         .catch((err) => { console.log('Video sharing failed.', 'failure', err)})
+            //         // await RNFetchBlob.fs.unlink(filePath);
+            // })
+        
+}
   const onPropertyPressed = (id, title) => {
     navigation.navigate('PropertyAddress', { propertyId: id, title });
   };
@@ -241,9 +316,10 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
         {video && getMainVideo(property.videos) ? (
           <>
             {state.showLoadingIndicator && (
-              <View style={styles.loading}>
-                <ActivityIndicator size="large" color="#d81b60" />
-              </View>
+              // <View style={styles.loading}>
+              //   <ActivityIndicator size="large" color="#d81b60" />
+              // </View>
+              <Image source={{ uri: property.main_image_url }} resizeMode="cover" style={styles.propertyImage} loadingIndicatorSource={placeholderImage} />
             )}
             <Video
               repeat={true}
@@ -305,12 +381,12 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
 
 
 
-          <TouchableWithoutFeedback
+          {/* <TouchableWithoutFeedback
             onPress={() => {
               onPropertyPressed(property.id, property.title);
             }}>
             <View style={styles.clickableArea} />
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
 
           <View style={[styles.flexRow, styles.propertyInfoContainer]}>
             <View style={styles.flex}>
@@ -367,7 +443,6 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                 <Text style={[styles.text, styles.propertyInfoText, styles.textShadow]}>{property.num_garages}</Text>
               </View>
             </View> */}
-
               <View style={styles.hashtagsContainer}>
                 {property.hashtags.map(hashtag => (
                   <Text style={[styles.text, styles.hashTags, styles.textShadow]} key={hashtag.id}>
@@ -424,7 +499,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => { setShareModalVisible(true) }}>
+                  <TouchableOpacity onPress={() => { shareUrl() }}>
                     <View style={styles.btns}>
                       <Iconss style={styles.alignCenter} name="forward" size={36} color="#fff" />
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>
@@ -469,6 +544,10 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
           {/* </View>
           </Modal> */}
         </SafeAreaView>
+        {/* <Modal>
+            <Progress.Pie size={30} indeterminate={true} />
+
+        </Modal> */}
         <Modal
           animationType={"slide"}
           transparent={true}
@@ -488,9 +567,24 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
               width: '100%',
               height: Dimensions.get('window').height / 3, backgroundColor: '#fff'
             }}>
-              <View>
-
-              </View>
+              {/* <View> */}
+              <FlatList
+                horizontal
+                data={data}
+                renderItem={({ item: rowData }) => {
+                  return (
+                    <TouchableOpacity>
+                      <Image style={{ width: 50, height: 50 }} source={{ uri: rowData.imageUrl }} />
+                      <Text style={{ marginBottom: 10 }}>
+                        {rowData.title}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                }}
+                keyExtractor={(item, index) => index}
+              />
+              
+              {/* </View> */}
 
               <Text
                 style={styles.closeText}
