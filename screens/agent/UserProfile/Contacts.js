@@ -96,6 +96,8 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
  
      Contacts.checkPermission();
    }
+
+  //  https://github.com/360-App-Pty-Ltd/Frontend.git
  
    search(text) {
      const phoneNumberRegex = /\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,15}\b/m;
@@ -117,21 +119,21 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
      }
    }
  
-   onPressContact(contact) {
-     var text = this.state.typeText;
-     this.setState({ typeText: null });
-     if (text === null || text === '')
-       Contacts.openExistingContact(contact)
-     else {
-       var newPerson = {
-         recordID: contact.recordID,
-         phoneNumbers: [{ label: 'mobile', number: text }]
-       }
-       Contacts.editExistingContact(newPerson).then(contact => {
-         //contact updated
-       });
-     }
-   }
+  //  onPressContact(contact) {
+  //    var text = this.state.typeText;
+  //    this.setState({ typeText: null });
+  //    if (text === null || text === '')
+  //      Contacts.openExistingContact(contact)
+  //    else {
+  //      var newPerson = {
+  //        recordID: contact.recordID,
+  //        phoneNumbers: [{ label: 'mobile', number: text }]
+  //      }
+  //      Contacts.editExistingContact(newPerson).then(contact => {
+  //        //contact updated
+  //      });
+  //    }
+  //  }
  
    addNew() {
      Contacts.openContactForm({}).then(contact => {
