@@ -37,8 +37,11 @@
    Image,
    TextInput,
    ActivityIndicator,
+   TouchableOpacity,
+
    Button
  } from "react-native";
+ import GradientButton from '../../../components/Button'
  import Contacts from "react-native-contacts";
  
 //  import ListItem from "./components/ListItem";
@@ -156,6 +159,15 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
              alignItems: "center"
            }}
          >
+
+          <Text style={{ justifyContent:'center', fontWeight: 'bold', fontSize:20, marginTop:10 }}> INVITES </Text>
+         
+         {/* <TouchableOpacity style={styles.appButtonContainer}
+             onPress={console.log("User has been invited ")} >
+           <Text style={styles.appButtonText}> Select All </Text>
+         </TouchableOpacity> */}
+                    
+         <Text style={{ justifyContent:'center', fontSize:15 }}> Who's great potential addition to 360? </Text>
            {/* <Image
              source={require("./logo.png")}
              style={{
@@ -164,13 +176,12 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
              }}
            /> */}
          </View>
-         <Button title="Add new" onPress={() => this.addNew()} />
          <SearchBar
            searchPlaceholder={this.state.searchPlaceholder}
            onChangeText={this.search}
          />
  
-         <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+         {/* <View style={{ paddingLeft: 10, paddingRight: 10 }}>
            <TextInput
              keyboardType='number-pad'
              style={styles.inputStyle}
@@ -178,7 +189,7 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
              onChangeText={text => this.setState({ typeText: text })}
              value={this.state.typeText}
            />
-         </View>
+         </View> */}
  
          {
            this.state.loading === true ?
@@ -208,12 +219,25 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
                        key={contact.recordID}
                        title={`${contact.givenName} ${contact.familyName}`}
                        description={`${contact.company}`}
-                       onPress={() => this.onPressContact(contact)}
-                       onDelete={() =>
-                         Contacts.deleteContact(contact).then(() => {
-                           this.loadContacts();
-                         })
-                       }
+                       
+                      rightElement={
+                       
+                       
+                        <View>
+                           <GradientButton style={styles.appButtonContainer}
+                            onPress={console.log("User has been invited ")} >
+                                  Invite 
+                            </GradientButton>
+                          </View>
+  
+  
+                          }
+                      //  onPress={() => this.onPressContact(contact)}
+                      //  onDelete={() =>
+                      //    Contacts.deleteContact(contact).then(() => {
+                      //      this.loadContacts();
+                      //    })
+                      //  }
                      />
                    );
                  })}
@@ -236,6 +260,20 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
      alignContent: "center",
      justifyContent: "center"
    },
+   appButtonText: {
+    //  fontSize: 10,
+      color: "#fff",
+      fontWeight: "bold",
+      alignSelf: "center",
+    //  textTransform: "uppercase"
+    },
+    appButtonContainer: {
+     // elevation: 8,
+      backgroundColor: "#009688",
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12
+    },
    inputStyle: {
      height: 40,
      borderColor: 'gray',

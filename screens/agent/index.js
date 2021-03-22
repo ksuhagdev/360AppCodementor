@@ -38,62 +38,62 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import plusIcon from '../../assets/image/plusButton2.png'
 import Hero from './AgentHome/Hero'
 import VideoPlayScreen from '../user/Search/VideoPlayScreen'
-
+import Music from './Music'
 import FollowContainer from '../follow/FollowContainer';
 
 import LikedProperties from '../like/LikedProperties';
 
-const AgentNavigator = createStackNavigator(
-  {
-    Home: AgentHome,
-    Hero: Hero,
-    AgentProfile,
-    PropertyAddress,
-    UserProfile,
-    CameraSession,
-    DiscoverSoundtrack,
-    TrackList,
-    NewProperty_Screen1: NewProperty,
-    NewProperty_Screen2: PropertyDetails,
-    NewProperty_Screen3: ChooseCampaign,
-    RentalSetup,
-    PrivateSale,
-    Auction,
-    EditDateAndTime,
-    EditInspectionTime,
-    InviteOthers,
-    Verification,
-    PrivateEmail,
-    OpenContacts,
-    CaptureVideo,
-    EditVideo,
-    EditPersonalInfo,
-    EditAgentProfile,
-    AddFloorPlan,
-    Search,
-    SuburbSelection,
-    Inbox,
-    Chat,
-    RoomVideo,
-    TrimVideo,
-    VideoScroll: {
-      screen: VideoScroll, navigationOptions: {
-        headerShown: false
-      }
-    }
-    // VideoTrim
-  },
-  {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: {
-      headerTintColor: '#000',
-      headerTitleStyle: {
-        fontFamily: 'font-regular',
-        fontSize: 16,
-      },
-    },
-  },
-);
+// const AgentNavigator = createStackNavigator(
+//   {
+//     Home: AgentHome,
+//     Hero: Hero,
+//     AgentProfile,
+//     PropertyAddress,
+//     UserProfile,
+//     CameraSession,
+//     DiscoverSoundtrack,
+//     TrackList,
+//     NewProperty_Screen1: NewProperty,
+//     NewProperty_Screen2: PropertyDetails,
+//     NewProperty_Screen3: ChooseCampaign,
+//     RentalSetup,
+//     PrivateSale,
+//     Auction,
+//     EditDateAndTime,
+//     EditInspectionTime,
+//     InviteOthers,
+//     Verification,
+//     PrivateEmail,
+//     OpenContacts,
+//     CaptureVideo,
+//     EditVideo,
+//     EditPersonalInfo,
+//     EditAgentProfile,
+//     AddFloorPlan,
+//     Search,
+//     SuburbSelection,
+//     Inbox,
+//     Chat,
+//     RoomVideo,
+//     TrimVideo,
+//     VideoScroll: {
+//       screen: VideoScroll, navigationOptions: {
+//         headerShown: false
+//       }
+//     }
+//     // VideoTrim
+//   },
+//   {
+//     initialRouteName: 'Home',
+//     defaultNavigationOptions: {
+//       headerTintColor: '#000',
+//       headerTitleStyle: {
+//         fontFamily: 'font-regular',
+//         fontSize: 16,
+//       },
+//     },
+//   },
+// );
 
 const AgentHomeNav = createStackNavigator({
   Home: AgentHome,
@@ -117,6 +117,7 @@ const AgentHomeNav = createStackNavigator({
     }
   },
   PropertyAddress,
+  Music,
   UserProfile,
   CameraSession,
   DiscoverSoundtrack,

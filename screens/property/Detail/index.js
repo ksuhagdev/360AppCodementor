@@ -454,7 +454,7 @@ const shareUrl = async () => {
                 <View style={{ marginRight: 5 }}>
                   <FontAwesomeIcon style={styles.alignCenter} name="music" size={15} color="#fff" />
                 </View>
-                <View style={{ width: '65%' }}>
+                <TouchableOpacity style={{ width: '65%' }} onPress={() => {navigation.navigate('Music')}}>
                   <TextTicker
                     style={{ fontSize: 13, color: 'white' }}
                     duration={5000}
@@ -466,7 +466,7 @@ const shareUrl = async () => {
                   >
                     Dojo Cat - Say So "Why don't you say so?"
         </TextTicker>
-                </View>
+                </TouchableOpacity>
 
               </View>
             </View>
