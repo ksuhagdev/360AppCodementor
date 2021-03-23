@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 import Tab from '../../../components/Tabs'
 import SearchBar from '../../../components/ContactAcess/SearchBar';
@@ -20,6 +22,18 @@ const data = [
   {key: 'Cinematic',key2:'(103 tracks)'},
   {key: 'R & B ',key2:'(43 tracks)'},
   {key: 'Instrumental',key2:'(22 tracks)'},
+
+];
+const data2 = [
+  {key: 'GoodThing (with Kehlani) ',key2:'Zedd'},
+  {key: 'Holy Water', key2:'(Galantis)'},
+  {key: 'Legends', key2:'(Now United)'},
+  {key: 'Legends', key2:'(Now United)'},
+  {key: 'Legends', key2:'(Now United)'},
+  {key: 'Legends', key2:'(Now United)'},
+  {key: 'Legends', key2:'(Now United)'},
+  {key: 'Legends', key2:'(Now United)'},
+  
 
 ];
 
@@ -40,7 +54,7 @@ export default class index extends Component {
           searchPlaceholder={this.state.searchPlaceholder}
           onChangeText={this.search}
         />
-         <View style={{height: height / 3, width:'100%'}}>
+         <View style={{ width:'100%'}}>
           <FlatList
             data={data}
             numColumns={2}
@@ -65,12 +79,38 @@ export default class index extends Component {
           <Tab isActive={this.state.activeTab === 'active'} onPress={() => this.setState({activeTab:'active'})}>
             Trending
           </Tab>
+         
+
 
           <Tab isActive={this.state.activeTab === 'drafts'} onPress={() => this.setState({activeTab:'drafts'})}>
             Most Used
           </Tab>
+
         </View>
-       
+        <ScrollView >
+          <FlatList
+            data={data2}
+          
+            renderItem={({item}) => (
+              <View style={{flexDirection:'row', width:'50%', paddingVertical:10, }}>
+                <TouchableOpacity
+                  style={{
+                    height: 50,
+                    width: 50,
+                    backgroundColor: '#ff1493',
+                    borderRadius:5, marginLeft:10, marginRight:10
+                  }}></TouchableOpacity>
+                  <TouchableOpacity>
+                  <Text style={{fontWeight:'bold'}}>{item.key}  </Text>
+                  <Text style={{ color: '#424949'}}>{item.key2}</Text>
+
+                  </TouchableOpacity>
+                
+               
+              </View>
+            )}
+          />
+        </ScrollView>
        
 
       </View>
