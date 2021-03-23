@@ -50,6 +50,7 @@
 import Avatar  from '../../../components/ContactAcess/Avatar';
 import ListItem  from '../../../components/ContactAcess/ListItem';
 import SearchBar  from '../../../components/ContactAcess/SearchBar';
+import CheckBox from '@react-native-community/checkbox'
  type Props = {};
  export default class ContactsNew extends Component<Props> {
    constructor(props) {
@@ -87,15 +88,16 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
    loadContacts() {
      Contacts.getAll()
        .then(contacts => {
+           
          this.setState({ contacts, loading: false });
        })
        .catch(e => {
          this.setState({ loading: false });
        });
  
-     Contacts.getCount().then(count => {
-       this.setState({ searchPlaceholder: `Search ${count} contacts` });
-     });
+    //  Contacts.getCount().then(count => {
+    //    this.setState({ searchPlaceholder: `Search ${count} contacts` });
+    //  });
  
      Contacts.checkPermission();
    }
@@ -151,31 +153,7 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
    render() {
      return (
        <SafeAreaView style={styles.container}>
-         <View
-           style={{
-             paddingLeft: 100,
-             paddingRight: 100,
-             justifyContent: "center",
-             alignItems: "center"
-           }}
-         >
-
-          <Text style={{ justifyContent:'center', fontWeight: 'bold', fontSize:20, marginTop:10 }}> INVITES </Text>
          
-         {/* <TouchableOpacity style={styles.appButtonContainer}
-             onPress={console.log("User has been invited ")} >
-           <Text style={styles.appButtonText}> Select All </Text>
-         </TouchableOpacity> */}
-                    
-         <Text style={{ justifyContent:'center', fontSize:15 }}> Who's great potential addition to 360? </Text>
-           {/* <Image
-             source={require("./logo.png")}
-             style={{
-               aspectRatio: 6,
-               resizeMode: "contain"
-             }}
-           /> */}
-         </View>
          <SearchBar
            searchPlaceholder={this.state.searchPlaceholder}
            onChangeText={this.search}
@@ -224,10 +202,15 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
                        
                        
                         <View>
-                           <GradientButton style={styles.appButtonContainer}
+                           {/* <GradientButton style={styles.appButtonContainer}
                             onPress={console.log("User has been invited ")} >
                                   Invite 
-                            </GradientButton>
+                            </GradientButton> */}
+                            <CheckBox disabled={false}
+                            onCheckColor={'#fff'}
+                            onFillColor={'#F35F99'}
+                            onTintColor={'#fff'}
+    />
                           </View>
   
   
@@ -244,7 +227,7 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
                </ScrollView>
              )
          }
- 
+        <GradientButton style={{padding: 20}}>Invite selected people</GradientButton>
        </SafeAreaView>
      );
    }
@@ -252,7 +235,8 @@ import SearchBar  from '../../../components/ContactAcess/SearchBar';
  
  const styles = StyleSheet.create({
    container: {
-     flex: 1
+     flex: 1,
+     backgroundColor:'#fff'
    },
    spinner: {
      flex: 1,

@@ -85,6 +85,8 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const [likes, setLikes] = useState(property.total_likes);
   const [shares, setShares] = useState(property.total_shares);
   const [isLiked, setIsLiked] = useState(property.is_liked || false);
+  const [musicModalVisible, setMusicModalVisible] = useState(false)
+  // const [musicModalVisible, setm]
   const [iconColor, setIconColor] = useState(property.is_liked ? '#f00' : '#fff');
   const { accessToken } = useSelector(store => store.account);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -507,7 +509,7 @@ const shareUrl = async () => {
                     </View>
                   </TouchableOpacity>
                 </View>
-
+              <TouchableOpacity onPress={() => { setMusicModalVisible(true) }}>
                 {/* <TouchableOpacity opacity={0}> */}
                 {/* <Animated.View style={{...styles.btns,transform: [{rotate: spin}]}}> */}
                
@@ -519,9 +521,12 @@ const shareUrl = async () => {
                   transform: [{
                     rotate: rotateProp
                   }]
-                }}>
+                }} onPress={() =>{console.log("IDNSNDSJNDSJD")}}>
+              
 
                   <Icons style={styles.alignCenter} name="music-circle" size={38} color="#fff" />
+
+
                   {/* <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text> */}
                 </Animated.View>
                   
@@ -533,8 +538,7 @@ const shareUrl = async () => {
                   progress={shouldPlay ? spinValue : 0}
                   style={{ width: 150, position: 'absolute', bottom: 0, right: 0 }}
                 />
-                {/* </TouchableOpacity> */}
-
+                </TouchableOpacity>
               </View>
 
             </View>
@@ -554,6 +558,36 @@ const shareUrl = async () => {
             <Progress.Pie size={30} indeterminate={true} />
 
         </Modal> */}
+        <Modal
+          animationType={"slide"}
+          transparent={true}
+          presentationStyle="overFullScreen"
+          visible={musicModalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has now been closed.');
+          }}>
+
+          <View style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            padding: 16, borderRadius: 50, marginBottom:40
+          }}>
+            <View style={{
+              width: '100%',
+              height: Dimensions.get('window').height / 5, backgroundColor: '#fff', borderRadius:20, padding: 50
+            }}>
+
+              <Text
+                style={styles.closeText}
+                onPress={() => {
+                  setMusicModalVisible(!musicModalVisible)
+                }}>Close Modal</Text>
+            </View>
+          </View>
+
+        </Modal>
         <Modal
           animationType={"slide"}
           transparent={true}

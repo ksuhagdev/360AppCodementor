@@ -12,6 +12,8 @@ import {
   Text,
   StyleSheet
 } from "react-native";
+import Icons from 'react-native-vector-icons/EvilIcons'
+
 
 class SearchBar extends Component {
   static propTypes = {
@@ -113,7 +115,7 @@ class SearchBar extends Component {
       <TouchableWithoutFeedback onPress={this.focus} style={style}>
         <Animated.View style={container}>
           <View style={leftIconStyle}>
-            <Text>🔍</Text>
+            <Icons name="search" size={20}/>
           </View>
           <TextInput
             onFocus={this.onFocus}
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     height: 40,
     borderRadius: 5,
-    backgroundColor: "#ddd",
+    backgroundColor: "#F1F0EF",
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 5,

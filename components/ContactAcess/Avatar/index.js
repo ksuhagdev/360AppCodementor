@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   placeholderText: {
-    fontWeight: "700",
+    // fontWeight: "700",
     color: "#ffffff"
   }
 });

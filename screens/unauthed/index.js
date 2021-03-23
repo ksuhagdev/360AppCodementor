@@ -67,7 +67,7 @@ const HomeNav = createStackNavigator({
 })
 const UserProfileNav = createStackNavigator({
   UserProfile,
-  Contacts
+  Contacts:{screen:Contacts, navigationOptions:{title:'Invite Others'}}
 })
 const searchNav = createStackNavigator({
   Search,

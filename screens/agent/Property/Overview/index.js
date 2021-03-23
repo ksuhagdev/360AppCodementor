@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ActionSheet from 'react-native-action-sheet';
 import styles from './styles';
 import AgentInfo from './Info';
-import VideoTile from './Video'; 
+import VideoTile from './Video';
 import { colors } from '../../../../theme/constants';
 import { handleNewProperty, setCurrentCampaign, getPropertyById, setCurrentProperty, setLiveStatus, deleteProperty } from '../../../../actions/property';
 import EditInspectionTime from '../NewProperty/Auction/EditInspectionTime';

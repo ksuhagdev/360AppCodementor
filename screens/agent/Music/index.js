@@ -1,4 +1,4 @@
-import {Video} from 'expo-av';
+// import {Video} from 'expo-av';
 import React, {Component} from 'react';
 
 import {
@@ -9,6 +9,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
+import Tab from '../../../components/Tabs'
 import SearchBar from '../../../components/ContactAcess/SearchBar';
 const data = [
   {key: 'Pop ',key2:'(231 tracks)'},
@@ -28,6 +29,7 @@ export default class index extends Component {
     super(props);
     this.state = {
       searchPlaceholder: 'Search',
+  activeTab:'active'
     };
   }
 
@@ -58,6 +60,16 @@ export default class index extends Component {
             )}
           />
         </View>
+
+        <View style={styles.tabsContainer}>
+          <Tab isActive={this.state.activeTab === 'active'} onPress={() => this.setState({activeTab:'active'})}>
+            Trending
+          </Tab>
+
+          <Tab isActive={this.state.activeTab === 'drafts'} onPress={() => this.setState({activeTab:'drafts'})}>
+            Most Used
+          </Tab>
+        </View>
        
        
 
@@ -68,6 +80,11 @@ export default class index extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'#fff'
+  },tabsContainer: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   gridView: {
     //  flex: 2,
