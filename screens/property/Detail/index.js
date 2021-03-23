@@ -454,6 +454,7 @@ const shareUrl = async () => {
                 <View style={{ marginRight: 5 }}>
                   <FontAwesomeIcon style={styles.alignCenter} name="music" size={15} color="#fff" />
                 </View>
+                
                 <TouchableOpacity style={{ width: '65%' }} onPress={() => {navigation.navigate('Music')}}>
                   <TextTicker
                     style={{ fontSize: 13, color: 'white' }}
@@ -509,6 +510,7 @@ const shareUrl = async () => {
 
                 {/* <TouchableOpacity opacity={0}> */}
                 {/* <Animated.View style={{...styles.btns,transform: [{rotate: spin}]}}> */}
+               
                 <Animated.View style={{
                   borderRadius: 50,
                   borderWidth: 12,
@@ -522,6 +524,10 @@ const shareUrl = async () => {
                   <Icons style={styles.alignCenter} name="music-circle" size={38} color="#fff" />
                   {/* <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text> */}
                 </Animated.View>
+                  
+              
+             
+            
                 <Lottie
                   source={musicFly}
                   progress={shouldPlay ? spinValue : 0}

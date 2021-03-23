@@ -9,6 +9,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import useFont from './hooks/useFont';
 import AppLoading from './components/helper/AppLoading';
 import AgentNavigator from './screens/agent';
+import Music from './screens/agent/Music'
 import UserNavigator from './screens/user';
 import UnauthedNavigator from './screens/unauthed';
 import SignupAsUser from './screens/auth/SignupUser';
@@ -118,6 +119,7 @@ requestInterceptors({
 
 const MainNavigator = createStackNavigator(
   {
+    // Music:Music,
     AGENT: AgentNavigator,
     USER: UserNavigator,
     Login: {
