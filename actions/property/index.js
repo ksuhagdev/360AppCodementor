@@ -22,7 +22,7 @@ import {
   CLEAR_PROPERTY_SEARCH_RESULTS,
   PROPERTY_SEARCH_FILTERS,
   SET_HASHTAGS,
-  SET_AUCTION_DATE,MUSIC_FILES, SET_TRENDINGPROPERTIES, MUSIC_TRENDING
+  SET_AUCTION_DATE,MUSIC_FILES, SET_TRENDINGPROPERTIES, MUSIC_TRENDING,MUSIC_COUNT
 } from '../../store/types';
 import { StatusBar } from 'react-native';
 
@@ -386,6 +386,30 @@ export const getMusicTrending = id => async (dispatch, getState) => {
    
   });
   // dispatch({ type: MUSIC_FILES, payload: data });
+}catch(error){
+    handleSnackbar({ message: parseError(error.response.data) });
+  }finally{
+    dispatch(handleLoading(false));
+   
+  }
+
+  
+}
+
+
+
+export const getMusicCount = id => async (dispatch, getState) => {
+  dispatch(handleLoading(false));
+  try{const { data } = await request({
+    // url: `/properties?includeVideos=true&lat=${lat}&lng=${lng}&start=${start}&limit=${limit}`,
+    url: `/music/getCountByGenre`,
+    config: { method: 'GET' },
+  });
+  console.log("music count", data)
+  dispatch({
+    type: MUSIC_COUNT,
+    payload: data
+  });
 }catch(error){
     handleSnackbar({ message: parseError(error.response.data) });
   }finally{

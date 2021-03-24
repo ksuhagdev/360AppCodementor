@@ -13,7 +13,7 @@ import {
   CLEAR_PROPERTY_SEARCH_RESULTS,
   PROPERTY_SEARCH_FILTERS,
   SET_HASHTAGS,
-  SET_TRENDINGPROPERTIES,MUSIC_FILES, MUSIC_TRENDING
+  SET_TRENDINGPROPERTIES,MUSIC_FILES, MUSIC_TRENDING, MUSIC_COUNT
 } from '../store/types';
 
 const initialState = {
@@ -43,7 +43,8 @@ const initialState = {
   searchResults: null,
   isSearchLoading: false,
   hashtags: null,
-  musicTrending: []
+  musicTrending: [],
+  MusicCount:[]
 };
 
 export default function(state = initialState, action) {
@@ -103,6 +104,13 @@ export default function(state = initialState, action) {
         ...state, 
         trendingProperties: action.payload
       }
+
+      case MUSIC_COUNT:
+        console.log("MUSIC COUNT", action.payload)
+        return {
+          ...state,
+          MusicCount  : action.payload,
+        };
     case CLEAR_NEW_PROPERTY:
       return {
         ...state,
@@ -152,6 +160,7 @@ export default function(state = initialState, action) {
         hashtags: action.payload,
       };
 
+      
     default:
       return state;
   }

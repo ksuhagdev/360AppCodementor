@@ -16,7 +16,7 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux'
 import SearchBar from '../../../components/ContactAcess/SearchBar';
 import request from '../../../helper/functions/request';
-import {getMusicTrending} from '../../../actions/property'
+import {getMusicTrending, getMusicCount} from '../../../actions/property'
 const data = [
   {key: 'Pop ',key2:'(231 tracks)'},
   {key: 'Hio Hop', key2:'(72 tracks)'},
@@ -56,10 +56,13 @@ const dispatch = useDispatch();
   const placeholder = 'search';
   const [search, setSearch] = useState('')
   const {musicTrending} = useSelector(store => store.property)
- console.log("Music Trending Class", musicTrending)
+// console.log("Music Trending Class", musicTrending)
+const {getMusciCount,MusicCount} = useSelector(store => store.property)
+
   useEffect(() => {
     (async () => {
       await dispatch(getMusicTrending())
+      await dispatch(getMusicCount())
       
     })();
   },[])
@@ -72,7 +75,7 @@ const dispatch = useDispatch();
         />
          <View style={{ width:'100%'}}>
           <FlatList
-            data={data}
+            data={MusicCount }
             numColumns={2}
           
             renderItem={({item}) => (
@@ -84,8 +87,8 @@ const dispatch = useDispatch();
                     backgroundColor: '#ff1493',
                     borderRadius:5, marginLeft:10, marginRight:10
                   }}></TouchableOpacity>
-                <Text style={{fontWeight:'bold'}}>{item.key}</Text>
-                <Text style={{ color: '#424949'}}>{item.key2}</Text>
+                <Text style={{fontWeight:'bold'}}>{item.genre}</Text>
+                {/* <Text style={{ color: '#424949'}}>{item.co}</Text> */}
               </View>
             )}
           />
