@@ -60,7 +60,7 @@ const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       await dispatch(getMusicTrending())
-
+      
     })();
   },[])
 
