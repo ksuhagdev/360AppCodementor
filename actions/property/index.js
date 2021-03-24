@@ -22,7 +22,7 @@ import {
   CLEAR_PROPERTY_SEARCH_RESULTS,
   PROPERTY_SEARCH_FILTERS,
   SET_HASHTAGS,
-  SET_AUCTION_DATE,MUSIC_FILES, SET_TRENDINGPROPERTIES
+  SET_AUCTION_DATE,MUSIC_FILES, SET_TRENDINGPROPERTIES, MUSIC_TRENDING
 } from '../../store/types';
 import { StatusBar } from 'react-native';
 
@@ -370,6 +370,32 @@ export const getMusicList = id => async (dispatch, getState) => {
 
   
 }
+
+export const getMusicTrending = id => async (dispatch, getState) => {
+  dispatch(handleLoading(false));
+  try{const { data } = await request({
+    // url: `/properties?includeVideos=true&lat=${lat}&lng=${lng}&start=${start}&limit=${limit}`,
+    url: `/music/trending?start=0&end=5`,
+    config: { method: 'GET' },
+  });
+  //console.log("music data", data)
+  console.log("Music Trending Data", data)
+  dispatch({
+    type: MUSIC_TRENDING,
+    payload: data
+   
+  });
+  // dispatch({ type: MUSIC_FILES, payload: data });
+}catch(error){
+    handleSnackbar({ message: parseError(error.response.data) });
+  }finally{
+    dispatch(handleLoading(false));
+   
+  }
+
+  
+}
+
 export const getPropertyById = id => async (dispatch, getState) => {
   const { currentProperty } = getState().property;
 

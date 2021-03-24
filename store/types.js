@@ -17,6 +17,7 @@ export const MOBILE_VERIFYING = 'MOBILE_VERIFYING'
 // Music
 export const MUSIC_LOADING = 'MUSIC_LOADING'
 export const MUSIC_FILES = 'MUSIC_FILES'
+export const MUSIC_TRENDING = 'MUSIC_TRENDING'
 
 // Property
 export const HANDLE_ADD_PROPERTY = 'HANDLE_ADD_PROPERTY';

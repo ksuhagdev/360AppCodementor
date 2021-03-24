@@ -123,7 +123,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   //   }
   // };
 
-  console.log("Property data", property)
+  // console.log("Property data", property)
   
 const shareUrl = async () => {
   

@@ -1,5 +1,5 @@
 // import {Video} from 'expo-av';
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 
 import {
   View,
@@ -9,10 +9,14 @@ import {
   FlatList,
   Dimensions,
   SafeAreaView,
-  ScrollView
+  ScrollView, Image
 } from 'react-native';
-import Tab from '../../../components/Tabs'
+import Tabs from '../../../components/Tabs/Tabs'
+import axios from 'axios';
+import {useSelector, useDispatch} from 'react-redux'
 import SearchBar from '../../../components/ContactAcess/SearchBar';
+import request from '../../../helper/functions/request';
+import {getMusicTrending} from '../../../actions/property'
 const data = [
   {key: 'Pop ',key2:'(231 tracks)'},
   {key: 'Hio Hop', key2:'(72 tracks)'},
@@ -38,21 +42,33 @@ const data2 = [
 ];
 
 const {width, height} = Dimensions.get('window');
-export default class index extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchPlaceholder: 'Search',
-  activeTab:'active'
-    };
-  }
+const Music =  (props) => {
+const dispatch = useDispatch();
+  // async componentDidMount() {
+  //   try{
+  //     const data = await request({url: '/music/trending?start=0&end=5', config:{method: 'GET'}})
+  //     console.log('DATA for trending Music', data)
+  //   }catch(e){console.log("Error from MUSIC",e)}
 
-  render() {
+  // }  
+
+  const [activeTab, setActiveTab] = useState('Trending');
+  const placeholder = 'search';
+  const [search, setSearch] = useState('')
+  const {musicTrending} = useSelector(store => store.property)
+ console.log("Music Trending Class", musicTrending)
+  useEffect(() => {
+    (async () => {
+      await dispatch(getMusicTrending())
+
+    })();
+  },[])
+
     return (
       <View style={styles.container}>
         <SearchBar
-          searchPlaceholder={this.state.searchPlaceholder}
-          onChangeText={this.search}
+          searchPlaceholder={placeholder}
+          // onChangeText={this.search}
         />
          <View style={{ width:'100%'}}>
           <FlatList
@@ -76,53 +92,48 @@ export default class index extends Component {
         </View>
 
         <View style={styles.tabsContainer}>
-          <Tab isActive={this.state.activeTab === 'active'} onPress={() => this.setState({activeTab:'active'})}>
+          <Tabs style={{width:'45%'}} isActive={activeTab === 'Trending'} onPress={() => setActiveTab('Trending')}>
             Trending
-          </Tab>
+          </Tabs>
          
 
 
-          <Tab isActive={this.state.activeTab === 'drafts'} onPress={() => this.setState({activeTab:'drafts'})}>
+          <Tabs style={{width:'45%'}} isActive={activeTab === 'MostUsed'} onPress={() => setActiveTab('MostUsed')}>
             Most Used
-          </Tab>
-
+          </Tabs>
         </View>
-        <ScrollView >
-          <FlatList
-            data={data2}
+        
+          {activeTab === 'Trending' && <FlatList
+            data={musicTrending}
           
             renderItem={({item}) => (
-              <View style={{flexDirection:'row', width:'50%', paddingVertical:10, }}>
-                <TouchableOpacity
-                  style={{
-                    height: 50,
-                    width: 50,
-                    backgroundColor: '#ff1493',
-                    borderRadius:5, marginLeft:10, marginRight:10
-                  }}></TouchableOpacity>
-                  <TouchableOpacity>
-                  <Text style={{fontWeight:'bold'}}>{item.key}  </Text>
-                  <Text style={{ color: '#424949'}}>{item.key2}</Text>
+              <TouchableOpacity style={{flexDirection:'row', width:'50%', paddingVertical:10, marginLeft: 20, alignItems: 'center'}}>
+                <Image style={{width: 60, height: 60, marginRight: 20 }} source={{uri: item.poster_url}}/>
+                  <View >
+                  <Text style={{fontWeight:'bold'}}>{item.title}  </Text>
+                  <Text style={{ color: '#424949'}}>{item.artist}</Text>
+                  <Text style={{ color: '#424949'}}>0.30</Text>
 
-                  </TouchableOpacity>
+                  </View>
                 
                
-              </View>
+              </TouchableOpacity>
             )}
-          />
-        </ScrollView>
+          />}
+        
        
 
       </View>
     );
   }
-}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor:'#fff'
   },tabsContainer: {
     marginTop: 20,
+    width:'100%',
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -156,3 +167,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default Music
