@@ -63,7 +63,6 @@ const {getMusciCount,MusicCount} = useSelector(store => store.property)
     (async () => {
       await dispatch(getMusicTrending())
       await dispatch(getMusicCount())
-      
     })();
   },[])
 

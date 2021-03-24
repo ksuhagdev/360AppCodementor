@@ -22,7 +22,8 @@ import {
   CLEAR_PROPERTY_SEARCH_RESULTS,
   PROPERTY_SEARCH_FILTERS,
   SET_HASHTAGS,
-  SET_AUCTION_DATE,MUSIC_FILES, SET_TRENDINGPROPERTIES, MUSIC_TRENDING,MUSIC_COUNT
+  // SET_AUCTION_DATE,MUSIC_FILES, SET_TRENDINGPROPERTIES, MUSIC_TRENDING,
+  SET_AUCTION_DATE,MUSIC_FILES, SET_TRENDINGPROPERTIES, MUSIC_TRENDING, MUSIC_GENRE,MUSIC_COUNT
 } from '../../store/types';
 import { StatusBar } from 'react-native';
 
@@ -375,7 +376,7 @@ export const getMusicTrending = id => async (dispatch, getState) => {
   dispatch(handleLoading(false));
   try{const { data } = await request({
     // url: `/properties?includeVideos=true&lat=${lat}&lng=${lng}&start=${start}&limit=${limit}`,
-    url: `/music/trending?start=0&end=5`,
+    url: `/music/trending?start=0&end=10`,
     config: { method: 'GET' },
   });
   //console.log("music data", data)
@@ -411,14 +412,41 @@ export const getMusicCount = id => async (dispatch, getState) => {
     payload: data
   });
 }catch(error){
-    handleSnackbar({ message: parseError(error.response.data) });
-  }finally{
-    dispatch(handleLoading(false));
-   
-  }
-
-  
+  handleSnackbar({ message: parseError(error.response.data) });
+}finally{
+  dispatch(handleLoading(false));
+ 
 }
+
+
+}
+
+
+  export const getMusicGenre = id => async (dispatch, getState) => {
+    console.log("TYPE OF GENRE", id)
+    dispatch(handleLoading(false));
+    try{const { data } = await request({
+      // url: `/properties?includeVideos=true&lat=${lat}&lng=${lng}&start=${start}&limit=${limit}`,
+      url: `/music/getSongsByGenre?genre=jazz&start=0&end=10`,
+      config: { method: 'GET' },
+    });
+    //console.log("music data", data)
+    console.log("Music Genre Data", data)
+    dispatch({
+      type: MUSIC_GENRE,
+      payload: data
+     
+    });
+    // dispatch({ type: MUSIC_FILES, payload: data });
+  }catch(error){
+      handleSnackbar({ message: parseError(error.response.data) });
+    }finally{
+      dispatch(handleLoading(false));
+     
+    }
+  
+    
+  }
 
 export const getPropertyById = id => async (dispatch, getState) => {
   const { currentProperty } = getState().property;

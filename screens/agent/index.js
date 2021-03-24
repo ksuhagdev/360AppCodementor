@@ -38,7 +38,8 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import plusIcon from '../../assets/image/plusButton2.png'
 import Hero from './AgentHome/Hero'
 import VideoPlayScreen from '../user/Search/VideoPlayScreen'
-import Music from './Music'
+import Music from './Music';
+import Genre from './Music/Genre'
 import FollowContainer from '../follow/FollowContainer';
 
 import LikedProperties from '../like/LikedProperties';
@@ -118,6 +119,7 @@ const AgentHomeNav = createStackNavigator({
   },
   PropertyAddress,
   Music,
+  Genre:{screen: Genre, navigationOptions:{ headerShown: false}},
   UserProfile,
   CameraSession,
   DiscoverSoundtrack,

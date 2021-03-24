@@ -13,7 +13,8 @@ import {
   CLEAR_PROPERTY_SEARCH_RESULTS,
   PROPERTY_SEARCH_FILTERS,
   SET_HASHTAGS,
-  SET_TRENDINGPROPERTIES,MUSIC_FILES, MUSIC_TRENDING, MUSIC_COUNT
+  // SET_TRENDINGPROPERTIES,MUSIC_FILES, MUSIC_TRENDING, 
+  SET_TRENDINGPROPERTIES,MUSIC_FILES, MUSIC_TRENDING, MUSIC_GENRE,MUSIC_COUNT
 } from '../store/types';
 
 const initialState = {
@@ -44,7 +45,8 @@ const initialState = {
   isSearchLoading: false,
   hashtags: null,
   musicTrending: [],
-  MusicCount:[]
+  MusicCount:[],
+  musicGenre: []
 };
 
 export default function(state = initialState, action) {
@@ -67,6 +69,10 @@ export default function(state = initialState, action) {
       console.log("Music Trending Reducer", action.payload)
       return{
         ...state, musicTrending: action.payload
+      }
+    case MUSIC_GENRE:
+      return {
+        ...state, musicGenre: action.payload
       }
     case ALL_PROPERTIES:
       return {
