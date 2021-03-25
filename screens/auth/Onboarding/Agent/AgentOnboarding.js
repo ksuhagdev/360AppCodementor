@@ -1,15 +1,15 @@
 import React from 'react';
-import {View, Text, ImageBackground, Dimensions, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, ImageBackground, Dimensions, TouchableOpacity,Image, StyleSheet} from 'react-native';
 const {width, height} =Dimensions.get('window')
 const AgentOnboarding = (props) => {
     return(
         <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
             <ImageBackground source={require('../../../../assets/image/onboarding/back1.png')} style={{width:'100%', height:'100%'}} >
-            <View style={{justifyContent: 'center',alignItems: 'center', marginTop: height/4}}>
+            <View style={{justifyContent: 'center',alignItems: 'center', marginTop: height/2}}>
                 <Text style={{color:'white', fontSize:50}}> Agent Sign Up </Text>
             </View>
-            <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 50}}>
-                <Text style={{color:'white', fontSize:30, textAlign: 'center', fontWeight: 'bold'}}> This sign up is for real estate agents only</Text>
+            <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 20}}>
+                <Text style={{color:'white', fontSize:30, textAlign: 'center',}}> This sign up is for real estate agents only</Text>
             </View>
 
             <View style={styles.buttonContainer}>
@@ -23,6 +23,9 @@ const AgentOnboarding = (props) => {
                     <TouchableOpacity style={{marginTop:10}} onPress={() =>{props.navigation.popToTop()}}>
                         <Text style={{color: 'white', textDecorationLine:'underline'}}>Whoops! let me get back</Text>
                     </TouchableOpacity>
+                </View>
+                <View style={styles.imageContainer}>
+                    <Image resizeMode='contain' source={require('../../../../assets/image/splash.png')} style={{width: 120, height: 120, alignSelf:'center', marginTop:10}}/>
                 </View>
             </ImageBackground>
         </View>
@@ -45,9 +48,9 @@ const styles = StyleSheet.create({
    },
    signUpContainer:{
         width: '90%',
-        height:30,
+        height:40,
         backgroundColor:'#fff',
-        borderRadius:20,
+        borderRadius:4,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop:20
@@ -60,10 +63,10 @@ const styles = StyleSheet.create({
    }, logInContainer:{
        width: '90%',
        marginLeft: 10,
-       height:30,
+       height:40,
        backgroundColor:'#fff',
        marginTop:20,
-       borderRadius:30,
+       borderRadius:4,
        alignItems: 'center',
        justifyContent: 'center',
        borderColor:'#fff',
@@ -74,6 +77,15 @@ const styles = StyleSheet.create({
    fontSize:16, 
    color:'#000' 
   },
+  imageContainer:{
+    position:'absolute',
+ //    bottom:10,
+    width:'100%',
+    //left: 100,
+    top:20
+ //    justifyContent: 'center',
+ //    alignItems: 'center',
+}
 })
 
 export default AgentOnboarding

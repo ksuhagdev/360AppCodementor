@@ -39,9 +39,9 @@ export default class Obboarding extends React.Component {
                 </View> */}
                 
                 <View style={{ top:50, right:20, zIndex: 1, position:'absolute'}}> 
-                <TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => {this.props.navigation.navigate('AgentOnboarding')}} >
+                {/* <TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => {this.props.navigation.navigate('AgentOnboarding')}} >
                         <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline'}}>Agent Access</Text>
-                   </TouchableOpacity>
+                   </TouchableOpacity> */}
                    <TouchableOpacity activeOpacity={0.7} onPress={() => {this.props.navigation.navigate('UNAUTHED')}}>
                         <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline'}}>Guest</Text>
                     </TouchableOpacity>
@@ -49,21 +49,27 @@ export default class Obboarding extends React.Component {
                 
                     
                 <View style={styles.buttonContainer}>
+                <TouchableOpacity activeOpacity={0.7}  style={styles.logInContainer} onPress={() =>{this.props.navigation.navigate('PhoneVerification', {type:'userLogin'})}}>
+                        <Text style={styles.login}>Log In</Text>
+                    </TouchableOpacity>
                 
                     <TouchableOpacity activeOpacity={0.7} style={styles.signUpContainer} onPress={() => {this.props.navigation.navigate('AgencyApprovalMessage',{type:'userSignUp'})}}>
                         <Text style={styles.signUp}>Sign Up</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.7}  style={styles.logInContainer} onPress={() =>{this.props.navigation.navigate('PhoneVerification', {type:'userLogin'})}}>
-                        <Text style={styles.login}>Log In</Text>
-                    </TouchableOpacity>
+                    
                 </View>
                 
-                <View style={{position:'absolute', bottom:30, padding: 10, justifyContent: 'center'}} >
-                    <Text style={{color:'white', textAlign:'center'}}> By clicking the buttons above. I agree to the <Text style={{textDecorationLine:'underline'}}>Terms of Use</Text> and acknowledge I have read the <Text style={{textDecorationLine:'underline'}}>Privacy Policy</Text>  </Text> 
-                </View>
+                 <View style={{position:'absolute', bottom:30, }} >
+                 <TouchableOpacity  onPress={() => {this.props.navigation.navigate('AgentOnboarding')}} >
+                        <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline', marginLeft:width/2 -50 }}>Agent Access</Text>
+                   </TouchableOpacity>
+                </View> 
+
+                
                 <View style={styles.imageContainer}>
-                    <Image resizeMode='contain' source={require('../../../assets/image/splash.png')} style={{width: 120, height: 120}}/>
+                    <Image resizeMode='contain' source={require('../../../assets/image/splash.png')} style={{width: 120, height: 120, alignSelf:'center', marginTop:10}}/>
                 </View>
+
             </View>
         )
     }
@@ -96,23 +102,23 @@ const styles= StyleSheet.create({
     },
     signUpContainer:{
          width: width/2-20,
-         height:30,
+         height:40,
          backgroundColor:'#fff',
-         borderRadius:20,
+         borderRadius:4,
          alignItems: 'center',
          justifyContent: 'center',
+         marginLeft:5
     },
     signUp:{
-        fontFamily:'Helvetica',
-   
+        fontFamily:'Montserrat',
         fontSize:16, 
         color:'#000'
     }, logInContainer:{
         width: width/2 - 20,
         marginLeft: 10,
-        height:30,
+        height:40,
         backgroundColor:'#fff',
-        borderRadius:30,
+        borderRadius:4,
         alignItems: 'center',
         justifyContent: 'center',
         borderColor:'#fff',
@@ -126,7 +132,7 @@ const styles= StyleSheet.create({
        position:'absolute',
     //    bottom:10,
        width:'100%',
-       left: 20,
+       //left: 100,
        top:20
     //    justifyContent: 'center',
     //    alignItems: 'center',

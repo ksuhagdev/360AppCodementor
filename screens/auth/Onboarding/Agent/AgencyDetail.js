@@ -11,13 +11,17 @@ const AgencyDetail = (props) => {
     const [agencyEmail, setagencyEmail] = useState('');
     const [valid, setValid] = useState(false);
     const dispatch = useDispatch();
+    
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Enter Agency Name</Text>
+        <View style={{  backgroundColor: '#fff',  }}>
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop:10}} >
+          <Text style={{color:'grey', fontSize:16, justifyContent:'center'}}> Complete account setup  </Text>
+        </View>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 100, marginLeft:5 }}>Your Agency Name</Text>
             <TextInput
-                label="Agency Name"
+                placeholder="Type-in Agency Name"
                 style={{ width: '90%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20 }}
-                mode='outlined'
+               // mode='outlined'
                 autoCapitalize={false}
                 value={agencyName}
                 onChangeText={text => {
@@ -28,14 +32,14 @@ const AgencyDetail = (props) => {
 
             />
 
-            <Text style={{ textAlign: 'center', width: '80%' }}> Your 'agency-name' will displayed with properties (This can be changed later). </Text>
-            <Text style={{ fontSize: 18, fontWeight: 'bold',marginTop: 50, }}>Enter Work (Agency) email</Text>
+            <Text style={{ textAlign: 'center', width: '80%', marginTop:10 }}> Your 'agency-name' will displayed with properties (This can be changed later). </Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold',marginTop: 20, }}>Enter Work (Agency) email</Text>
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center',  flexDirection: 'row'}}>
                 
                 <TextInput
-                    label="Work Email"
-                    style={{ width: '90%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20, borderColor: '#fff' }}
-                    mode='outlined'
+                    placeholder="Type-in your Work Email"
+                    style={{ width: '100%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20, borderColor: '#fff' }}
+                    //mode='outlined'
                     autoCapitalize={false}
                     value={agencyEmail}
                     onChangeText={text => {
@@ -63,9 +67,9 @@ const AgencyDetail = (props) => {
                 
 
             </View>
-            <Text style={{ textAlign: 'center', width: '80%' }}> We just need to verify your identity and agency </Text>
+            <Text style={{ textAlign: 'center', width: '80%', marginTop:5 }}> We just need to verify your identity and agency </Text>
             <GradientButton
-                style={{ marginTop: 20, width: 300 }} onPress={async () => {
+                style={{ marginTop: 20, width: 400, marginLeft:10 }} onPress={async () => {
                     let old_data = props.navigation.getParam('data')
                     let data = 
                         {
@@ -98,7 +102,7 @@ const AgencyDetail = (props) => {
                           await dispatch(acc.signupAsAgent(data,props.navigation))
                     props.navigation.navigate('AgencyApprovalMessage')}
                 }
-            >Done</GradientButton>
+            > Finish agent setup </GradientButton>
 
         </View>
     )

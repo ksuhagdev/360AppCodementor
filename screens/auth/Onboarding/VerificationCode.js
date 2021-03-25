@@ -101,11 +101,14 @@ const dispatch = useDispatch();
 
   return (
     <SafeAreaView style={styles.root}>
-      <Text style={styles.title}>Verification</Text>
+       <View style={{justifyContent: 'center', alignItems: 'center', marginTop:10}} >
+          <Text style={{color:'grey', fontSize:16, justifyContent:'center'}}> Complete account setup  </Text>
+        </View>
+      <Text style={styles.title}>Verify your phone number</Text>
       <Image style={styles.icon} source={source} />
       <Text style={styles.subTitle}>
-        Please enter the verification code{'\n'}
-        we send to {navigation.getParam('mobno')}
+        Enter the 4-digit code we sent to {'\n'}
+        {navigation.getParam('mobno')}
       </Text>
 
       <CodeField
@@ -176,6 +179,10 @@ const dispatch = useDispatch();
           >
             Check
           </GradientButton>
+          <TouchableOpacity >
+            <Text style={{ textDecorationLine:'underline', marginTop:10}}>Resend code </Text>
+          </TouchableOpacity>
+
           <TouchableOpacity onPress={()=> navigation.pop()}>
             <Text>Go Back</Text>
           </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Image, View, Text, TouchableOpacity, StyleSheet , Dimensions} from 'react-native';
 const defaultProfileImage = require('../../../../assets/image/default-profile-pic.png');
 import { TextInput } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,6 +11,7 @@ import {
     launchImageLibrary
 } from 'react-native-image-picker';
 
+const {width, height} =Dimensions.get('window')
 
 const PersonalInfo = (props) => {
     const [profileImage, setProfileImage] = useState(defaultProfileImage)
@@ -89,15 +90,17 @@ const PersonalInfo = (props) => {
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff' }}>
             <View style={{ marginTop: 100, alignItems: 'center' }}>
                 <Image style={styles.img} source={profileImage} />
-                <TouchableOpacity onPress={() => chooseFile()}><Text style={{ color: 'blue', fontSize: 20, marginTop: 15 }}>Set Profile Picture</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => chooseFile()}><Text style={{ color: 'grey', fontSize: 20, marginTop: 15 }}>Upload Profile Picture</Text></TouchableOpacity>
 
 
             </View>
-            <View style={{ width: '90%', alignItems: 'center', marginTop: 100 }}>
+            <View style={{ width: '90%',  marginTop: height/9 }}>
+            <Text style={{ fontWeight:'bold'}}> First  Name </Text>
+
                 <TextInput
-                    label="First Name"
+                    placeholder="Type-in"
                     style={{ width: '80%', color: '#FF3257', backgroundColor: '#fff' }}
-                    mode='outlined'
+                   // mode='outlined'
                     autoCapitalize={false}
                     value={firstName}
                     onChangeText={text => {
@@ -105,11 +108,12 @@ const PersonalInfo = (props) => {
                     }}
 
                 />
+                 <Text style={{marginTop:20, fontWeight:'bold'}}> Last  Name </Text>
 
                 <TextInput
-                    label="Last Name"
+                    placeholder="Type-in"
                     style={{ width: '80%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20 }}
-                    mode='outlined'
+                  //  mode='outlined'
                     autoCapitalize={false}
                     value={lastName}
                     onChangeText={text => {
@@ -147,7 +151,7 @@ const PersonalInfo = (props) => {
                 />}
 
                 <GradientButton
-                    style={{ marginTop: 20, width: 300 }} onPress={() => {
+                    style={{ marginTop: 20, width: 400 }} onPress={() => {
                         console.log("USER ", props.navigation.getParam('type'))
                         // if (props.navigation.getParam('type') == 'agentSignUp') {
                         //     props.navigation.navigate('Password', { mobno: props.navigation.getParam('mobno'), username: props.navigation.getParam('username') })
@@ -179,14 +183,14 @@ const PersonalInfo = (props) => {
                         }
                     }
                     }
-                >{props.navigation.getParam('type') == 'agentSignup' ? "Next" : "SignUp"}</GradientButton>
+                >{props.navigation.getParam('type') == 'agentSignup' ? "Next" : "SignUp"} Continue  </GradientButton>
 
-                <GradientButton
+                {/* <GradientButton
                     style={{ marginTop: 100, width: 300 }} onPress={() => {
                         props.navigation.popToTop()
                     }}
 
-                >Exit</GradientButton>
+                >Exit</GradientButton> */}
             </View>
 
 

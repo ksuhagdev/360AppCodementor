@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   Alert,
+  Dimensions
 } from "react-native";
 import PhoneInput from "react-native-phone-number-input";
 import { Colors } from "react-native/Libraries/NewAppScreen";
@@ -21,11 +22,16 @@ export default PhoneVerfication = (props) => {
   const [showMessage, setShowMessage] = useState(false);
   const phoneInput = useRef(null);
   const dispatch = useDispatch();
+  const {width, height} =Dimensions.get('window')
+
   return (
 
     <>
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
+        <View style={{justifyContent: 'center', alignItems: 'center', marginTop:10}} >
+          <Text style={{color:'grey', fontSize:16, justifyContent:'center'}}> Complete account setup  </Text>
+        </View>
         <SafeAreaView style={styles.wrapper}>
           {showMessage && (
             <View style={styles.message}>
@@ -35,9 +41,9 @@ export default PhoneVerfication = (props) => {
             </View>
           )}
 
-<View style={{justifyContent: 'center', alignItems: 'center', marginTop:60}}>
-              <Text style={{fontSize:25, fontWeight: 'bold'}}> Verify your phone number </Text>
-              <Text style={{textAlign: 'center', marginTop: 20}}> To finish setting up your account, we'll need to send you a confirmation code. </Text>
+<View style={{justifyContent: 'center', alignItems: 'center', marginTop:height/3 -200}}>
+              <Text style={{fontSize:25, fontWeight: 'bold', fontFamily:'Montserrat',}}> Verify your phone number </Text>
+              <Text style={{textAlign: 'center', marginTop: 20, fontFamily:'Montserrat',}}> To finish setting up your account, we'll need to send you a confirmation code. </Text>
             </View>
 
 
@@ -54,8 +60,8 @@ export default PhoneVerfication = (props) => {
             onChangeFormattedText={(text) => {
               setFormattedValue(text);
             }}
-            withDarkTheme
-            withShadow
+            //withDarkTheme
+            //withShadow
             autoFocus
           />
           {/* <View style={styles.buttonWrapper}> */}
@@ -84,14 +90,14 @@ export default PhoneVerfication = (props) => {
             }}
           >
             Send confirmation code
-          </GradientButton> : <TouchableOpacity style={{marginTop: 20,width:300,paddingVertical:15, backgroundColor:'gray'}}><Text style={{backgroundColor: 'transparent',
+          </GradientButton> : <TouchableOpacity style={{marginTop: 40,width:300,paddingVertical:15, backgroundColor:'gray'}}><Text style={{backgroundColor: 'transparent',
     fontSize: 14,
     color: '#fff',
     fontFamily: 'font-bold',
     textTransform: 'uppercase',textAlign: 'center'}}>Send confirmation code</Text></TouchableOpacity>}
           
-          <View style={{marginTop: 20}}>
-            <Text>Standard message, call and data rates may apply</Text>
+          <View style={{justifyContent: 'center', alignItems: 'center', marginTop:20}}>
+            <Text  style={{color:'grey', fontSize:16, justifyContent:'center'}}>Standard message, call and data rates may apply</Text>
           </View>
 
           <TouchableOpacity
