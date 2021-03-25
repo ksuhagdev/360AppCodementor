@@ -8,7 +8,7 @@ import {
   Alert,
   TouchableOpacity,
   TouchableWithoutFeedback,
-   Easing,
+  Easing,
   StyleSheet, Animated,
   Dimensions, Button, Modal,
   ActivityIndicator, StatusBar, Platform, FlatList
@@ -19,6 +19,7 @@ import TextTicker from 'react-native-text-ticker'
 import Share from 'react-native-share';
 import { GradientButton } from '../../../components/Button'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Feather from 'react-native-vector-icons/Feather'
 // import Modal from 'react-native-modal'
 import Iconss from 'react-native-vector-icons/Entypo'
 import Video from 'react-native-video';
@@ -124,56 +125,56 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   // };
 
   // console.log("Property data", property)
-  
-const shareUrl = async () => {
-  
-            let video = 'https://d3qk4bte9py5ck.cloudfront.net/44a1550b-0107-42bb-b3f8-385f6f5d5c15/mp4/watermark1_Mp4_Avc_Aac_16x9_1920x1080p_24Hz_6Mbps_qvbr.mp4'
-            let uploadOptions = { fileCache: true, appendExt: 'mp4', timeout: 60000, indicator: true, IOSBackgroundTask: true, }
-            RNFetchBlob.config(uploadOptions).fetch('GET', video, {}).progress((received, total) => {
-                      // this.setState({ uploadingStatus: (received / total) * 100 })
-                      console.log('Progress', (received / total) * 100);
-                  })
-            .then(async (res) => {
-              console.log("Res", res.path())
-              const base64String = await res.base64();
-              const url = `data:video/mp4;base64,${base64String}`;
-              let shareOptions = {
-                title: "Check out my video",
-                message: "Check out my video!",
-                url: 'file://' + res.path(),
-                type: 'video/mp4',
-                subject: "Check out my video!",
-                social: Share.Social.INSTAGRAM,
-              }
-             await Share.shareSingle(shareOptions)
-                .then((res) => console.log('res:', res))
-                .catch((err) => console.log('err', err))
-              });
-            
-            // const res = await RNFetchBlob.config(uploadOptions).fetch('GET', video, {})
-            //     .progress((received, total) => {
-            //         // this.setState({ uploadingStatus: (received / total) * 100 })
-            //         console.log('Progress', (received / total) * 100);
-            //     })
-            // const filePath = res.path(); //to delete video
-            // console.log("File Path", filePath)
-            // const base64String = await res.base64();
-            // const url = `data:video/mp4;base64,${base64String}`;
-            //  //deleted the video from path of Sexy lady.
-            // // this.setState({ isSliderModalVisible: false })
-            // setTimeout(() => {
-            //     const shareOptions = {
-            //         title: 'Sexy Lady',
-            //         url: 'file://' + filePath,
-            //         type: 'video/mp4',
-                    
-            //     };
-            //     await Share.open(shareOptions).then((res) => console.log("Result", res))
-            //         .catch((err) => { console.log('Video sharing failed.', 'failure', err)})
-            //         // await RNFetchBlob.fs.unlink(filePath);
-            // })
-        
-}
+
+  const shareUrl = async () => {
+
+    let video = 'https://d3qk4bte9py5ck.cloudfront.net/44a1550b-0107-42bb-b3f8-385f6f5d5c15/mp4/watermark1_Mp4_Avc_Aac_16x9_1920x1080p_24Hz_6Mbps_qvbr.mp4'
+    let uploadOptions = { fileCache: true, appendExt: 'mp4', timeout: 60000, indicator: true, IOSBackgroundTask: true, }
+    RNFetchBlob.config(uploadOptions).fetch('GET', video, {}).progress((received, total) => {
+      // this.setState({ uploadingStatus: (received / total) * 100 })
+      console.log('Progress', (received / total) * 100);
+    })
+      .then(async (res) => {
+        console.log("Res", res.path())
+        const base64String = await res.base64();
+        const url = `data:video/mp4;base64,${base64String}`;
+        let shareOptions = {
+          title: "Check out my video",
+          message: "Check out my video!",
+          url: 'file://' + res.path(),
+          type: 'video/mp4',
+          subject: "Check out my video!",
+          social: Share.Social.INSTAGRAM,
+        }
+        await Share.shareSingle(shareOptions)
+          .then((res) => console.log('res:', res))
+          .catch((err) => console.log('err', err))
+      });
+
+    // const res = await RNFetchBlob.config(uploadOptions).fetch('GET', video, {})
+    //     .progress((received, total) => {
+    //         // this.setState({ uploadingStatus: (received / total) * 100 })
+    //         console.log('Progress', (received / total) * 100);
+    //     })
+    // const filePath = res.path(); //to delete video
+    // console.log("File Path", filePath)
+    // const base64String = await res.base64();
+    // const url = `data:video/mp4;base64,${base64String}`;
+    //  //deleted the video from path of Sexy lady.
+    // // this.setState({ isSliderModalVisible: false })
+    // setTimeout(() => {
+    //     const shareOptions = {
+    //         title: 'Sexy Lady',
+    //         url: 'file://' + filePath,
+    //         type: 'video/mp4',
+
+    //     };
+    //     await Share.open(shareOptions).then((res) => console.log("Result", res))
+    //         .catch((err) => { console.log('Video sharing failed.', 'failure', err)})
+    //         // await RNFetchBlob.fs.unlink(filePath);
+    // })
+
+  }
   const onPropertyPressed = (id, title) => {
     navigation.navigate('PropertyAddress', { propertyId: id, title });
   };
@@ -456,8 +457,8 @@ const shareUrl = async () => {
                 <View style={{ marginRight: 5 }}>
                   <FontAwesomeIcon style={styles.alignCenter} name="music" size={15} color="#fff" />
                 </View>
-                
-                <TouchableOpacity style={{ width: '65%' }} onPress={() => {navigation.navigate('Music')}}>
+
+                <TouchableOpacity style={{ width: '65%' }}>
                   <TextTicker
                     style={{ fontSize: 13, color: 'white' }}
                     duration={5000}
@@ -509,35 +510,35 @@ const shareUrl = async () => {
                     </View>
                   </TouchableOpacity>
                 </View>
-              <TouchableOpacity onPress={() => { setMusicModalVisible(true) }}>
-                {/* <TouchableOpacity opacity={0}> */}
-                {/* <Animated.View style={{...styles.btns,transform: [{rotate: spin}]}}> */}
-               
-                <Animated.View style={{
-                  borderRadius: 50,
-                  borderWidth: 12,
-                  borderColor: '#292929',
-                  marginTop: 60,
-                  transform: [{
-                    rotate: rotateProp
-                  }]
-                }} onPress={() =>{console.log("IDNSNDSJNDSJD")}}>
-              
+                <TouchableOpacity onPress={() => { setMusicModalVisible(true) }}>
+                  {/* <TouchableOpacity opacity={0}> */}
+                  {/* <Animated.View style={{...styles.btns,transform: [{rotate: spin}]}}> */}
 
-                  <Icons style={styles.alignCenter} name="music-circle" size={38} color="#fff" />
+                  <Animated.View style={{
+                    borderRadius: 50,
+                    borderWidth: 12,
+                    borderColor: '#292929',
+                    marginTop: 60,
+                    transform: [{
+                      rotate: rotateProp
+                    }]
+                  }} onPress={() => { console.log("IDNSNDSJNDSJD") }}>
 
 
-                  {/* <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text> */}
-                </Animated.View>
-                  
-              
-             
-            
-                <Lottie
-                  source={musicFly}
-                  progress={shouldPlay ? spinValue : 0}
-                  style={{ width: 150, position: 'absolute', bottom: 0, right: 0 }}
-                />
+                    <Icons style={styles.alignCenter} name="music-circle" size={38} color="#fff" />
+
+
+                    {/* <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text> */}
+                  </Animated.View>
+
+
+
+
+                  <Lottie
+                    source={musicFly}
+                    progress={shouldPlay ? spinValue : 0}
+                    style={{ width: 150, position: 'absolute', bottom: 0, right: 0 }}
+                  />
                 </TouchableOpacity>
               </View>
 
@@ -566,27 +567,48 @@ const shareUrl = async () => {
           onRequestClose={() => {
             Alert.alert('Modal has now been closed.');
           }}>
+          <TouchableOpacity
+            // style={styles.container} 
+            activeOpacity={1}
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              padding: 20, borderRadius: 50, marginBottom: 40
+            }}
+            onPressOut={() => setMusicModalVisible(!musicModalVisible)}
+          >
 
-          <View style={{
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            padding: 16, borderRadius: 50, marginBottom:40
-          }}>
-            <View style={{
-              width: '100%',
-              height: Dimensions.get('window').height / 5, backgroundColor: '#fff', borderRadius:20, padding: 50
-            }}>
+            {/* <View > */}
 
-              <Text
-                style={styles.closeText}
-                onPress={() => {
-                  setMusicModalVisible(!musicModalVisible)
-                }}>Close Modal</Text>
-            </View>
-          </View>
 
+            <TouchableWithoutFeedback >
+              <View style={{
+                width: '100%',
+                height: Dimensions.get('window').height / 5,
+                backgroundColor: '#fff',
+                borderRadius: 20,
+                padding: 20
+              }}>
+                <View style={{ flexDirection: 'row',paddingBottom: 26, borderBottomWidth:0.5, borderBottomColor:'gray'}}>
+                  <Image source={{ uri: property.main_image_url }} resizeMode="cover" style={{ width: 60, height: 60, borderRadius: 10 }} />
+                  <View style={{ paddingLeft: 20, }}>
+                    <Text style={{ fontSize: 20 }}>Behind These Closed Doors</Text>
+                    <Text style={{ color: 'gray' }}>Otis Mcdonald</Text>
+                    <Text style={{ color: 'gray' }}>02.08</Text>
+                  </View>
+                </View>
+              <TouchableOpacity style={{justifyContent: 'center',alignItems: 'center', flexDirection:'row',}}>
+              <Feather name="video" size={30} style={{padding: 10}}   />
+              <Text>Use this sound</Text>
+              </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+
+            {/* </View> */}
+            {/* </TouchableWithoutFeedback> */}
+          </TouchableOpacity>
         </Modal>
         <Modal
           animationType={"slide"}
@@ -623,7 +645,7 @@ const shareUrl = async () => {
                 }}
                 keyExtractor={(item, index) => index}
               />
-              
+
               {/* </View> */}
 
               <Text

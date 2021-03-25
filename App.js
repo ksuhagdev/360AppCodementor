@@ -8,6 +8,7 @@ import { requestNotifications, checkNotifications } from 'react-native-permissio
 import { createStackNavigator } from 'react-navigation-stack';
 import useFont from './hooks/useFont';
 import AppLoading from './components/helper/AppLoading';
+import CameraSession from './screens/agent/CameraSession'
 import AgentNavigator from './screens/agent';
 import Music from './screens/agent/Music'
 import UserNavigator from './screens/user';
@@ -181,6 +182,7 @@ const MainNavigator = createStackNavigator(
     SignupAgentInfo,
     SignupAgencyInfo,
     SplashScreen,
+    CameraSession
   },
   {
     initialRouteName: 'SplashScreen',

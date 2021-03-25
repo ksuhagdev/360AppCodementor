@@ -283,6 +283,7 @@ const UserProfileNav = createStackNavigator({
   AddFloorPlan,
   Inbox,
   Chat,
+  Music,
   RoomVideo,
   TrimVideo,
   VideoScroll: {
@@ -298,6 +299,18 @@ const UserProfileNav = createStackNavigator({
   TrackList,
   AgentProfile,
 })
+
+UserProfileNav.navigationOptions = ({ navigation }) => {
+  let { routeName } = navigation.state.routes[navigation.state.index];
+  let navigationOptions = {};
+
+  if (routeName === 'CameraSession') {
+    navigationOptions.tabBarVisible = false;
+  }
+
+  return navigationOptions;
+};
+
 
 const agentAuth = createMaterialBottomTabNavigator({
   Home: {

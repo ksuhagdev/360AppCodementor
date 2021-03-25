@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView , Animated, Easing} from 'react-native';
 import { colors } from '../../../theme/constants';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Lottie from 'lottie-react-native';
+import cameraRecord from '../../../assets/lottie-animations/CameraRecord.json'
 export function RecordComplete({ navigation, videoUri, isNextEnabled, saveVideoToServer, openTextModal }) {
   const videoType = navigation.getParam('videoType', null);
   return (
@@ -10,6 +12,7 @@ export function RecordComplete({ navigation, videoUri, isNextEnabled, saveVideoT
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image style={{ width: 16, height: 16 }} source={require('../../../assets/image/close.png')} />
         </TouchableOpacity>
+        {/* <Text style={{color:'w'}}> Add Music </Text> */}
       </View>
 
       <View style={[styles.row, { marginTop: 'auto' }]}>
@@ -41,17 +44,39 @@ export function RecordComplete({ navigation, videoUri, isNextEnabled, saveVideoT
   );
 }
 
-export function Recording({ handlePress, navigation, videoLength, setVideoLength, isRecording, toggleCameraDirection, toggleFlash }) {
+export function Recording({ handlePress, navigation, videoLength, setVideoLength, isRecording, toggleCameraDirection, toggleFlash, stopVideo }) {
+  const spinValue = new Animated.Value(0);
+
+  Animated.loop(
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 5000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }),
+  ).start();
+
+  const rotateProp = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
   return (
     <SafeAreaView style={styles.loadingContainer}>
-      <View style={styles.row}>
+      {!isRecording && <View style={styles.row}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image style={{ width: 16, height: 16 }} source={require('../../../assets/image/close.png')} />
         </TouchableOpacity>
+        
+        
         {/* <TouchableOpacity>
           <Image style={{ width: 30, height: 30 }} source={require('../../../assets/image/done.png')} />
         </TouchableOpacity> */}
-      </View>
+      </View>}
+      {!isRecording && <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row',}} onPress={() => navigation.navigate('Music')}>
+        <Ionicons name='musical-notes-outline' size={17} color='white'/>
+        <Text style={{color: '#fff',}}>Add Music</Text>
+        </TouchableOpacity>}
 
       <View style={[styles.recordRow, { display: 'flex', height: '100%', alignItems: 'flex-end' }]}>
         <TouchableOpacity onPress={toggleCameraDirection} style={{ alignItems: 'center' }}>
@@ -63,7 +88,7 @@ export function Recording({ handlePress, navigation, videoLength, setVideoLength
           <Text style={styles.text}>Speed</Text>
         </TouchableOpacity> */}
         {!isRecording && (
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: 'center' , marginBottom: 30}}>
             <View>
             <View
                 style={{
@@ -96,13 +121,29 @@ export function Recording({ handlePress, navigation, videoLength, setVideoLength
             </View>
           </View>
         )}
-        {/* <TouchableOpacity style={{ alignItems: "center" }}>
-          <Image
-            style={styles.actionImage}
-            source={require("../../../assets/image/camera/filter.png")}
-          />
-          <Text style={styles.text}>Filter</Text>
-        </TouchableOpacity> */}
+
+{isRecording && (
+          <View style={{ alignItems: 'center' , marginBottom: 30}}>
+            <View>
+            <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+              </View>
+              <TouchableOpacity onPress={stopVideo}>
+              <Lottie
+                    source={cameraRecord}
+                    progress={spinValue}
+                    style={{ width: 100,}}
+                  />
+              </TouchableOpacity>
+              
+            </View>
+          </View>
+        )}
+
+       
         <TouchableOpacity onPress={toggleFlash} style={{ alignItems: 'center' }}>
           <Image style={{ width: 23, height: 30 }} source={require('../../../assets/image/camera/flash.png')} />
           <Text style={styles.text}>Flash</Text>
@@ -147,6 +188,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     height: '100%',
+    width: '100%',
     // backgroundColor: 'red',
   },
   recordRow: {

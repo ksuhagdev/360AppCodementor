@@ -85,7 +85,7 @@ const {getMusciCount,MusicCount} = useSelector(store => store.property)
                     width: 20,
                     backgroundColor: '#ff1493',
                     borderRadius:5, marginLeft:10, marginRight:10
-                  }}></TouchableOpacity>
+                  }} onPress={() => props.navigation.navigate('Genre')}></TouchableOpacity>
                 <Text style={{fontWeight:'bold'}}>{item.genre}</Text>
                 {/* <Text style={{ color: '#424949'}}>{item.co}</Text> */}
               </View>

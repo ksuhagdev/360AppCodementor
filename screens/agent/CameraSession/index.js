@@ -6,7 +6,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { Recording } from './sessions';
 import { NoCameraPermission } from '../../../components/helper/NoPermission';
 import { requestCamera } from '../../../helper/functions/permission';
-
+import * as Progress from 'react-native-progress'
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
@@ -139,14 +139,18 @@ export default class CameraSession extends Component {
           videoStabilizationMode={'cinematic'}
           defaultVideoQuality={RNCamera.Constants.VideoQuality['720p']}
           style={styles.preview}
-          or
           type={isFrontCamera ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back}
           flashMode={isFlashEnabled ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         />
         {isRecording && (
-          <View style={styles.timerSection}>
-            <Text style={styles.countdown}>{countdown}s</Text>
+          <>
+          <View style={{marginTop: Platform.OS === 'ios' ? 50: 0}}>
+          <Progress.Bar progress={countdown/videoLength} width={null}/>
           </View>
+          {/* <View>
+            <Text style={styles.countdown}>{countdown}s</Text>
+          </View> */}
+          </>
         )}
 
         <View style={styles.cameraContents}>
@@ -157,6 +161,7 @@ export default class CameraSession extends Component {
             videoLength={videoLength}
             setVideoLength={this.setVideoLength}
             handlePress={this.startVideoCapture}
+            stopVideo={this.stopVideo}
             navigation={navigation}
           />
         </View>
@@ -175,28 +180,48 @@ export default class CameraSession extends Component {
       isFrontCamera: !this.state.isFrontCamera,
     });
   };
+  stopVideo = async () => {
+    const { navigate } = this.props.navigation;
 
+    console.log("Stop Video")
+    this.camera.stopRecording()
+    this.setState({isRecording: false})
+    clearInterval(timerRef);
+    if (this.camera) {
+      
+      const { navigation } = this.props;
+      const videoType = navigation.getParam('videoType', null);
+      const data = await this.camera.recordAsync({ mute: false , orientation:'portrait',videoBitrate: 15*1000*1000 , forceUpOrientation: true, fixOrientation: true});
+      console.log("Navigation", data.uri)
+      navigate('EditVideo', {
+        videoUri: data.uri,
+        videoType,
+        Trim:false,
+      });
+    }
+  };
   startVideoCapture = async () => {
     const { videoLength } = this.state;
     const { navigate } = this.props.navigation;
 
     this.setState(
       {
-        countdown: videoLength,
+        countdown: 0,
         isRecording: true,
       },
       () => {
         timerRef = setInterval(() => {
           const { countdown } = this.state;
           let isRecording = true;
-          if (countdown === 1) {
+          if (countdown === videoLength) {
             isRecording = false;
             this.camera.stopRecording();
             clearInterval(timerRef);
           }
+          // console.log("Countdown", videoLength/countdown)
           this.setState({
             isRecording,
-            countdown: countdown - 1,
+            countdown: countdown + 1,
           });
         }, 1000);
       },
