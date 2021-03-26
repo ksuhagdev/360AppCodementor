@@ -8,6 +8,7 @@ target 'threeSixtyApp' do
   use_unimodules!
   pod 'react-native-ffmpeg/full-gpl', :podspec => '../node_modules/react-native-ffmpeg/react-native-ffmpeg.podspec'
   pod 'RNShare', :path => '../node_modules/react-native-share/RNShare.podspec'
+  pod 'RNPDF', :path => '../node_modules/react-native-view-pdf'
   use_native_modules!
   # use_unimodules!
   pod 'ReactNativeART', :path => '../node_modules/@react-native-community/art'

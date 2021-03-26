@@ -25,6 +25,7 @@ import EditPersonalInfo from '../user/Profile/EditInfo';
 import EditAgentProfile from './AgentProfile/EditAgentProfile';
 import AddFloorPlan from './Property/FloorPlan/AddFloorPlan';
 import Search from '../user/Search';
+import TermsCondition from './UserProfile/TermsCondition'
 import SuburbSelection from '../user/Search/SuburbSelection';
 import Inbox from '../user/Inbox';
 import Chat from '../user/Inbox/Chat';
@@ -272,6 +273,7 @@ const UserProfileNav = createStackNavigator({
   EditInspectionTime,
   InviteOthers,
   Verification,
+  TermsCondition,
   PrivateEmail,
   LikedProperties,
   FollowContainer,

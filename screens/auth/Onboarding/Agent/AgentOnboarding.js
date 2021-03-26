@@ -5,7 +5,7 @@ const AgentOnboarding = (props) => {
     return(
         <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
             <ImageBackground source={require('../../../../assets/image/onboarding/back1.png')} style={{width:'100%', height:'100%'}} >
-            <View style={{justifyContent: 'center',alignItems: 'center', marginTop: height/2}}>
+            <View style={{justifyContent: 'center',alignItems: 'center', marginTop: height/3}}>
                 <Text style={{color:'white', fontSize:50}}> Agent Sign Up </Text>
             </View>
             <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 20}}>

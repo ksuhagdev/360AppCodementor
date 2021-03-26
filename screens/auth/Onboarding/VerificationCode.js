@@ -22,7 +22,7 @@ import axios from 'axios';
 import * as account from '../../../actions/account-actions'
 const {Value, Text: AnimatedText} = Animated;
 
-const CELL_COUNT = 4;
+const CELL_COUNT = 6;
 const source = {
   uri:
     'https://user-images.githubusercontent.com/4661784/56352614-4631a680-61d8-11e9-880d-86ecb053413d.png',

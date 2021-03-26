@@ -269,8 +269,8 @@ export default function UserProfile({ navigation }) {
                 )}
                 <ListSection style={styles.listGroup} title="General">
                   {role !== 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Push notifications" onPress={() => console.log('this works')} />}
-                  <ListItem hasBorderBottom={true} text="Privacy" onPress={() => console.log('this works')} />
-                  <ListItem hasBorderBottom={true} text="Terms of Service" />
+                  <ListItem hasBorderBottom={true} text="Privacy" onPress={() => navigation.navigate('TermsCondition',{type:'privacy'})} />
+                  <ListItem hasBorderBottom={true} text="Terms of Service" onPress={() => navigation.navigate('TermsCondition',{type:'tc'})}/>
                   {role !== 'UNAUTHED' && <ListItem hasBorderBottom={true} text="Logout" onPress={() => onLogoutPressed()} />}
                 </ListSection>
 

@@ -233,6 +233,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-action-sheet')
 compile project(':react-native-vector-icons')
+compile project(':react-native-view-pdf')
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 implementation 'androidx.multidex:multidex:2.0.1'
 addUnimodulesDependencies()

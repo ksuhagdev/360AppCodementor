@@ -456,31 +456,57 @@ export const signupAsAgent = (data, navigation) => async dispatch => {
         body: data,
       },
     });
-
     dispatch({
       type: AUTH_SUCCESS,
-      payload: { user: res.data.user },
+      payload: {
+        user: data.user,
+        agency: data.agency,
+        agent: data.agent,
+        accessToken: data.auth_token,
+      },
     });
+    
+    await setToken(data.auth_token);
+    await setData('user', data.user);
+
+    if (data.agent) {
+      await setData('agent', data.agent);
+      await setData('agency', data.agency);
+    }
+
+    handleSnackbar({
+      message: 'Logged in',
+      type: 'success',
+    });
+
+    try {
+      const fcmToken = await AsyncStorage.getItem('fcmToken');
+      console.log({
+        fireBaseToken: fcmToken,
+        userIdOrEmail: payload.email,
+      });
+      const status = await request({
+        url: '/push-notify/capture',
+        config: {
+          method: 'POST',
+          body: {
+            fireBaseToken: fcmToken,
+            userIdOrEmail: payload.email,
+          },
+        },
+      });
+      // console.log('Status of FCM token save: ', status);
+    } catch (error) {
+      console.log('FCM token save failed  with error: ', error.message, error);
+    }
 
     const loginUser = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Login' })],
+      actions: [NavigationActions.navigate({ routeName: data.user.role })],
     });
 
-    NavigationService.getNavigator().dispatch(loginUser);
-
-    Alert.alert(
-      '',
-      "Thank you for signing up to 360! A member of our team will get in touch with you soon to approve your account as an agent.",
-      [{ text: 'OK' }],
-    );
-
-    handleSnackbar({
-      message: 'Thank you for signing up to 360!',
-      type: 'success',
-      indefinite: true,
-    });
-  } catch (error) {
+    navigation.dispatch(loginUser);
+    } catch (error) {
     console.log("Error in Creating user", error.response.data.message);
     handleSnackbar({
       message: "Agent with the email address is already registered",
