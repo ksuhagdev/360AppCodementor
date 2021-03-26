@@ -110,7 +110,7 @@ const styles= StyleSheet.create({
          marginLeft:5
     },
     signUp:{
-        fontFamily:'Montserrat',
+        fontFamily:'font-light',
         fontSize:16, 
         color:'#000'
     }, logInContainer:{

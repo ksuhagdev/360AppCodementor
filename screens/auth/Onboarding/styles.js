@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
   },
   subTitle: {
-    paddingTop: 30,
+    // paddingTop: 30,
     color: '#000',
     textAlign: 'center',
   },

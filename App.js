@@ -134,26 +134,30 @@ const MainNavigator = createStackNavigator(
     // Login,
     PhoneVerification: {
       screen: PhoneVerification, navigationOptions: {
-        headerShown: false
+        // headerShown: false
+        title:'Complete account setup'
       },
     },
     VerificationCode: {
       screen: VerificationCode, navigationOptions: {
-        headerShown: false
+        // headerShown: false
+        title:'Complete account setup'
       },
     },AgencyDetail: {
       screen: AgencyDetail, navigationOptions: {
-        headerShown: false
+        title:'Complete account setup'
       },
     },
     AgencyApprovalMessage: {
       screen: AgencyApprovalMessage, navigationOptions: {
+        // title:'Complete account setup',
         headerShown: false
       },
     },
     Username: {
       screen: Username, navigationOptions: {
-        headerShown: false
+        // headerShown: false
+        title:'Complete account setup'
       },
     },
     AgentOnboarding: {
@@ -163,12 +167,14 @@ const MainNavigator = createStackNavigator(
     },
     PersonalInfo: {
       screen: PersonalInfo, navigationOptions: {
-        headerShown: false
+        // headerShown: false
+        title:'Complete account setup'
       },
     },
     Password: {
       screen: Password, navigationOptions: {
-        headerShown: false
+        // headerShown: false
+        title:'Complete account setup'
       },
     },
     UNAUTHED: {

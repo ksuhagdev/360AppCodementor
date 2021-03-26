@@ -29,9 +29,7 @@ export default PhoneVerfication = (props) => {
     <>
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
-        <View style={{justifyContent: 'center', alignItems: 'center', marginTop:10}} >
-          <Text style={{color:'grey', fontSize:16, justifyContent:'center'}}> Complete account setup  </Text>
-        </View>
+
         <SafeAreaView style={styles.wrapper}>
           {showMessage && (
             <View style={styles.message}>
@@ -42,8 +40,8 @@ export default PhoneVerfication = (props) => {
           )}
 
 <View style={{justifyContent: 'center', alignItems: 'center', marginTop:height/3 -200}}>
-              <Text style={{fontSize:25, fontWeight: 'bold', fontFamily:'Montserrat',}}> Verify your phone number </Text>
-              <Text style={{textAlign: 'center', marginTop: 20, fontFamily:'Montserrat',}}> To finish setting up your account, we'll need to send you a confirmation code. </Text>
+              <Text style={{fontSize:25, fontWeight: 'bold', fontFamily:'font-light',}}> Verify your phone number </Text>
+              <Text style={{textAlign: 'center', marginTop: 20, fontFamily:'font-light',}}> To finish setting up your account, we'll need to send you a confirmation code. </Text>
             </View>
 
 

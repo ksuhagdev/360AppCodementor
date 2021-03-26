@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image, View, Text, TouchableOpacity, StyleSheet , Dimensions} from 'react-native';
-const defaultProfileImage = require('../../../../assets/image/default-profile-pic.png');
+const defaultProfileImage = require('../../../../assets/image/cameradefault.jpg');
 import { TextInput } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux'
 import * as acc from '../../../../actions/account-actions'
@@ -10,6 +10,7 @@ import {
     launchCamera,
     launchImageLibrary
 } from 'react-native-image-picker';
+import Feather from 'react-native-vector-icons/Feather'
 
 const {width, height} =Dimensions.get('window')
 
@@ -94,13 +95,14 @@ const PersonalInfo = (props) => {
 
 
             </View>
-            <View style={{ width: '90%',  marginTop: height/9 }}>
-            <Text style={{ fontWeight:'bold'}}> First  Name </Text>
+            <View style={{ width: '90%',  marginTop: height/9 , justifyContent: 'center', alignItems: 'center'}}>
+            {/* <Text style={{ fontWeight:'bold'}}> First  Name </Text> */}
 
                 <TextInput
-                    placeholder="Type-in"
+                    // placeholder="Type-in"
+                    label="First Name"
                     style={{ width: '80%', color: '#FF3257', backgroundColor: '#fff' }}
-                   // mode='outlined'
+                   mode='outlined'
                     autoCapitalize={false}
                     value={firstName}
                     onChangeText={text => {
@@ -108,12 +110,14 @@ const PersonalInfo = (props) => {
                     }}
 
                 />
-                 <Text style={{marginTop:20, fontWeight:'bold'}}> Last  Name </Text>
+                 {/* <Text style={{marginTop:20, fontWeight:'bold'}}> Last  Name </Text> */}
 
                 <TextInput
-                    placeholder="Type-in"
+                    // placeholder="Type-in"
+                    label="Last Name"
+
                     style={{ width: '80%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20 }}
-                  //  mode='outlined'
+                   mode='outlined'
                     autoCapitalize={false}
                     value={lastName}
                     onChangeText={text => {
@@ -151,7 +155,7 @@ const PersonalInfo = (props) => {
                 />}
 
                 <GradientButton
-                    style={{ marginTop: 20, width: 400 }} onPress={() => {
+                    style={{ marginTop: 20, width: '100%' }} onPress={() => {
                         console.log("USER ", props.navigation.getParam('type'))
                         // if (props.navigation.getParam('type') == 'agentSignUp') {
                         //     props.navigation.navigate('Password', { mobno: props.navigation.getParam('mobno'), username: props.navigation.getParam('username') })
@@ -183,7 +187,7 @@ const PersonalInfo = (props) => {
                         }
                     }
                     }
-                >{props.navigation.getParam('type') == 'agentSignup' ? "Next" : "SignUp"} Continue  </GradientButton>
+                >{props.navigation.getParam('type') == 'agentSignup' ? "Continue" : "SignUp"}   </GradientButton>
 
                 {/* <GradientButton
                     style={{ marginTop: 100, width: 300 }} onPress={() => {

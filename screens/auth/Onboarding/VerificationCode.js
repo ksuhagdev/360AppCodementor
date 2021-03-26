@@ -22,7 +22,7 @@ import axios from 'axios';
 import * as account from '../../../actions/account-actions'
 const {Value, Text: AnimatedText} = Animated;
 
-const CELL_COUNT = 6;
+const CELL_COUNT = 4;
 const source = {
   uri:
     'https://user-images.githubusercontent.com/4661784/56352614-4631a680-61d8-11e9-880d-86ecb053413d.png',
@@ -101,11 +101,9 @@ const dispatch = useDispatch();
 
   return (
     <SafeAreaView style={styles.root}>
-       <View style={{justifyContent: 'center', alignItems: 'center', marginTop:10}} >
-          <Text style={{color:'grey', fontSize:16, justifyContent:'center'}}> Complete account setup  </Text>
-        </View>
+     
       <Text style={styles.title}>Verify your phone number</Text>
-      <Image style={styles.icon} source={source} />
+      {/* <Image style={styles.icon} source={source} /> */}
       <Text style={styles.subTitle}>
         Enter the 4-digit code we sent to {'\n'}
         {navigation.getParam('mobno')}
@@ -181,10 +179,6 @@ const dispatch = useDispatch();
           </GradientButton>
           <TouchableOpacity >
             <Text style={{ textDecorationLine:'underline', marginTop:10}}>Resend code </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={()=> navigation.pop()}>
-            <Text>Go Back</Text>
           </TouchableOpacity>
       </View>
       

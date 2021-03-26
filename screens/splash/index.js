@@ -51,7 +51,7 @@ export default function SplashScreen({ navigation }) {
 
         const loadUnauthed = StackActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'Login' })],
+          actions: [NavigationActions.navigate({ routeName: 'AgencyDetail' })],
         });
 
         setTimeout(() => {

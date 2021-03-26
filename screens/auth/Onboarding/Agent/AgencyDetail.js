@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { TextInput } from 'react-native-paper';
-import { View, Text } from 'react-native';
+import { View, Text, KeyboardAvoidingView , Platform,Dimensions} from 'react-native';
 import GradientButton from '../../../../components/Button';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icons from 'react-native-vector-icons/AntDesign'
@@ -13,15 +13,13 @@ const AgencyDetail = (props) => {
     const dispatch = useDispatch();
     
     return (
-        <View style={{  backgroundColor: '#fff',  }}>
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop:10}} >
-          <Text style={{color:'grey', fontSize:16, justifyContent:'center'}}> Complete account setup  </Text>
-        </View>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 100, marginLeft:5 }}>Your Agency Name</Text>
+        <KeyboardAvoidingView  behavior={Platform.OS === 'ios'?'padding':'height'} style={{ flex:1, backgroundColor: '#fff',alignItems: 'center',}}>
+            {/* <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 100, marginLeft:5 }}>Your Agency Name</Text> */}
             <TextInput
-                placeholder="Type-in Agency Name"
-                style={{ width: '90%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20 }}
-               // mode='outlined'
+                // placeholder="Type-in Agency Name"
+                label="Your Agency Name"
+                style={{ width: '90%', color: '#FF3257', backgroundColor: '#fff',  marginTop:Dimensions.get('screen').height/6 }}
+               mode='outlined'
                 autoCapitalize={false}
                 value={agencyName}
                 onChangeText={text => {
@@ -33,17 +31,19 @@ const AgencyDetail = (props) => {
             />
 
             <Text style={{ textAlign: 'center', width: '80%', marginTop:10 }}> Your 'agency-name' will displayed with properties (This can be changed later). </Text>
-            <Text style={{ fontSize: 18, fontWeight: 'bold',marginTop: 20, }}>Enter Work (Agency) email</Text>
+            {/* <Text style={{ fontSize: 18, fontWeight: 'bold',marginTop: 20, }}>Enter Work (Agency) email</Text> */}
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center',  flexDirection: 'row'}}>
                 
                 <TextInput
-                    placeholder="Type-in your Work Email"
-                    style={{ width: '100%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20, borderColor: '#fff' }}
-                    //mode='outlined'
+                    // placeholder="Type-in your Work Email"
+                    label="Your Work Email"
+                    style={{ width: '90%', color: '#FF3257', backgroundColor: '#fff', marginTop: 20, borderColor: '#fff' }}
+                    mode='outlined'
                     autoCapitalize={false}
                     value={agencyEmail}
                     onChangeText={text => {
                         // SetPassword(text)
+                        console.log("Text", text)
                         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                         if (reg.test(text) === false) {
                             console.log("Email is Not Correct");
@@ -104,7 +104,7 @@ const AgencyDetail = (props) => {
                 }
             > Finish agent setup </GradientButton>
 
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 
