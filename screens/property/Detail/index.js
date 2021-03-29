@@ -8,11 +8,12 @@ import {
   Alert,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Easing,
+  Easing,ImageBackground,
   StyleSheet, Animated,
   Dimensions, Button, Modal,
-  ActivityIndicator, StatusBar, Platform, FlatList
+  ActivityIndicator, StatusBar, Platform, FlatList,
 } from 'react-native';
+import SearchBar from '../../../components/ContactAcess/ContactSearch';
 import * as Progress from 'react-native-progress';
 import MarqueeText from 'react-native-marquee';
 import TextTicker from 'react-native-text-ticker'
@@ -22,6 +23,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
 // import Modal from 'react-native-modal'
 import Iconss from 'react-native-vector-icons/Entypo'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import Video from 'react-native-video';
 import { Viewport } from '@skele/components';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -33,6 +35,7 @@ import { shareProperty } from '../../../actions/property';
 import { handleSnackbar } from '../../../helper/functions/snackbar';
 import NumberShortner from '../../../utils/NumberShortner'; import Lottie from 'lottie-react-native';
 import musicFly from '../../../assets/lottie-animations/music-fly.json';
+import musicAnim from '../../../assets/lottie-animations/musicAnimation3.json'
 import { Root, Popup } from 'popup-ui'
 // import MediaControls, {PLAYER_STATES} from 'react-native-media-controls'
 // import convertToProxyURL from 'react-native-video-cache'
@@ -356,7 +359,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
           <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 5 }}>
             {/* Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num) */}
             <Text style={[styles.text, styles.textShadow, {}]}> A${999 < Math.abs(property.prices[0].min_price) < 999999 ? ((Math.abs(property.prices[0].min_price) / 1000).toFixed(0)) + 'K' : 999999 < Math.abs(property.prices[0].min_price) ? ((Math.abs(property.prices[0].min_price) / 1000000).toFixed(0)) + 'M' : Math.abs(property.prices[0].min_price)} - A${999 < Math.abs(property.prices[0].max_price) > 999999 ? ((Math.abs(property.prices[0].max_price) / 1000).toFixed(1)) + 'k' : Math.abs(property.prices[0].max_price) > 999999 ? ((Math.abs(property.prices[0].max_price) / 1000000).toFixed(0)) + 'M' : Math.abs(property.prices[0].max_price)}</Text>
-            <Text style={[styles.text, styles.textShadow]}>{property.agency} {property.agencies[0].name} - {property.agencies[0].address}</Text>
+            <Text style={[styles.text, styles.textShadow]}>{property.agency} {property.agencies[0].name}</Text>
 
           </View>
 
@@ -415,17 +418,6 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                       </TouchableOpacity>
 
                       <Text style={styles.text}>{agent.name}</Text>
-                    </View>
-                    <View style={styles.bubble} key={agent.agent_id}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate('AgentProfile', { agentId: agent.agent_id });
-                        }}>
-                        <Image style={styles.agentImg} source={require('../../../assets/image/profileimage.png')} defaultSource={defaultAgentPic} />
-
-                      </TouchableOpacity>
-
-                      <Text style={styles.text}>LS</Text>
                     </View>
                   </>
                 ))}
@@ -527,7 +519,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                   }} onPress={() => { console.log("IDNSNDSJNDSJD") }}>
 
 
-                    <Icons style={styles.alignCenter} name="music-circle" size={38} color="#fff" />
+                    <Icons style={styles.alignCenter} name="music-circle" size={38} color="#fff"/>
 
 
                     {/* <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text> */}
@@ -593,8 +585,27 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                 borderRadius: 20,
                 padding: 20
               }}>
-                <View style={{ flexDirection: 'row',paddingBottom: 26, borderBottomWidth:0.5, borderBottomColor:'gray'}}>
-                  <Image source={{ uri: property.main_image_url }} resizeMode="cover" style={{ width: 60, height: 60, borderRadius: 10 }} />
+                <View style={{ flexDirection: 'row',paddingBottom: 26, borderBottomWidth:0.5, borderBottomColor:'gray', alignItems:'center', justifyContent: 'center'}}>
+                  <ImageBackground source={{ uri: property.main_image_url }} resizeMode="cover" style={{ width: 60, height: 60, borderRadius: 10,justifyContent: 'center' }} >
+              <View style={{ backgroundColor: '#000', opacity:0.5}}/>
+              <Lottie
+                    source={musicAnim}
+                    progress={spinValue}
+                    resizeMode='cover'
+                    style={{ margin: 5,
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: 25,
+                      height: 25,
+                      color: "tomato"}}
+
+                  />
+
+{/* <EvilIcons name='play' size={56}/> */}
+
+               
+                  </ImageBackground>
                   <View style={{ paddingLeft: 20, }}>
                     <Text style={{ fontSize: 20 }}>Behind These Closed Doors</Text>
                     <Text style={{ color: 'gray' }}>Otis Mcdonald</Text>

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, StatusBar, Image, Text, Modal, ScrollView, PermissionsAndroid,Alert, FlatList, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, StatusBar, Image, Text, Modal, ScrollView,Dimensions, PermissionsAndroid,Alert, FlatList, ImageBackground, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ActionSheet from 'react-native-action-sheet';
 import styles from './styles';
@@ -13,7 +13,11 @@ import Hashtags from './Hashtags';
 import {launchImageLibrary, launchCamera } from 'react-native-image-picker'
 import { getPayload } from '../../../../utils/TokenService';
 import {VESDK, Configuration, TintMode, Tool} from 'react-native-videoeditorsdk';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
+// import {Checkmark} from 'react-checkmark'
+import SearchBar from '../../../../components/ContactAcess/ContactSearch'
+import GradientButton from '../../../../components/Button';
+import request from '../../../../helper/functions/request';
 const addIcon = require('../../../../assets/image/add.png');
 const editIcon = require('../../../../assets/image/edit.png');
 const defaultHeroImage = require('../../../../assets/image/property-placeholder2.jpg');
@@ -25,8 +29,13 @@ export default function PropertyAddress({ navigation }) {
   const [scrollRef, setScrollRef] = React.useState(null);
   const [preview, setPreview] = React.useState(false);
   const [isInspectionsOpen, setIsInspectionsOpen] = React.useState(false);
+  const [addAdgentModal, setAddAdgentModal] = React.useState(false)
   const [isHashtagsOpen, setIsHashtagsOpen] = React.useState(false);
+  const [selectedUsers, setSelectedUsers] = React.useState([]);
+  const [selectedUsersID, setSelectedUsersID] = useState([])
+  const [agents, setAgents] = useState([]);
   const dispatch = useDispatch();
+  // const data = [1,2,3,4,5,6,7,78,89,5,3,3,2,2,4,5,6,7]
   let tool: Configuration = {
     tools: [Tool.TRIM, Tool.TRANSFORM]
   }
@@ -38,7 +47,7 @@ export default function PropertyAddress({ navigation }) {
   // if(currentProperty){
   //   console.log("Current Property", currentProperty.property.videos)
   // }
-  
+  // console.log("Current Property", currentProperty)
   const propertyId = navigation.getParam('propertyId', null);
   const heroImage =
     currentProperty && currentProperty.property && currentProperty.property.main_image_url
@@ -73,6 +82,7 @@ export default function PropertyAddress({ navigation }) {
             //   propertyId: currentProperty.property.id,
             //   agencyId: currentProperty.property.agency.id,
             // });
+            setAddAdgentModal(!addAdgentModal)
             break;
           // case 1:
           //   togglePropertyStatus();
@@ -231,6 +241,30 @@ export default function PropertyAddress({ navigation }) {
       }
     }
   }
+
+  const DoneSearch = async() => {
+    if(selectedUsersID.length > 0){
+      console.log("Add", selectedUsersID)
+      try{ await request({
+        url: `/properties/${currentProperty.property.id}/agents`,
+        config: {
+          method: 'POST',
+          body: { userIds: selectedUsersID },
+        },
+      });
+
+    setSelectedUsers([])
+    setSelectedUsersID([])
+    
+    setAgents([])
+    Alert.alert("New Agents Added")
+    setAddAdgentModal(!addAdgentModal)
+    }catch(error){
+        Alert.alert("Please try after some time")
+      }
+    }
+  }
+
   const getVideoTile = (type) => {
     return currentProperty.property.videos.find(video => {
       return video.video_type === type;
@@ -371,44 +405,11 @@ export default function PropertyAddress({ navigation }) {
                   });
                 })
               }
-              // setlibraryVideoPath(response);
+              
             });
             break;
           case 1:
-            // let options2 = {
-            //   mediaType: 'video',
-            //   maxWidth: 300,
-            //   maxHeight: 550,
-            //   quality: 1,
-            //   videoQuality: 'high',
-            //   durationLimit: 60, //Video max duration in seconds
-            //   saveToPhotos: true,
-            // };
-            // launchCamera(options2, (response) => {
-            //   console.log('Response = ', response);
-      
-            //   if (response.didCancel) {
-            //     alert('User cancelled camera picker');
-            //     return;
-            //   } else if (response.errorCode == 'camera_unavailable') {
-            //     alert('Camera not available on device');
-            //     return;
-            //   } else if (response.errorCode == 'permission') {
-            //     alert('Permission not satisfied');
-            //     return;
-            //   } else if (response.errorCode == 'others') {
-            //     alert(response.errorMessage);
-            //     return;
-            //   }
-            //   console.log('base64 -> ', response.base64);
-            //   console.log('uri -> ', response.uri);
-            //   console.log('width -> ', response.width);
-            //   console.log('height -> ', response.height);
-            //   console.log('fileSize -> ', response.fileSize);
-            //   console.log('type -> ', response.type);
-            //   console.log('fileName -> ', response.fileName);
-            //   setFilePath(response);
-            // });
+            
             if (hasAccess) {
               navigation.navigate('CameraSession', {
                 videoType: type,
@@ -445,6 +446,22 @@ export default function PropertyAddress({ navigation }) {
         <ActivityIndicator size="large" color="#d81b60" />
       </View>
     );
+  }
+
+  const onSearch =async (text) => {
+    if(text.length>0){
+      const {data} = await request({
+      url: `/agents/autoCompleteAndGetAgents?username=${text}%`,
+      config: {
+        method: 'GET',
+      },
+    });
+  
+    setAgents(data)
+  }else{
+    setAgents([])
+  }
+    
   }
 
   checkAccess();
@@ -594,7 +611,148 @@ export default function PropertyAddress({ navigation }) {
           </View>
         </ScrollView>
       </View>
+      <Modal
+          animationType={"slide"}
+          transparent={true}
+          presentationStyle="overFullScreen"
+          visible={addAdgentModal}
+          onRequestClose={() => {
+            Alert.alert('Modal has now been closed.');
+          }}>
+          <TouchableOpacity
+            // style={styles.container} 
+            activeOpacity={1}
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              // opacity: 0.8,
+              // backgroundColor:'gray',
+              padding: 20, 
+              borderRadius: 50,
+               marginBottom: 40
+            }}
+            onPressOut={() => setAddAdgentModal(!addAdgentModal)}
+          >
 
+            {/* <View > */}
+
+
+            <TouchableWithoutFeedback>
+
+              <View style={{
+                width: '100%',
+                height: Dimensions.get('window').height / 1.4,
+                backgroundColor: '#fff',
+                borderRadius: 20,
+                padding: 20
+              }}>
+                
+                <SearchBar onChangeText={(text) => {onSearch(text)}}/>
+                {selectedUsers.length > 0 && <View style={{height:'20%'}}>
+                <FlatList
+            data={selectedUsers}
+            styles={{width:'100%', height:'20%', alignItems: 'center'}}
+           horizontal={true}
+
+            renderItem={({item}) => {
+              console.log("Item in flatlist", item)
+              return <View style={{ paddingVertical:10,alignItems: 'center',paddingHorizontal:20}}>
+                <TouchableOpacity style={{alignItems: 'center'}} onPress={() => {
+                  console.log("Before Data", selectedUsersID)
+
+                  const dataRemoved = selectedUsers.filter((el) => {
+                    return el.id !== item.id;
+                  });
+                  setSelectedUsers(dataRemoved)
+
+                  const dataRemoved2 = selectedUsersID.filter((el) => {
+                    return el !== item.id;
+                  });
+                  setSelectedUsersID(dataRemoved2)
+                  console.log("After Data", selectedUsersID)
+                  // setSelectedUsersID.push(item.id)
+                  // // setselectedUsers(item)
+                  // setSelectedUsers(item)
+                }}>
+                    <Image style={{width: 70, height: 70, borderRadius: 50}} source={{ uri: item.profile_photo_url}}></Image>
+                    {/* <Checkmark/> */}
+                     <View style={{position: 'absolute', top:2, right: 0 }}>
+                    <Ionicons name="checkmark-circle" size={20} color= 'green'/>
+
+                    </View> 
+                    <Text style={{ textAlign: 'center'}}>{item.username}</Text>
+                  </TouchableOpacity>
+                
+                {/* <Text style={{ color: '#424949'}}>{item.co}</Text> */}
+              </View>
+            }}
+          />
+                </View>}
+             
+                
+                <Text style={{textAlign:'center', color:'gray'}}>Searched Result</Text>
+                
+               
+                <FlatList
+            data={agents}
+            styles={{width:'100%', alignItems: 'center'}}
+            numColumns={3}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => {
+              console.log("Item in flatlist", item)
+              return <View style={{ paddingVertical:10, width: '33%',alignItems: 'center'}}>
+                <TouchableOpacity style={{alignItems: 'center'}} onPress={() => {
+                  // setSelectedUsersID.push(item.id)
+                  setSelectedUsers([...selectedUsers, item])
+                  setSelectedUsersID([...selectedUsersID, item.id])
+                  setAgents([])
+                  // // setselectedUsers(item)
+                  // setSelectedUsers(item)
+                }}>
+                    <Image style={{width: 70, height: 70, borderRadius: 50}} source={{ uri: item.profile_photo_url}}></Image>
+                    {/* <Checkmark/> */}
+                     <View style={{position: 'absolute', top:0, right: 0 }}>
+                   
+
+                    </View> 
+                    <Text style={{ textAlign: 'center'}}>{item.username}</Text>
+                  </TouchableOpacity>
+                
+                {/* <Text style={{ color: '#424949'}}>{item.co}</Text> */}
+              </View>
+            }}
+          />
+
+
+
+        {selectedUsersID.length > 0 &&<GradientButton style={{ paddingVertical: 10 }} onPress={() => DoneSearch()}>Add</GradientButton>}
+                </View>
+              
+             
+
+
+            </TouchableWithoutFeedback>
+            <View style={{
+                width: '100%',
+                height: 50,
+                backgroundColor: '#fff',
+                borderRadius: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+                // padding: 20,
+                marginTop: 20
+              }}>
+
+                  <Text style={{fontSize: 20}}>Cancel</Text>
+
+            
+              </View>
+            {/* </View> */}
+            {/* </TouchableWithoutFeedback> */}
+          </TouchableOpacity>
+        </Modal>
       <View>
         <Modal visible={isInspectionsOpen} animationType="slide" onRequestClose={() => setIsInspectionsOpen(false)}>
           <EditInspectionTime navigation={navigation} onClose={setIsInspectionsOpen} />

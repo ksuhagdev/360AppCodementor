@@ -196,6 +196,32 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 4,
   },
+  textInput: {
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  textInputAndroid: {
+    color: 'rgba(0, 0, 0, 0.99)',
+    fontFamily: 'font-light',
+    fontSize: 15,
+    paddingHorizontal: 28,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    backgroundColor: '#fff',
+    elevation: 3,
+  },
+  textInputIOS: {
+    borderColor: 'transparent',
+    borderWidth: 0.5,
+    borderRadius: 6,
+    color: 'rgba(0, 0, 0, 0.99)',
+    fontFamily: 'font-light',
+    fontSize: 14,
+    paddingHorizontal: 26,
+    paddingVertical: 6,
+    marginHorizontal: 10,
+    backgroundColor: '#f1f1f1',
+  },
 });
 
 export default styles;

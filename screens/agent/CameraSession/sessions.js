@@ -31,10 +31,7 @@ export function RecordComplete({ navigation, videoUri, isNextEnabled, saveVideoT
         <TouchableOpacity onPress={saveVideoToServer} disabled={!isNextEnabled}>
           <Image style={{ width: 40, height: 40 }} source={require('../../../assets/image/next.png')} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={openTextModal} style={{ alignItems: 'center' }}>
-          <Image style={{ width: 44, height: 28 }} source={require('../../../assets/image/camera/text.png')} />
-          <Text style={styles.text}>Text</Text>
-        </TouchableOpacity>
+
         {/* <TouchableOpacity style={{ alignItems: 'center' }}>
           <Image style={{ width: 24, height: 28 }} source={require('../../../assets/image/camera/trim.png')} />
           <Text style={styles.text}>Trim</Text>
