@@ -497,7 +497,9 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
 
                     <Text style={styles.text}>{NumberShortner.abbrNumber(likes)}</Text>
                   </View>
-                  <TouchableOpacity onPress={toggleModal}>
+                  {/* <TouchableOpacity onPress={toggleModal}>
+                   */}
+                   <TouchableOpacity onPress={() => navigation.navigate('Music')}>
                     <View style={styles.btns}>
                       <FontAwesomeIcon style={styles.alignCenter} name="commenting" size={36} color="#fff" />
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>

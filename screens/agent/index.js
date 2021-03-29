@@ -44,6 +44,7 @@ import Genre from './Music/Genre'
 import FollowContainer from '../follow/FollowContainer';
 
 import LikedProperties from '../like/LikedProperties';
+import Currency from '../../screens/agent/Property/NewProperty/Currency';
 
 // const AgentNavigator = createStackNavigator(
 //   {
@@ -215,6 +216,7 @@ const newPropertyNav = createStackNavigator({
   RentalSetup,
   PrivateSale,
   Auction,
+  Currency,
   EditDateAndTime,
   EditInspectionTime,
   InviteOthers,

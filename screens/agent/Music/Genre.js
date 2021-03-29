@@ -5,7 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as account from '../../../actions/property';
 import Tabs from '../../../components/Tabs/Tabs'
 
-const Genre = () => {
+import Sound from 'react-native-sound'
+
+let soundRef = null;
+
+
+
+
+
+const Genre = (props) => {
     const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState('Trending')
     const { musicGenre } = useSelector(store => store.property)
@@ -16,10 +24,57 @@ const Genre = () => {
         })();
     }, [])
 
+
+    const selectAndPlayMusic = (song) => {
+        // const musicFileName = Platform.OS === 'ios' ? song.title : song.title.toLowerCase();
+        // const musicFileName = Platform.OS === 'ios' ? '1111.mp3' : 'aaa.mp3';
+        const musicFileName = song
+        destroySoundRef();
+        // console.log(musicFileName);
+        //console.log("Playing song", song)
+        console.log("Sound to Play", song)
+        soundRef = new Sound(musicFileName.song_url, '', error => {
+          if (error) {
+            console.log('failed to load the sound', error);
+            return;
+          }
+          // loaded successfully
+          // console.log(`duration in seconds: ${soundRef.getDuration()}number of channels: ${soundRef.getNumberOfChannels()}`);
+      
+          // Play the sound with an onEnd callback
+          soundRef.play(success => {
+            if (success) {
+              console.log('successfully finished playing');
+            } else {
+              console.log('playback failed due to audio decoding errors');
+            }
+          });
+        });
+      };
+      
+
+      
+      
+        
+        const destroySoundRef = () => {
+          if (soundRef) {
+            soundRef.stop();
+            soundRef.release();
+            soundRef = null;
+          }
+        };
+      
+      
+    
+    
+    
+
+  
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ width: '100%', height: '50%' }}>
-                <ImageBackground style={{ width: '100%', height: '100%' }}  source={{ uri: 'https://media.timeout.com/images/101659805/image.jpg' }}><Text>Hip Hop</Text></ImageBackground>
+                <ImageBackground style={{ width: '100%', height: '100%' }}  source={{ uri: 'https://media.timeout.com/images/101659805/image.jpg' }}><Text style= {{textAlign:'center'}}> Hip Hop</Text></ImageBackground>
             </View>
             <View style={styles.tabsContainer}>
                 <Tabs style={{ width: '45%' }} isActive={activeTab === 'Trending'} onPress={() => setActiveTab('Trending')}>
@@ -37,7 +92,9 @@ const Genre = () => {
                 data={musicGenre}
 
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={{ flexDirection: 'row', width: '50%', paddingVertical: 10, marginLeft: 20, alignItems: 'center' }}>
+                    <TouchableOpacity 
+                    onPress={() => selectAndPlayMusic(item)}
+                    style={{ flexDirection: 'row', width: '50%', paddingVertical: 10, marginLeft: 20, alignItems: 'center' }}>
                         <Image style={{ width: 60, height: 60, marginRight: 20 }} source={{ uri: item.poster_url }} />
                         <View >
                             <Text style={{ fontWeight: 'bold' }}>{item.title}  </Text>

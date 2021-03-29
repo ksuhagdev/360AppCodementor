@@ -12,6 +12,7 @@ import {
   ScrollView, Image
 } from 'react-native';
 import Tabs from '../../../components/Tabs/Tabs'
+import Sound from 'react-native-sound'
 import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux'
 import SearchBar from '../../../components/ContactAcess/SearchBar';
@@ -41,6 +42,7 @@ const data2 = [
 
 ];
 
+let soundRef = null;
 const {width, height} = Dimensions.get('window');
 const Music =  (props) => {
 const dispatch = useDispatch();
@@ -59,12 +61,53 @@ const dispatch = useDispatch();
 // console.log("Music Trending Class", musicTrending)
 const {getMusciCount,MusicCount} = useSelector(store => store.property)
 
+
+
+const selectAndPlayMusic = (song) => {
+  // const musicFileName = Platform.OS === 'ios' ? song.title : song.title.toLowerCase();
+  // const musicFileName = Platform.OS === 'ios' ? '1111.mp3' : 'aaa.mp3';
+  const musicFileName = song
+  destroySoundRef();
+  // console.log(musicFileName);
+  //console.log("Playing song", song)
+  console.log("Sound to Play", song)
+  soundRef = new Sound(musicFileName.song_url, '', error => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+    // loaded successfully
+    // console.log(`duration in seconds: ${soundRef.getDuration()}number of channels: ${soundRef.getNumberOfChannels()}`);
+
+    // Play the sound with an onEnd callback
+    soundRef.play(success => {
+      if (success) {
+        console.log('successfully finished playing');
+      } else {
+        console.log('playback failed due to audio decoding errors');
+      }
+    });
+  });
+};
+
+
   useEffect(() => {
     (async () => {
       await dispatch(getMusicTrending())
       await dispatch(getMusicCount())
     })();
   },[])
+
+
+  
+  const destroySoundRef = () => {
+    if (soundRef) {
+      soundRef.stop();
+      soundRef.release();
+      soundRef = null;
+    }
+  };
+
 
     return (
       <View style={styles.container}>
@@ -109,7 +152,9 @@ const {getMusciCount,MusicCount} = useSelector(store => store.property)
             data={musicTrending}
           
             renderItem={({item}) => (
-              <TouchableOpacity style={{flexDirection:'row', width:'50%', paddingVertical:10, marginLeft: 20, alignItems: 'center'}}>
+              <TouchableOpacity 
+              onPress={() => selectAndPlayMusic(item)}
+              style={{flexDirection:'row', width:'50%', paddingVertical:10, marginLeft: 20, alignItems: 'center'}}>
                 <Image style={{width: 60, height: 60, marginRight: 20 }} source={{uri: item.poster_url}}/>
                   <View >
                   <Text style={{fontWeight:'bold'}}>{item.title}  </Text>
