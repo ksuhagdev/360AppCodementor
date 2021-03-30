@@ -5,7 +5,7 @@ import {
   CLEAR_MESSAGES,
   CURRENT_CONVERSATION,
   MESSAGES_IS_LOADING,
-  MESSAGE_IS_SENDING,
+  MESSAGE_IS_SENDING,SET_CURRENCY
 } from '../store/types';
 
 const initialState = {
@@ -15,6 +15,7 @@ const initialState = {
   isMessagesLoading: false,
   currentConversation: {},
   isMessageSending: false,
+  currency: 'AUD'
 };
 
 export default function(state = initialState, action) {
@@ -24,7 +25,12 @@ export default function(state = initialState, action) {
         ...state,
         allConversations: action.payload,
       };
-
+    case SET_CURRENCY:
+      console.log("Action Payload", action.payload)
+      return {
+        ...state,
+        currency:action.payload
+      }
     case CONVERSATIONS_LOADING:
       return {
         ...state,

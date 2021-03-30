@@ -9,8 +9,12 @@ import {
   StatusBar,
   TextInput,
   KeyboardAvoidingView,
-  FlatList
+  FlatList,
+  TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
+import ActionSheet from 'react-native-action-sheet';
+import * as cc from 'currency-codes'
 import GradientButton from '../../../../components/Button';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import Slider from '../../../../components/helper/Slider';
@@ -20,13 +24,14 @@ import {
   handleNewPropertyCampaign,
   handleUpdateProperty,
 } from '../../../../actions/property';
-
+import Modal from 'react-native-modal';
 import Tabs from '../../../../components/Tabs/Tabs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-
+import AsyncStorage from '@react-native-community/async-storage';
 export default function PropertyDetails({navigation}) {
-  const [activeTab, setActiveTab] = useState('Fixed Prices');
-
+  // const [currencyModal, setcurrencyModal] = useState(false);
+  
+  
   const [state, setState] = React.useState({
     num_bedrooms: [1],
     num_bathrooms: [1],
@@ -34,9 +39,15 @@ export default function PropertyDetails({navigation}) {
     price: [200000, 10000000],
     isSwitchOn: true,
   });
-
+  
   const created = useSelector((store) => store.property.newPropertyCreated);
   const updated = useSelector((store) => store.property.propertyUpdated);
+  const {currency} = useSelector((store) => store.message);
+  // const [mainCurrency, setMainCurrency] = useState(currency)
+  console.log("Currecy IS", currency)
+  // const [ActionSheetCurrecy,setActionSheetCurrecy] = useState(['USD','AUD','CAD','AED', 'Different Currency']);
+  let ActionSheetCurrecy = ['USD','AUD','CAD','AED','GBP','Different Currency']
+  const ActionSheetCurrecyIOS = [...ActionSheetCurrecy, 'Cancel'];
   const dispatch = useDispatch();
   const {
     currentPropertyId,
@@ -48,7 +59,7 @@ export default function PropertyDetails({navigation}) {
   const handleChange = (value, key) => {
     setState({...state, [key]: value});
   };
-
+  
   const handleBtnPress = () => {
     const {num_bathrooms, num_bedrooms, num_garages, isSwitchOn, price} = state;
 
@@ -62,6 +73,7 @@ export default function PropertyDetails({navigation}) {
         list_price: isSwitchOn,
         min_price: price[0],
         max_price: price[1],
+        currency: currency
       };
       // if (created) {
       //   navigation.pop(4);
@@ -89,6 +101,37 @@ export default function PropertyDetails({navigation}) {
   };
   const handleChange2 = (value, key) => {
     setState({...state, [key]: value});
+  };
+
+  const showCurrecyTypes = () => {
+    // setActionSheetCurrecy([...ActionSheetCurrecy, mainCurrency])
+    // var ActionSheetCurrencyIOS = [...ActionSheetCurrecy]
+    ActionSheet.showActionSheetWithOptions(
+      {
+        title: 'Default Currency',
+        options:Platform.OS == 'ios' ?ActionSheetCurrecyIOS: ActionSheetCurrecy,
+        cancelButtonIndex:7,
+      },
+      (buttonIndex) => {
+        if (buttonIndex < ActionSheetCurrecy.length-1) {
+          // setState({
+          //   ...state,
+          //   property_type: ActionSheetButtonsAndroid[buttonIndex].toLowerCase(),
+          // });
+          // setValue(
+          //   'property_type',
+          //   ActionSheetButtonsAndroid[buttonIndex].toLowerCase(),
+          // );
+          // triggerValidation();
+        }
+        if(buttonIndex === ActionSheetCurrecy.length-1){
+          // console.log("Different Currency")
+          // console.log(cc.codes())
+          navigation.navigate('Currency')
+        }
+      },
+      
+    );
   };
 
   useEffect(() => {
@@ -125,136 +168,71 @@ export default function PropertyDetails({navigation}) {
   }, [setState, navigation, created, updated, newPropertyDetails]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
+    <>
+      <View style={styles.container}>
+        {/* <StatusBar
         translucent={true}
         backgroundColor={'rgba(0, 0, 0, 0.1)'}
         barStyle="dark-content"
-      />
+      /> */}
 
-      <View style={styles.containerView}>
-        <View style={styles.sliderWrapper}>
-          <Text style={styles.text}>How many bedrooms</Text>
-          <Slider
-            values={state.num_bedrooms}
-            type="single"
-            handleValuesChange={(values) =>
-              handleChange(values, 'num_bedrooms')
-            }
-          />
-        </View>
+        <View style={styles.containerView}>
+          <View style={styles.sliderWrapper}>
+            <Text style={styles.text}>How many bedrooms</Text>
+            <Slider
+              values={state.num_bedrooms}
+              type="single"
+              handleValuesChange={(values) =>
+                handleChange(values, 'num_bedrooms')
+              }
+            />
+          </View>
 
-        <View style={styles.sliderWrapper}>
-          <Text style={styles.text}>How many bathrooms</Text>
-          <Slider
-            values={state.num_bathrooms}
-            type="single"
-            handleValuesChange={(values) =>
-              handleChange(values, 'num_bathrooms')
-            }
-          />
-        </View>
+          <View style={styles.sliderWrapper}>
+            <Text style={styles.text}>How many bathrooms</Text>
+            <Slider
+              values={state.num_bathrooms}
+              type="single"
+              handleValuesChange={(values) =>
+                handleChange(values, 'num_bathrooms')
+              }
+            />
+          </View>
 
-        <View style={styles.sliderWrapper}>
-          <Text style={styles.text}>How many car spaces</Text>
-          <Slider
-            values={state.num_garages}
-            type="single"
-            handleValuesChange={(values) => handleChange(values, 'num_garages')}
-          />
-        </View>
-        <View style={styles.sliderWrapper}>
-          {/* <SwitchSliderList
-          text="Show Price?"
-          switchState={state.isSwitchOn}
-          // step={50000}
-          // min={200000}
-          // max={10000000}
-       //  sliderValues={state.price}
-          handleSwitchChange={value => handleChange2(value, 'isSwitchOn')}
-         // handleSliderChange={values => handleChange2(values, 'price')}
-        /> */}
-        </View>
+          <View style={styles.sliderWrapper}>
+            <Text style={styles.text}>How many car spaces</Text>
+            <Slider
+              values={state.num_garages}
+              type="single"
+              handleValuesChange={(values) =>
+                handleChange(values, 'num_garages')
+              }
+            />
+          </View>
+          <View style={styles.sliderWrapper}>
+            <SwitchSliderList
+              text="Show Price?"
+              switchState={state.isSwitchOn}
+              step={50000}
+              min={200000}
+              max={10000000}
+              sliderValues={state.price}
+              handleSwitchChange={(value) => handleChange2(value, 'isSwitchOn')}
+              handleSliderChange={(values) => handleChange2(values, 'price')}
+              openCurrency={() => showCurrecyTypes()}
+              typeCurrency={currency}
+            />
+          </View>
 
-        <View style={styles.tabsContainer}>
-          <Tabs
-            style={{width: '45%'}}
-            isActive={activeTab === 'Fixed Price'}
-            onPress={() => setActiveTab('Fixed Price')}>
-            Fixed Price
-          </Tabs>
-
-          <Tabs
-            style={{width: '45%'}}
-            isActive={activeTab === 'MostUsed'}
-            onPress={() => setActiveTab('MostUsed')}>
-            Price Range
-          </Tabs>
-        </View>
-
-        {activeTab === 'Fixed Price' && (
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <View style={{flexDirection: 'row'}}>
-              <TextInput
-                style={styles.input}
-                placeholder=" $ 1000"
-                keyboardType="numeric"
-              />
-              <TouchableOpacity
-              onPress={() => 
-                navigation.navigate('Currency')
-                // console.log("NAVIGATE")
-              }>
-                <Text style={{marginTop: 20}}>
-                  {' '}
-                  USD <Icons name="caret-down" size={20} color="#517fa4" />
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </KeyboardAvoidingView>
-        )}
-        {activeTab === 'MostUsed' && (
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{color: 'grey', marginTop: 20}}> Min </Text>
-              <TextInput
-                style={styles.input}
-                placeholder=" $ 1000"
-                keyboardType="numeric"
-              />
-              <TouchableOpacity>
-                <Text style={{marginTop: 20}}>
-                  {' '}
-                  USD <Icons name="caret-down" size={20} color="#517fa4" />
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{color: 'grey', marginTop: 20}}> Max </Text>
-              <TextInput
-                style={styles.input}
-                placeholder=" $ 1000"
-                keyboardType="numeric"
-              />
-              <TouchableOpacity>
-                <Text style={{marginTop: 20}}>
-                  {' '}
-                  USD <Icons name="caret-down" size={20} color="#517fa4" />
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </KeyboardAvoidingView>
-        )}
-
-        <View style={styles.buttonWrapper}>
-          <GradientButton style={{marginTop: 20}} onPress={handleBtnPress}>
-            CONTINUE
-          </GradientButton>
+          <View style={styles.buttonWrapper}>
+            <GradientButton style={{marginTop: 20}} onPress={handleBtnPress}>
+              CONTINUE
+            </GradientButton>
+          </View>
         </View>
       </View>
-    </SafeAreaView>
+
+    </>
   );
 }
 
@@ -273,7 +251,7 @@ const styles = StyleSheet.create({
   },
   sliderWrapper: {
     alignItems: 'center',
-    marginVertical: 30,
+    marginVertical: 10,
   },
   text: {
     color: '#000',
@@ -288,6 +266,6 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '80%',
-    marginTop: 20,
+    // marginTop: 20,
   },
 });

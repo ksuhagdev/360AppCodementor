@@ -638,7 +638,6 @@ export default function PropertyAddress({ navigation }) {
 
             {/* <View > */}
 
-
             <TouchableWithoutFeedback>
 
               <View style={{

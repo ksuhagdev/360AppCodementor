@@ -38,7 +38,7 @@ export default function NewProperty({ navigation }) {
   const { register, handleSubmit, errors, setValue, triggerValidation } = useForm({
     mode: 'onChange',
   });
-
+  
   const [state, setState] = useState({
     title: '',
     property_type: '',
@@ -237,6 +237,7 @@ export default function NewProperty({ navigation }) {
       },
     );
   };
+  
 
   // const onLocationSelect = item => {
   //   setState({

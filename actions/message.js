@@ -9,8 +9,17 @@ import {
   CLEAR_MESSAGES,
   CURRENT_CONVERSATION,
   MESSAGES_IS_LOADING,
-  MESSAGE_IS_SENDING,
+  MESSAGE_IS_SENDING,SET_CURRENCY
 } from '../store/types';
+
+export const SetCurrency = (type) => async (dispatch) => {
+  dispatch(
+    { 
+      type: SET_CURRENCY,
+      payload: type
+    }
+  )
+}
 
 export const getConversations = () => async (dispatch, getState) => {
   dispatch({ type: CONVERSATIONS_LOADING, payload: true });
