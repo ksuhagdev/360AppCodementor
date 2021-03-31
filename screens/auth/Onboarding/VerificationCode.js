@@ -105,7 +105,7 @@ const dispatch = useDispatch();
       <Text style={styles.title}>Verify your phone number</Text>
       {/* <Image style={styles.icon} source={source} /> */}
       <Text style={styles.subTitle}>
-        Enter the 4-digit code we sent to {'\n'}
+        Enter the 6-digit code we sent to {'\n'}
         {navigation.getParam('mobno')}
       </Text>
 

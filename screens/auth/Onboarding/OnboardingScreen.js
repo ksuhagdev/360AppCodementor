@@ -53,7 +53,8 @@ export default class Obboarding extends React.Component {
                         <Text style={styles.login}>Log In</Text>
                     </TouchableOpacity>
                 
-                    <TouchableOpacity activeOpacity={0.7} style={styles.signUpContainer} onPress={() => {this.props.navigation.navigate('AgencyApprovalMessage',{type:'userSignUp'})}}>
+                    <TouchableOpacity activeOpacity={0.7} style={styles.signUpContainer} >
+                    {/* onPress={() => {this.props.navigation.navigate('AgencyApprovalMessage',{type:'userSignUp'})}}> */}
                         <Text style={styles.signUp}>Sign Up</Text>
                     </TouchableOpacity>
                     

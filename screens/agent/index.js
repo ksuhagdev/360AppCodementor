@@ -121,7 +121,7 @@ const AgentHomeNav = createStackNavigator({
   },
   PropertyAddress,
   Music,
-  Genre:{screen: Genre, navigationOptions:{ headerShown: false}},
+  Genre:{screen: Genre, navigationOptions:{ headerShown: true}},
   UserProfile,
   CameraSession,
   DiscoverSoundtrack,

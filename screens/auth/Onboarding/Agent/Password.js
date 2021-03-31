@@ -25,7 +25,7 @@ const Password = (props) => {
     />
     {/* <Text style={{fontSize:16, fontWeight: 'bold',marginTop:20, marginLeft: 5 }}>Retype Password</Text> */}
 
-<TextInput
+{/* <TextInput
 // placeholder="Type-in"
 label="Retype Password"
 style={{ width: '80%', color: '#FF3257', backgroundColor: '#fff', paddingVertical: 20 }}
@@ -37,7 +37,7 @@ onChangeText={text => {
     SetPassword(text)
 }
 }
-/>
+/> */}
   
 
         </View>

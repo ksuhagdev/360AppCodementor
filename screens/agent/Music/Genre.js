@@ -18,12 +18,48 @@ const Genre = (props) => {
     const [activeTab, setActiveTab] = useState('Trending')
     const { musicGenre } = useSelector(store => store.property)
     console.log("Music GENRE POP", musicGenre)
+    // useEffect(() => {
+    //     (async () => {
+    //         await dispatch(account.getMusicGenre('POP'))
+    //     })();
+    //     return () => {
+    //         // Anything in here is fired on component unmount.
+            
+    //         destroySoundRef()
+    //       };
+    // }, [])
+
+
+
+
     useEffect(() => {
+      
+
         (async () => {
             await dispatch(account.getMusicGenre('POP'))
-        })();
-    }, [])
+    
+         
 
+        })();
+        destroySoundRef()
+        return () => {
+          // Anything in here is fired on component unmount.
+          
+          destroySoundRef()
+        };
+      },[])
+
+
+
+      const destroySoundRef = () => {
+          
+        if (soundRef) {
+          soundRef.stop();
+          soundRef.release();
+          soundRef = null;
+        }
+      };
+    
 
     const selectAndPlayMusic = (song) => {
         // const musicFileName = Platform.OS === 'ios' ? song.title : song.title.toLowerCase();
@@ -56,14 +92,6 @@ const Genre = (props) => {
       
       
         
-        const destroySoundRef = () => {
-          if (soundRef) {
-            soundRef.stop();
-            soundRef.release();
-            soundRef = null;
-          }
-        };
-      
       
     
     
@@ -74,8 +102,16 @@ const Genre = (props) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={{ width: '100%', height: '50%' }}>
-                <ImageBackground style={{ width: '100%', height: '100%' }}  source={{ uri: 'https://media.timeout.com/images/101659805/image.jpg' }}><Text style= {{textAlign:'center'}}> Hip Hop</Text></ImageBackground>
+                <ImageBackground style={{ width: '100%', height: '100%' }}  source={{ uri: 'https://media.timeout.com/images/101659805/image.jpg' }}>
+                    
+                    <Text style= {{textAlign:'center' }}> Hip Hop</Text></ImageBackground>
             </View>
+            {/* <View>
+               
+                <TouchableOpacity onPress={() => props.navigation.pop()} >
+                <Text> GO BACK </Text>
+                </TouchableOpacity>
+            </View> */}
             <View style={styles.tabsContainer}>
                 <Tabs style={{ width: '45%' }} isActive={activeTab === 'Trending'} onPress={() => setActiveTab('Trending')}>
                     Trending

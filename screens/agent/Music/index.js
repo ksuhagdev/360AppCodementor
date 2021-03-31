@@ -18,29 +18,9 @@ import {useSelector, useDispatch} from 'react-redux'
 import SearchBar from '../../../components/ContactAcess/SearchBar';
 import request from '../../../helper/functions/request';
 import {getMusicTrending, getMusicCount} from '../../../actions/property'
-const data = [
-  {key: 'Pop ',key2:'(231 tracks)'},
-  {key: 'Hio Hop', key2:'(72 tracks)'},
-  {key: 'Rock', key2:'(175 tracks)'},
-  {key: 'Cult Classics ', key2:'(81 tracks)'},
-  {key: 'Lounge ',key2:'(22 tracks)'},
-  {key: 'Cinematic',key2:'(103 tracks)'},
-  {key: 'R & B ',key2:'(43 tracks)'},
-  {key: 'Instrumental',key2:'(22 tracks)'},
 
-];
-const data2 = [
-  {key: 'GoodThing (with Kehlani) ',key2:'Zedd'},
-  {key: 'Holy Water', key2:'(Galantis)'},
-  {key: 'Legends', key2:'(Now United)'},
-  {key: 'Legends', key2:'(Now United)'},
-  {key: 'Legends', key2:'(Now United)'},
-  {key: 'Legends', key2:'(Now United)'},
-  {key: 'Legends', key2:'(Now United)'},
-  {key: 'Legends', key2:'(Now United)'},
-  
 
-];
+
 
 let soundRef = null;
 const {width, height} = Dimensions.get('window');
@@ -68,6 +48,7 @@ const selectAndPlayMusic = (song) => {
   // const musicFileName = Platform.OS === 'ios' ? '1111.mp3' : 'aaa.mp3';
   const musicFileName = song
   destroySoundRef();
+
   // console.log(musicFileName);
   //console.log("Playing song", song)
   console.log("Sound to Play", song)
@@ -77,7 +58,7 @@ const selectAndPlayMusic = (song) => {
       return;
     }
     // loaded successfully
-    // console.log(`duration in seconds: ${soundRef.getDuration()}number of channels: ${soundRef.getNumberOfChannels()}`);
+     //console.log(`duration in seconds: ${soundRef.getDuration()}number of channels: ${soundRef.getNumberOfChannels()}`);
 
     // Play the sound with an onEnd callback
     soundRef.play(success => {
@@ -95,11 +76,21 @@ const selectAndPlayMusic = (song) => {
     (async () => {
       await dispatch(getMusicTrending())
       await dispatch(getMusicCount())
+    //  soundRef.stop();
+     
+   
     })();
+    return () => {
+      // Anything in here is fired on component unmount.
+      
+      destroySoundRef()
+    };
   },[])
 
 
-  
+
+ 
+ 
   const destroySoundRef = () => {
     if (soundRef) {
       soundRef.stop();
@@ -128,7 +119,8 @@ const selectAndPlayMusic = (song) => {
                     width: 20,
                     backgroundColor: '#ff1493',
                     borderRadius:5, marginLeft:10, marginRight:10
-                  }} onPress={() => props.navigation.navigate('Genre')}></TouchableOpacity>
+                  }} onPress={() => {props.navigation.navigate('Genre')
+                  destroySoundRef()}}></TouchableOpacity>
                 <Text style={{fontWeight:'bold'}}>{item.genre}</Text>
                 {/* <Text style={{ color: '#424949'}}>{item.co}</Text> */}
               </View>
@@ -152,6 +144,7 @@ const selectAndPlayMusic = (song) => {
             data={musicTrending}
           
             renderItem={({item}) => (
+             
               <TouchableOpacity 
               onPress={() => selectAndPlayMusic(item)}
               style={{flexDirection:'row', width:'50%', paddingVertical:10, marginLeft: 20, alignItems: 'center'}}>
@@ -162,9 +155,10 @@ const selectAndPlayMusic = (song) => {
                   <Text style={{ color: '#424949'}}>0.30</Text>
 
                   </View>
-                
-               
+                            
+                  
               </TouchableOpacity>
+
             )}
           />}
         

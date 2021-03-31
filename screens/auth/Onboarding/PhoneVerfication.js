@@ -98,7 +98,7 @@ export default PhoneVerfication = (props) => {
             <Text  style={{color:'grey', fontSize:16, justifyContent:'center'}}>Standard message, call and data rates may apply</Text>
           </View>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{marginTop: 20, justifyContent: 'center'}}
             
             onPress={() => {
@@ -108,7 +108,7 @@ export default PhoneVerfication = (props) => {
             }}
           >
             <Text style={{textDecorationLine:'underline'}}>Go Back</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* </View> */}
          
         </SafeAreaView>

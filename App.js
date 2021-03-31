@@ -129,7 +129,8 @@ const MainNavigator = createStackNavigator(
       },
     },
     AgentLogin:{ screen: AgentLogin, navigationOptions: {
-      headerShown: false
+      //headerShown: false
+      title: 'Login as agent'
     },},
     // Login,
     PhoneVerification: {
