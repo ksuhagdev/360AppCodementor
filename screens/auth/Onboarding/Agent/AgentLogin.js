@@ -4,12 +4,15 @@ import {TextInput} from 'react-native-paper';
 import GradientButton from '../../../../components/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {agentLogin} from '../../../../actions/account-actions'
+
+
+
 const AgentLogin = (props) => {
     const [username, setUsername] = useState('')
     const dispatch = useDispatch();
     const [password, setPassword] = useState('')
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'#fff'}}>
             
 
             <TextInput
@@ -40,14 +43,21 @@ const AgentLogin = (props) => {
 <GradientButton
                 style={{marginTop: 20,width:300}} onPress={() => {
                     // props.navigation.navigate('AgencyDetail')
+
                     let data = {
                         username: username, password: password
                     }
 
+                    
+
                     dispatch(agentLogin(data, props.navigation))
+                    
 
                 }}
                 >Login</GradientButton>
+
+
+
         </View>
     )
 }

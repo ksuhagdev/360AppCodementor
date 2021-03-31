@@ -13,6 +13,8 @@ import {
   Dimensions, Button, Modal,
   ActivityIndicator, StatusBar, Platform, FlatList,
 } from 'react-native';
+import Sound from 'react-native-sound'
+
 import SearchBar from '../../../components/ContactAcess/ContactSearch';
 import * as Progress from 'react-native-progress';
 import MarqueeText from 'react-native-marquee';
@@ -85,7 +87,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
 
 
 
-
+const [pauseVideo, setPauseVideo] =useState(false)
   const [likes, setLikes] = useState(property.total_likes);
   const [shares, setShares] = useState(property.total_shares);
   const [isLiked, setIsLiked] = useState(property.is_liked || false);
@@ -128,6 +130,57 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   // };
 
   // console.log("Property data", property)
+
+  let soundRef = null;
+
+
+  const selectAndPlayMusic = (song) => {
+    // const musicFileName = Platform.OS === 'ios' ? song.title : song.title.toLowerCase();
+    // const musicFileName = Platform.OS === 'ios' ? '1111.mp3' : 'aaa.mp3';
+    const musicFileName = song
+    destroySoundRef();
+    // console.log(musicFileName);
+    //console.log("Playing song", song)
+    console.log("Sound to Play", song)
+    soundRef = new Sound(musicFileName.song_url, '', error => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      // console.log(`duration in seconds: ${soundRef.getDuration()}number of channels: ${soundRef.getNumberOfChannels()}`);
+  
+      // Play the sound with an onEnd callback
+      soundRef.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    });
+  };
+  
+
+  
+  
+    
+    const destroySoundRef = () => {
+      if (soundRef) {
+        soundRef.stop();
+        soundRef.release();
+        soundRef = null;
+      }
+    };
+  
+  
+
+
+
+
+
+
+
 
   const shareUrl = async () => {
 
@@ -338,7 +391,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
               posterResizeMode="cover"
               resizeMode={'cover'}
               ref={(ref) => (videoPlayer.current)}
-              paused={!shouldPlay}
+              paused={!shouldPlay || pauseVideo}
               progressUpdateInterval={250.0}
               ignoreSilentSwitch="ignore"
               style={styles.backgroundVideo}
@@ -460,7 +513,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                     marqueeDelay={100}
                     shouldAnimateTreshold={40}
                   >
-                    Dojo Cat - Say So "Why don't you say so?"
+                    Dojo Cat - Say So "Why don't you say so?" 
         </TextTicker>
                 </TouchableOpacity>
 
@@ -504,7 +557,8 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                     </View>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => { setMusicModalVisible(true) }}>
+                <TouchableOpacity onPress={() => { setMusicModalVisible(true) 
+                setPauseVideo(true)}}>
                   {/* <TouchableOpacity opacity={0}> */}
                   {/* <Animated.View style={{...styles.btns,transform: [{rotate: spin}]}}> */}
 
@@ -571,9 +625,17 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
               alignItems: 'center',
               padding: 20, borderRadius: 50, marginBottom: 40
             }}
-            onPressOut={() => setMusicModalVisible(!musicModalVisible)}
+            onPress={() => {
+              // if(soundRef){
+              //   destroySoundRef()
+              // }
+              setMusicModalVisible(!musicModalVisible)
+              setPauseVideo(false)
+            } }
+              
           >
 
+ 
             {/* <View > */}
 
 
@@ -586,7 +648,8 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
                 padding: 20
               }}>
                 <View style={{ flexDirection: 'row',paddingBottom: 26, borderBottomWidth:0.5, borderBottomColor:'gray', alignItems:'center', justifyContent: 'center'}}>
-                  <ImageBackground source={{ uri: property.main_image_url }} resizeMode="cover" style={{ width: 60, height: 60, borderRadius: 10,justifyContent: 'center' }} >
+                 
+                  <ImageBackground source={{ uri: property.videos[0].poster_url }} resizeMode="cover" style={{ width: 60, height: 60, borderRadius: 10,justifyContent: 'center' }} >
               <View style={{ backgroundColor: '#000', opacity:0.5}}/>
               <Lottie
                     source={musicAnim}
@@ -602,14 +665,32 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
 
                   />
 
-{/* <EvilIcons name='play' size={56}/> */}
 
-               
+
+               {/* // reference uha */}
                   </ImageBackground>
+                
                   <View style={{ paddingLeft: 20, }}>
-                    <Text style={{ fontSize: 20 }}>Behind These Closed Doors</Text>
-                    <Text style={{ color: 'gray' }}>Otis Mcdonald</Text>
-                    <Text style={{ color: 'gray' }}>02.08</Text>
+                    
+                    <Text style={{ fontSize: 20 }}> {property.videos[0].track_title} </Text>
+                    {/* <Text style={{ color: 'gray' }}>    {property.videos[0].track_id}  </Text> */}
+                    {/* <TouchableOpacity                     onPress={() => selectAndPlayMusic(property.videos[0].song_url)}
+
+                    >
+                    <Text style={{ color: 'gray' }}>   {property.videos[0].song_url}    </Text>
+
+
+                    </TouchableOpacity> */}
+
+                    <Text style={{ color: 'gray' }}>   {property.videos[0].artist}    </Text>
+
+                    <Text style={{ color: 'gray' }}>   {property.videos[0].genre}    </Text>
+
+
+
+                    
+
+                    
                   </View>
                 </View>
               <TouchableOpacity style={{justifyContent: 'center',alignItems: 'center', flexDirection:'row',}}>

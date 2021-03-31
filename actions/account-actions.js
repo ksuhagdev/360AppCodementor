@@ -22,6 +22,7 @@ import {
   ALL_PROPERTIES,
 } from '../store/types';
 
+
 export const loadProfile = userId => async dispatch => {
   dispatch({
     type: PROFILE_LOADING,
@@ -316,6 +317,9 @@ export const agentLogin = (payload, navigation) => async dispatch => {
     navigation.dispatch(loginUser);
   } catch (error) {
     console.log(error.response.data);
+   
+    //alert("you have entered incorrect username or password: Please try again  ")
+
     console.log({ ...error });
     handleSnackbar({
       message: parseError(error.response.data),
@@ -395,6 +399,8 @@ export const login = (payload, navigation) => async dispatch => {
 
     navigation.dispatch(loginUser);
   } catch (error) {
+    
+    
     console.log(error.response.data);
     console.log({ ...error });
     handleSnackbar({
@@ -732,3 +738,7 @@ export const renewToken = () => async dispatch => {
     console.error('Could not renew auth token: ', e);
   }
 };
+function newFunction() {
+  alert("Invalid ");
+}
+
