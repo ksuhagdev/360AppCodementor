@@ -93,7 +93,7 @@ const Hero = (props) => {
 	const max = selected + 1 
 	// console.log("Hero Props",  props)
 	useEffect(() => {
-		console.log("Videos Length", props.videos)
+		// console.log("Videos Length", props.videos)
 		console.log("Video Time Before Load on Videoplayer", new Date().getTime())
 
 		if((props.videos.length) - (selected+1) < 2){

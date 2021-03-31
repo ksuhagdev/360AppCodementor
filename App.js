@@ -113,10 +113,10 @@ const checkPermission = async () => {
 
 // checkPermission();
 
-requestInterceptors({
-  store,
-  $http: Axios,
-});
+// requestInterceptors({
+//   store,
+//   $http: Axios,
+// });
 
 const MainNavigator = createStackNavigator(
   {

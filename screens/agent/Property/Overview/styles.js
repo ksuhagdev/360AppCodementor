@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '30%',
+    flexDirection: 'row',
   },
   agentImg: {
     borderColor: '#fff',
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 15.19,
+
   },
   container: {
     flex: 1,

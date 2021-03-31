@@ -54,14 +54,14 @@ export default async ({ store, $http }) => {
           //   status: 401,
           // });
           // Logout the user
-          store.dispatch(logout());
+          // store.dispatch(logout());
         } else if (error.response.status === 403) {
           // store.dispatch('addToastNotifications', {
           //   text: (error.response && error.response.data && error.response.data.message) || error.message || 'Invalid username or password',
           //   timer: 4000,
           //   type: 'error',
           // });
-          store.dispatch(logout());
+          // store.dispatch(logout());
         } else {
           // store.dispatch('addToastNotifications', {
           //   text: (error.response && error.response.data && error.response.data.message) || error.message,

@@ -9,7 +9,7 @@ export function RecordComplete({ navigation, videoUri, isNextEnabled, saveVideoT
   return (
     <SafeAreaView style={styles.loadingContainer}>
       <View style={styles.row}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.pop(2)}>
           <Image style={{ width: 16, height: 16 }} source={require('../../../assets/image/close.png')} />
         </TouchableOpacity>
         {/* <Text style={{color:'w'}}> Add Music </Text> */}

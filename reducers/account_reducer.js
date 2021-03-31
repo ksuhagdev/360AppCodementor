@@ -14,7 +14,7 @@ import {
 
 const initialState = {
   accessToken: false,
-  data: {},
+  data: null,
   userProfile: {},
   isProfileLoading: false,
   isProfileUpdating: false,

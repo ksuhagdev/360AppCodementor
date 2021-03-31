@@ -38,12 +38,12 @@ export default class Obboarding extends React.Component {
                     <Text style={{fontSize: 20, color:'#fff', textDecorationLine:'underline' }} onPress={() => {this.props.navigation.navigate('AgentOnboarding')}}>Agent Login In</Text>
                 </View> */}
                 
-                <View style={{ top:50, right:20, zIndex: 1, position:'absolute'}}> 
+                <View style={{ bottom: 170, position:'absolute', alignItems: 'center', justifyContent: 'center', width:'100%'}}> 
                 {/* <TouchableOpacity hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }} onPress={() => {this.props.navigation.navigate('AgentOnboarding')}} >
                         <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline'}}>Agent Access</Text>
                    </TouchableOpacity> */}
                    <TouchableOpacity activeOpacity={0.7} onPress={() => {this.props.navigation.navigate('UNAUTHED')}}>
-                        <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline'}}>Guest</Text>
+                        <Text style={{fontSize: 20, color:'#fff',}}>Guest</Text>
                     </TouchableOpacity>
                 </View>
                 
@@ -53,14 +53,13 @@ export default class Obboarding extends React.Component {
                         <Text style={styles.login}>Log In</Text>
                     </TouchableOpacity>
                 
-                    <TouchableOpacity activeOpacity={0.7} style={styles.signUpContainer} >
-                    {/* onPress={() => {this.props.navigation.navigate('AgencyApprovalMessage',{type:'userSignUp'})}}> */}
+                    <TouchableOpacity activeOpacity={0.7} style={styles.signUpContainer} onPress={() => {this.props.navigation.navigate('PhoneVerification',{type:'userSignUp'})}}>
                         <Text style={styles.signUp}>Sign Up</Text>
                     </TouchableOpacity>
                     
                 </View>
                 
-                 <View style={{position:'absolute', bottom:30, }} >
+                 <View style={{position:'absolute', bottom:60, }} >
                  <TouchableOpacity  onPress={() => {this.props.navigation.navigate('AgentOnboarding')}} >
                         <Text style={{fontSize: 20, color:'#fff',textDecorationLine:'underline', marginLeft:width/2 -50 }}>Agent Access</Text>
                    </TouchableOpacity>
@@ -68,7 +67,7 @@ export default class Obboarding extends React.Component {
 
                 
                 <View style={styles.imageContainer}>
-                    <Image resizeMode='contain' source={require('../../../assets/image/splash.png')} style={{width: 120, height: 120, alignSelf:'center', marginTop:10}}/>
+                    <Image resizeMode='contain' source={require('../../../assets/image/splash.png')} style={{width: 120, height: 120, alignSelf:'center', marginTop:40}}/>
                 </View>
 
             </View>

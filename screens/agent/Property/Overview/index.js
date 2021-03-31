@@ -136,6 +136,7 @@ export default function PropertyAddress({ navigation }) {
   };
 
   const findVideo = type => {
+    console.log("Current property", currentProperty)
     return currentProperty.property.videos.find(video => {
       return video.video_type === type;
     });
@@ -429,6 +430,8 @@ export default function PropertyAddress({ navigation }) {
     if (hasAccess) {
       navigation.navigate('CameraSession', {
         videoType: type,
+        propertyId: propertyId,
+        title: navigation.getParam('title')
       });
     }
   };

@@ -80,7 +80,7 @@ export default PhoneVerfication = (props) => {
                 // props.navigation.navigate('Username',{mobno: formattedValue, type: props.navigation.getParam('type')})
 
                 }catch(e){
-                  Alert.alert("Server Error",e.message)
+                  // Alert.alert("Server Error",e.message)
                 }
                 console.log("navigation.getParam('mobno'),",props.navigation.getParam('type'))
 
