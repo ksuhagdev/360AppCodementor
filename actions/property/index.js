@@ -197,9 +197,9 @@ export const getTrendingProperties =  () => async(dispatch, getState) => {
   // }).catch(error => {
   //   console.log( error);
   // });
-  // let baseurl1 = "http://13.211.132.117:3600"
+  let baseurl1 = "http://13.211.132.117:3600"
   let baseurl = 'https://api.360app.io/api'
-    await axios({url: baseurl + `/properties/trending`, method:'GET'}).then(result => {
+    await axios({url: baseurl1 + `/properties/trending`, method:'GET'}).then(result => {
       // console.log("Trending Resuylt", result)
     data = result.data  
     // console.log("Trending Properties", data)

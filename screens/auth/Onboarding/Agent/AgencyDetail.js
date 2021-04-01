@@ -78,7 +78,7 @@ const AgencyDetail = (props) => {
                               "last_name": old_data.last_name,
                               "username": old_data.username,
                               "agent_email": agencyEmail,
-                              "phone": old_data.phone,
+                              "phone": old_data.phone.substring(1),
                               "profile_photo_url": old_data.profile_photo_url
                             },
                             "agent": {

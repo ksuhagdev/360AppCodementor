@@ -167,5 +167,3 @@ const AgentLogin = (props) => {
 }
 
 export default AgentLogin
-
-// uhamai

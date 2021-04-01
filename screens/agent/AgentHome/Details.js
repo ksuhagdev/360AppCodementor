@@ -57,7 +57,7 @@ export default function Details({ navigation, onGetMoreProperties }) {
   useEffect(() => {
      const filteredVideo = allProperties.filter(property => property.is_live)
      const filterunique = [...new Set(filteredVideo.map(item => item.id))]
-     console.log("Filter Unique Video", filterunique)
+    //  console.log("Filter Unique Video", filterunique)
      setFilterProperty(filteredVideo)
   },[allProperties])
 

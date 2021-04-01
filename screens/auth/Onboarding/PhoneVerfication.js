@@ -47,16 +47,31 @@ export default PhoneVerfication = (props) => {
 
           <PhoneInput
             ref={phoneInput}
-            defaultValue={value}
+            defaultValue={formattedValue}
             defaultCode="AU"
             layout="first"
             onChangeText={(text) => {
-              setValue(text);
+              console.log("Text", text)
+              if(text !== undefined && text.startsWith("0") ){
+                console.log("Edited Value",text.substring(0))
+                setValue(text.substring(0))
+              }else{
+                setValue(text);
+              }
+             
               setValid(phoneInput.current?.isValidNumber(text));
-              console.log("Is Phone Number Valid",phoneInput.current?.isValidNumber(text))
+              console.log("Is Phone Number Valid",phoneInput.current?.isValidNumber(text));
+              console.log("MAIN VALUE", formattedValue);
             }}
             onChangeFormattedText={(text) => {
+            console.log("TEXT in Formatted Text",value)
+            if(value.startsWith('0')){
+              console.log("Test Fomnatted Text", text)
+              setFormattedValue(text.split("0")[0]);
+            }else{
               setFormattedValue(text);
+            }
+              
             }}
             //withDarkTheme
             //withShadow
@@ -74,7 +89,11 @@ export default PhoneVerfication = (props) => {
               // setValid(checkValid ? checkValid : false);
               if(checkValid) {
                 try{
-                  
+                // if(formattedValue.charAt(3) === '0'){
+                //   var test = formattedValue.slice(0, 3) + formattedValue.slice(4);
+                //   // console.log("Test mobile no", test)
+                //   await setFormattedValue(test)
+                // }
                 await dispatch(account.phoneNumberVerification(formattedValue,props.navigation.getParam('type')))
                 props.navigation.navigate('VerificationCode',{mobno: formattedValue, type: props.navigation.getParam('type')})
                 // props.navigation.navigate('Username',{mobno: formattedValue, type: props.navigation.getParam('type')})

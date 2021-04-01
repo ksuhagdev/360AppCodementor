@@ -184,7 +184,7 @@ export const userlogin = (phone,verify, navigation) => async dispatch => {
   // dispatch(handleLoading(true));
   dispatch({ type: ALL_PROPERTIES, payload: [] });
   dispatch({ type: CLEAR_PROPERTY_SEARCH_RESULTS });
-  console.log("User Login Function", phone, verify)
+  console.log("User Login Function", phone, verify,phone.substring(1))
   try {
    // console.log(payload);
     const { data } = await request({
@@ -251,7 +251,7 @@ export const userlogin = (phone,verify, navigation) => async dispatch => {
     // console.log({ ...error });
     
     handleSnackbar({
-      message: parseError(error.response.data.message.message),
+      message: parseError(error.response.data),
       indefinite: true,
     });
   } finally {
@@ -504,10 +504,10 @@ export const signupAsAgent = (data, navigation) => async dispatch => {
       await setData('agency', data.agency);
     }
 
-    handleSnackbar({
-      message: 'Logged in',
-      type: 'success',
-    });
+    // handleSnackbar({
+    //   message: 'Logged in',
+    //   type: 'success',
+    // });
 
     try {
       const fcmToken = await AsyncStorage.getItem('fcmToken');
@@ -560,6 +560,7 @@ export const phoneNumberVerification = (number, type) => async dispatch => {
      url = `/users/sendSMSforSignup?number=${number.substring(1)}&subject=360Support`
     } 
   
+    
   try {
     // http://13.211.132.117:3600/users/sendSMSforLogin?number=61403140529&subject=360Support
     // let url2 = `/users/sendSMSforLogin?number=61403140529&subject=360Support`
@@ -575,7 +576,9 @@ export const phoneNumberVerification = (number, type) => async dispatch => {
     
   } catch (error) {
     console.log(error.response);
-    throw new Error('Server Error')
+    handleSnackbar({ message: parseError(error.response.data) });
+    throw new Error()
+    // throw new Error('Server Error')
 
     // handleSnackbar({ message: 'Could not login at this time. Please retry in a bit.' });
   } finally {
