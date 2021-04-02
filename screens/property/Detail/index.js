@@ -510,7 +510,11 @@ const [pauseVideo, setPauseVideo] =useState(false)
                   <FontAwesomeIcon style={styles.alignCenter} name="music" size={15} color="#fff" />
                 </View>
 
-                <TouchableOpacity style={{ width: '65%' }}>
+                <TouchableOpacity 
+                onPress={() => { setMusicModalVisible(true) 
+                  setPauseVideo(true)}}
+
+                style={{ width: '65%' }}>
                   <TextTicker
                     style={{ fontSize: 13, color: 'white' }}
                     duration={5000}
@@ -520,7 +524,10 @@ const [pauseVideo, setPauseVideo] =useState(false)
                     marqueeDelay={100}
                     shouldAnimateTreshold={40}
                   >
-                    Dojo Cat - Say So "Why don't you say so?" 
+                    <Text > {property.videos[0].track_title}  - </Text>
+                    <Text>  {property.videos[0].artist}    </Text>
+
+
         </TextTicker>
                 </TouchableOpacity>
 
@@ -551,7 +558,13 @@ const [pauseVideo, setPauseVideo] =useState(false)
                   </View>
                   {/* <TouchableOpacity onPress={toggleModal}>
                    */}
-                   <TouchableOpacity onPress={() => navigation.navigate('Music')}>
+                   {/* <TouchableOpacity onPress={() => navigation.navigate('Music')}> */}
+                     <TouchableOpacity 
+                     onPress={() => {
+                      // Here you need to keep both brackets for your method
+                                   alert('Commenting section is coming soon !!! ')
+                               }}
+                     >
                     <View style={styles.btns}>
                       <FontAwesomeIcon style={styles.alignCenter} name="commenting" size={36} color="#fff" />
                       <Text style={styles.text}>{NumberShortner.abbrNumber(shares)}</Text>

@@ -67,7 +67,6 @@ export function createArray(start, end, step) {
   const direction = start - end > 0 ? -1 : 1;
   const result = [];
   if (!step) {
-    // console.log('invalid step: ', step);
     return result;
   }
   length = Math.abs((start - end) / step) + 1;

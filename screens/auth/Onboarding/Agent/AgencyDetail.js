@@ -93,7 +93,7 @@ const AgencyDetail = (props) => {
                             },
                             "agency": {
                               "name": agencyName,
-                              "address": "THEDS",
+                             // "address": "THEDS",
                               "agency_linkedin_profile_url": "https://www.linkedin.com/in/harinder-harry-pal-971867135/",
                               "agent_id": 0
                             },

@@ -101,6 +101,7 @@ export const handleUpdateProperty = details => async dispatch => {
 };
 
 export const handleHashtags = tags => dispatch => {
+  console.log('check for hastags ')
   dispatch({ type: SET_HASHTAGS, payload: tags });
 };
 

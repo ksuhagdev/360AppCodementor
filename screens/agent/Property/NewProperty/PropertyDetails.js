@@ -223,10 +223,9 @@ export default function PropertyDetails({navigation}) {
               typeCurrency={currency}
             />
           </View>
-
           <View style={styles.buttonWrapper}>
             <GradientButton style={{marginTop: 20}} onPress={handleBtnPress}>
-              CONTINUE
+              CONTINUE 
             </GradientButton>
           </View>
         </View>
@@ -237,7 +236,7 @@ export default function PropertyDetails({navigation}) {
 }
 
 PropertyDetails.navigationOptions = {
-  title: 'Property Details',
+  title: 'Property Details ',
 };
 
 const styles = StyleSheet.create({

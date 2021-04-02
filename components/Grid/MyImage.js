@@ -9,7 +9,6 @@ import {
 const MyImage = ({style, sourceObj, onPress}) => {
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(true);
-    console.log("MY IMages ", sourceObj.main_image_url)
   return (
     <TouchableOpacity onPress={onPress}>
       {imageError || !sourceObj.main_image_url ? (
