@@ -26,7 +26,6 @@ export default function(state = initialState, action) {
         allConversations: action.payload,
       };
     case SET_CURRENCY:
-      console.log("Action Payload", action.payload)
       return {
         ...state,
         currency:action.payload

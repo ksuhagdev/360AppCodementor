@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, KeyboardAvoidingView} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import GradientButton from '../../../../components/Button';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,7 +12,14 @@ const AgentLogin = (props) => {
     const dispatch = useDispatch();
     const [password, setPassword] = useState('')
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'#fff'}}>
+
+
+        <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'#fff'}}>
+               
+
             
 
             <TextInput
@@ -58,7 +65,7 @@ const AgentLogin = (props) => {
 
 
 
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 

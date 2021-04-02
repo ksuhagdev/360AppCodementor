@@ -294,7 +294,7 @@ export default function NewProperty({ navigation }) {
       <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" bounces={true} showsVerticalScrollIndicator={false}>
         <View>
           <TitleTextField
-            title="Property Name"
+            title="Property Name" 
             name="title"
             placeholder="Ex - Villa for Life"
             value={state.title}

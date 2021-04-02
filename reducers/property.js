@@ -66,7 +66,6 @@ export default function(state = initialState, action) {
         propertyUpdated: action.payload.updated ? action.payload.updated : null,
       };
     case MUSIC_TRENDING:
-      console.log("Music Trending Reducer", action.payload)
       return{
         ...state, musicTrending: action.payload
       }
@@ -105,14 +104,12 @@ export default function(state = initialState, action) {
         currentProperty: action.payload.property,
       };
     case SET_TRENDINGPROPERTIES:
-      //  console.log("Inside Reducers", action)
       return {
         ...state, 
         trendingProperties: action.payload
       }
 
       case MUSIC_COUNT:
-        console.log("MUSIC COUNT", action.payload)
         return {
           ...state,
           MusicCount  : action.payload,

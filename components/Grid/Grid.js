@@ -23,7 +23,6 @@ const Grid = ({
   var currentRow = 0;
   const rowsArray = _.chunk(data, columns);
   var bigImageSide = 'right';
-    console.log("Inside grid")
   const renderGroupedItem = (row) => {
     const smallImage1 = row[0];
     const smallImage2 = row[1];
@@ -118,7 +117,6 @@ const Grid = ({
   };
 
   const renderCell = (row) => {
-    //   console.log("Render Cell", row)
     if (row.length >= columns && currentRow % groupEveryNthRow === 0) {
       currentRow++;
       return <View>{renderGroupedItem(row)}</View>;

@@ -248,7 +248,7 @@ export default function AgentProfile({ navigation }) {
           <View>
             <Text style={styles.text}>{profile.agency.name}</Text>
 
-            <Text style={styles.agencyInfo}>{profile.agency.address}</Text>
+            {/* <Text style={styles.agencyInfo}>{profile.agency.address}</Text> */}
           </View>
           </View>
 

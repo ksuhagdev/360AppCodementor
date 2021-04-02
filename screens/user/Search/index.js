@@ -216,7 +216,7 @@ export default function Search({ navigation }) {
 
   useEffect(() => {
     console.log("Search BValie", searchValue)
-    // if(searchValue)
+  //   if(searchValue)
   
     if(searchValue.length > 0){
       if(searchValue.charAt(0) !=='#'){
@@ -227,10 +227,10 @@ export default function Search({ navigation }) {
         })
       }else{
         setisHashtags(true)
-        // console.log("Search Value hastagfss", searchValue)
-        fetch(`http://13.211.132.117:3600/api/hashtags?tag=%23${searchValue.substring(1)}`).then(result => result.json()).then(result => {
+        console.log("Search Value hastagfss", searchValue)
+        fetch(`http://13.211.132.117:3600/hashtags?tag=%23${searchValue.substring(1)}`).then(result => result.json()).then(result => {
           setSearchResult(result) 
-        console.log("result from server", result)})
+        console.log("result from server is ::::", result)})
       }
     }else{
       setSearchResult([])
@@ -326,7 +326,7 @@ export default function Search({ navigation }) {
           hideResults={hideResults}
           onBlur={() => setHideResults(true)}
           placeholder="Search by Hastags # or Suburbs"
-          keyExtractor={item => `${item.name}-${item.postcode}`}
+          keyExtractor={item => `${item.name}-${item.postcode} `}
           onChangeText={text => handleChange(text)}
           renderItem={({ item }) => (
 
@@ -362,7 +362,7 @@ export default function Search({ navigation }) {
                 <ImageBackground source={currentHero.image} style={styles.hero}>
                   <View style={styles.overlay} />
 
-                  <Text style={styles.heroText}>Watch</Text>
+                  <Text style={styles.heroText}>Watch   </Text>
                   <Text style={styles.heroText}>Properties You Might Like</Text>
                 </ImageBackground>
               </TouchableOpacity>

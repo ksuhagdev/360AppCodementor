@@ -49,7 +49,6 @@ export default function(state = initialState, action) {
     }
 
     case AUTH_TOKEN_UPDATED:
-      console.log('Access Token Updated', action.payload)
       return {
         ...state,
         accessToken: action.payload,

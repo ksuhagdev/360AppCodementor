@@ -61,13 +61,11 @@ class Item extends React.PureComponent {
 
    getMainVideo (videos) {
     let video = null;
-    console.log("Videos inside getMainVideo", videos)
     if (videos && videos.length) {
       video = videos.find(vid => {
         return vid.video_type === 'kitchen';
       });
 
-      // console.log("Main Video", video)
 
       if (!video) {
         video = videos[0]; // assign random video instead
@@ -84,7 +82,6 @@ class Item extends React.PureComponent {
     
 
 
-    console.log("ID POSTER url", uri)
     return (
       <>
       <StatusBar translucent={false} backgroundColor="rgba(0, 0, 0, 0.1)" barStyle="light-content" />
@@ -192,7 +189,6 @@ class VideoScroll extends React.Component {
 
     }
     this.cellRefs = {};
-    // console.log("Data to Show", this.props.navigation.getParam('data'))
   }
   componentDidMount() {
     this.loadItems();
@@ -210,7 +206,6 @@ class VideoScroll extends React.Component {
     changed.forEach((item) => {
       const cell = this.cellRefs[item.key];
       if (cell) {
-        console.log("IS item visible", item)
         if (item.isViewable) {
           cell.play();
         } else {
@@ -220,7 +215,6 @@ class VideoScroll extends React.Component {
     });
   };
   _renderItem = ({ item }) => {
-    // console.log("IEM TOBE DISPLAYED", item)
     return (
       <Swipeable>
         <Item

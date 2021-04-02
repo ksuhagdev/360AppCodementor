@@ -34,7 +34,6 @@ const searchLocation = async (query, country) => {
       config: { method: 'GET' },
     });
 
-    console.log('search complete ', data.length);
 
     return data;
   } catch (error) {

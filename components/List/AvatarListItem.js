@@ -6,7 +6,6 @@ const defaultUserImage = require('../../assets/image/default-profile-pic.png');
 
 export default function AvatarListItem({ hasBorderBottom = false, avatar, text, secondaryText, ...rest }) {
   const profileImage = avatar ? { uri: avatar } : defaultUserImage;
-// console.log("Profile Image", avatar)
   return (
     <TouchableOpacity {...rest}>
       <View style={[styles.songContainer, hasBorderBottom ? styles.actionBtnBorderBottom : null]}>
