@@ -8,6 +8,7 @@ import PropertyAddress from '../agent/Property/Overview';
 import RoomVideo from '../user/Agent/RoomVideo';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs'
 import Login from '../auth/Login'; 
+import Inbox from '../user/Inbox'
 import {createSwitchNavigator} from 'react-navigation'
 import VideoScroll from './../../components/List/VideoScroll'
 import UserProfile from '../agent/UserProfile';
@@ -105,7 +106,7 @@ const unauth = createMaterialBottomTabNavigator({
       return <Icon name="search" size={26} color={tabInfo.tintColor} />
     }
   }},
-  Inbox: {screen: Login, navigationOptions:{
+  Inbox: {screen: Inbox, navigationOptions:{
     tabBarIcon:(tabInfo) => {
       return <Icon name="chat-bubble-outline" size={26} color={tabInfo.tintColor} />
     },

@@ -9,7 +9,8 @@ import { TitleTextField } from '../../../components/TextField/index';
 import GradientButton from '../../../components/Button';
 import { uploadPropertyVideo } from '../../../actions/property/index';
 import { RecordComplete } from './sessions';
-
+import request from '../../../helper/functions/request'
+import axios from 'axios';
 class EditVideo extends Component {
   static navigationOptions = {
     title: 'Edit video',
@@ -106,6 +107,7 @@ class EditVideo extends Component {
     
     const { navigation } = this.props;
     const videoUri = inputFile ? `file://${inputFile}` : navigation.getParam('videoUri', null);
+    
     const bundlePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.CachesDirectoryPath;
     const outputUri = outputFile || `${RNFS.CachesDirectoryPath}/output.mp4`;
     const audioFilter = '[0:a]aformat=fltp:44100:stereo,apad[0a];[1]aformat=fltp:44100:stereo,volume=0.30[1a];[0a][1a]amerge[a]';
@@ -200,10 +202,10 @@ class EditVideo extends Component {
     
     try {
       const result = await RNFFmpeg.executeWithArguments(ffCommand);
+      console.log('FFmpeg process exited with rc: ', result);
       this.setState({
         outputUri,
       });
-      console.log('FFmpeg process exited with rc: ', result);
     } catch (e) {
       console.error('Interlacing error: ', e);
     } finally {
@@ -277,40 +279,85 @@ class EditVideo extends Component {
     });
   };
 
-  saveVideoToServer = () => {
+  saveVideoToServer = async() => {
     const { navigation } = this.props;
     const videoUri = navigation.getParam('videoUri', null);
     const videoType = navigation.getParam('videoType', null);
+    const propertyId =  navigation.getParam('propertyId');
     const outputUri = `${RNFS.CachesDirectoryPath}/output.jpg`;
-    const ffCommand = `-y -ss 00:00:03 -i ${videoUri} -frames:v 1 -q:v 4 ${outputUri}`;
-    const finalvideourl = Platform.OS === 'android' && this.state.outputUri ? `file://${this.state.outputUri}` : this.state.outputUri
-    RNFFmpeg.execute(ffCommand)
-      .then(result => {
-        this.props
-          .uploadPropertyVideo({
-            video_type: videoType,
-            files: [finalvideourl || videoUri, `file://${outputUri}`],
-          })
-          .then(
-            ({ propertyId, propertyTitle }
-            ) => {
-           
-            if (propertyId) {
-              navigation.navigate('PropertyAddress', { propertyId, title: propertyTitle });
-              this.deleteVideoCache();
-            } else {
-              Alert.alert('', 'No property ID set for uploading property video', [{ text: 'OK' }]);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+    const ffCommand = `-y -ss 00:00:03 -i ${videoUri}  -frames:v 1 -q:v 4 ${outputUri}`;
+    const finalVideoMain = `${RNFS.CachesDirectoryPath}/output6.mp4`;
+   const rotateVideo = `-i ${this.state.outputUri || videoUri} -c copy -metadata:s:v:0 rotate=90 ${finalVideoMain}`;
+await RNFFmpeg.execute(rotateVideo)
+    // const finalvideourl = Platform.OS === 'android' && finalVideoMain ? `file://${}` : this.state.outputUri
+    await RNFFmpeg.execute(ffCommand)
+    let url = `http://13.211.132.117:3600/property-videos/vod/${propertyId}/1`;
+    console.log("URL", url)
+    const createFormData = () => {
+      // console.log("Payload", payload)
+      const data = new FormData();
+  
+      data.append('files[]', { uri: finalVideoMain, type: 'video/mp4', name: 'video_file.mp4' });
+      data.append('files[]', { uri: `file://${outputUri}`, type: 'image/jpeg', name: 'video_file.jpg' });
+      data.append('title', videoType);
+      data.append('video_type', videoType);
+      
+      return data;
+    };
+console.log("Payload", createFormData())
+// await request({
+//   url: `/users/profile/${user.id}`,
+//   config: {
+//     method: 'GET',
+//   },
+// });
 
-        console.log('FFmpeg process exited with rc ', result);
-      })
-      .catch(err => {
-        console.error('screenshot error', err);
-      });
+    try{
+      await request( {
+      url:url,
+      config:{
+        method: 'POST',
+        body: createFormData(),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+     
+    });
+
+    navigation.pop(2);
+  }
+    catch(e){
+      console.log("ERror",e)
+    }
+    // RNFFmpeg.execute(ffCommand)
+    //   .then(result => {
+    //     this.props
+    //       .uploadPropertyVideo({
+    //         video_type: videoType,
+    //         files: [finalvideourl || videoUri, `file://${outputUri}`],
+    //       })
+    //       .then(
+    //         ({ propertyId, propertyTitle }
+    //         ) => {
+           
+    //         if (propertyId) {
+    //           navigation.navigate('PropertyAddress', { propertyId, title: propertyTitle });
+    //           this.deleteVideoCache();
+    //         } else {
+    //           Alert.alert('', 'No property ID set for uploading property video', [{ text: 'OK' }]);
+    //         }
+    //       })
+    //       .catch(error => {
+    //         console.error(error);
+    //       });
+
+    //     console.log('FFmpeg process exited with rc ', result);
+    //   })
+    //   .catch(err => {
+    //     console.error('screenshot error', err);
+    //   });
   };
 
   // Sometimes, shooting a second video and running ffmpeg causes

@@ -54,6 +54,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const [state, setState] = useState({
     showLoadingIndicator: true,
   });
+  console.log("Property", property)
   const data = [
     {
       imageUrl: "http://via.placeholder.com/160x160",
@@ -186,49 +187,55 @@ const [pauseVideo, setPauseVideo] =useState(false)
 
     let video = 'https://d3qk4bte9py5ck.cloudfront.net/44a1550b-0107-42bb-b3f8-385f6f5d5c15/mp4/watermark1_Mp4_Avc_Aac_16x9_1920x1080p_24Hz_6Mbps_qvbr.mp4'
     let uploadOptions = { fileCache: true, appendExt: 'mp4', timeout: 60000, indicator: true, IOSBackgroundTask: true, }
-    RNFetchBlob.config(uploadOptions).fetch('GET', video, {}).progress((received, total) => {
-      // this.setState({ uploadingStatus: (received / total) * 100 })
-      console.log('Progress', (received / total) * 100);
-    })
-      .then(async (res) => {
-        console.log("Res", res.path())
-        const base64String = await res.base64();
-        const url = `data:video/mp4;base64,${base64String}`;
-        let shareOptions = {
-          title: "Check out my video",
-          message: "Check out my video!",
-          url: 'file://' + res.path(),
-          type: 'video/mp4',
-          subject: "Check out my video!",
-          social: Share.Social.INSTAGRAM,
-        }
-        await Share.shareSingle(shareOptions)
-          .then((res) => console.log('res:', res))
-          .catch((err) => console.log('err', err))
-      });
-
-    // const res = await RNFetchBlob.config(uploadOptions).fetch('GET', video, {})
-    //     .progress((received, total) => {
-    //         // this.setState({ uploadingStatus: (received / total) * 100 })
-    //         console.log('Progress', (received / total) * 100);
-    //     })
-    // const filePath = res.path(); //to delete video
-    // console.log("File Path", filePath)
-    // const base64String = await res.base64();
-    // const url = `data:video/mp4;base64,${base64String}`;
-    //  //deleted the video from path of Sexy lady.
-    // // this.setState({ isSliderModalVisible: false })
-    // setTimeout(() => {
-    //     const shareOptions = {
-    //         title: 'Sexy Lady',
-    //         url: 'file://' + filePath,
-    //         type: 'video/mp4',
-
-    //     };
-    //     await Share.open(shareOptions).then((res) => console.log("Result", res))
-    //         .catch((err) => { console.log('Video sharing failed.', 'failure', err)})
-    //         // await RNFetchBlob.fs.unlink(filePath);
+    // RNFetchBlob.config(uploadOptions).fetch('GET', video, {}).progress((received, total) => {
+    //   // this.setState({ uploadingStatus: (received / total) * 100 })
+    //   console.log('Progress', (received / total) * 100);
     // })
+    //   .then(async (res) => {
+    //     console.log("Res", res.path())
+    //     const base64String = await res.base64();
+    //     const url = `data:video/mp4;base64,${base64String}`;
+    //     let shareOptions = {
+    //       title: "Check out my video",
+    //       message: "Check out my video!",
+    //       url: 'file://' + res.path(),
+    //       type: 'video/mp4',
+    //       subject: "Check out my video!",
+    //       social: Share.Social.INSTAGRAM,
+    //     }
+    //     await Share.shareSingle(shareOptions)
+    //       .then((res) => console.log('res:', res))
+    //       .catch((err) => console.log('err', err))
+    //   });
+
+    const res = await RNFetchBlob.config(uploadOptions).fetch('GET', video, {})
+        .progress((received, total) => {
+            // this.setState({ uploadingStatus: (received / total) * 100 })
+            console.log('Progress', (received / total) * 100);
+        })
+    const filePath = res.path(); //to delete video
+    console.log("File Path", filePath)
+    const base64String = await res.base64();
+    const url = `data:video/mp4;base64,${base64String}`;
+    console.log("BASE 64", url)
+     //deleted the video from path of Sexy lady.
+    // this.setState({ isSliderModalVisible: false })
+    setTimeout(async () => {
+        const shareOptions = {
+          title: '360 App',
+          message: `Check out this Property that i found on 360 app
+            ${property.agency}
+            ${property.suburb}
+            https://www.360app.io
+            Powered by 360app`,
+            url: 'file://' + filePath,
+            type: 'video/mp4',
+
+        };
+        await Share.open(shareOptions).then((res) => console.log("Result", res))
+            .catch((err) => { console.log('Video sharing failed.', 'failure', err)})
+            // await RNFetchBlob.fs.unlink(filePath);
+    })
 
   }
   const onPropertyPressed = (id, title) => {
@@ -244,7 +251,7 @@ const [pauseVideo, setPauseVideo] =useState(false)
         {
           text: 'Login',
           onPress: () => {
-            navigation.navigate('Login');
+            navigation.navigate('Onboarding');
           },
         },
       ]);
@@ -440,18 +447,18 @@ const [pauseVideo, setPauseVideo] =useState(false)
 
 
 
-          {/* <TouchableWithoutFeedback
+          <TouchableWithoutFeedback
             onPress={() => {
               onPropertyPressed(property.id, property.title);
             }}>
             <View style={styles.clickableArea} />
-          </TouchableWithoutFeedback> */}
+          </TouchableWithoutFeedback>
 
           <View style={[styles.flexRow, styles.propertyInfoContainer]}>
             <View style={styles.flex}>
               <View style={[styles.propertyInfo, styles.flexRow]}>
                 <View style={styles.bubble2}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() =>onPropertyPressed(property.id, property.title)}>
                     <Image style={styles.agentImg} source={imageUrl} defaultSource={propertyPlaceholder} />
 
                   </TouchableOpacity>

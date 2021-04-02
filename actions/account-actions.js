@@ -23,6 +23,28 @@ import {
 } from '../store/types';
 
 
+export const NewUserAllProperty = () => async dispatch => {
+  dispatch({ type: ALL_PROPERTIES, payload: [] });
+}
+
+export const clearSearch = () => async dispatch => {
+  dispatch({ type: CLEAR_PROPERTY_SEARCH_RESULTS });
+
+}
+
+export const agentAuthSuccess = (data) => async dispatch => {
+  dispatch({
+    type: AUTH_SUCCESS,
+    payload: {
+      user: data.user,
+      agency: data.agency,
+      agent: data.agent,
+      accessToken: data.auth_token,
+    },
+  });
+}
+
+
 export const loadProfile = userId => async dispatch => {
   dispatch({
     type: PROFILE_LOADING,
@@ -259,7 +281,7 @@ export const agentLogin = (payload, navigation) => async dispatch => {
 //       'Accept': 'application/json',
 //       'Content-Type': 'application/json'
 //     },
-//     method: "POST",
+//     method: "POST",x
 //     body: JSON.stringify(payload)
 // }).then(function(res){ console.log(res) })
 // .catch(function(res){ console.log(res) })
@@ -323,9 +345,10 @@ export const agentLogin = (payload, navigation) => async dispatch => {
     console.log({ ...error });
     handleSnackbar({
       message: parseError(error.response.data),
-      indefinite: true,
+      // indefinite: true,
     });
-  } finally {
+  } 
+  finally {
     dispatch(handleLoading(false));
   }
 };
@@ -471,6 +494,7 @@ export const signupAsAgent = (data, navigation) => async dispatch => {
         accessToken: data.auth_token,
       },
     });
+    console.log("Data", data)
     
     await setToken(data.auth_token);
     await setData('user', data.user);
@@ -505,17 +529,19 @@ export const signupAsAgent = (data, navigation) => async dispatch => {
     } catch (error) {
       console.log('FCM token save failed  with error: ', error.message, error);
     }
+console.log("AGENT ROLE",data.user.role)
+    // const loginUser = StackActions.reset({
+    //   index: 0,
+    //   // actions: [NavigationActions.navigate({ routeName: data.user.role })],
+    //   actions: [NavigationActions.navigate({ routeName: 'USER'})],
 
-    const loginUser = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: data.user.role })],
-    });
+    // });
 
-    navigation.dispatch(loginUser);
+    // navigation.dispatch(loginUser);
     } catch (error) {
     console.log("Error in Creating user", error.response.data.message);
     handleSnackbar({
-      message: "Agent with the email address is already registered",
+      message: parseError(error.response.data),
     });
   } finally {
     dispatch(handleLoading(false));
@@ -528,15 +554,11 @@ export const phoneNumberVerification = (number, type) => async dispatch => {
     payload: true,
   });
   
-    // let url2 = `/property-videos/sendSMS?number=${number.substring(1)}&subject=360Support`
+    // let url2 = `/property-videos/sendSMS?number=${number.substring(1)}&subject=360Sup
     let url = `/users/sendSMSforLogin?number=${number.substring(1)}&subject=360Support`
     if(type == 'userSignUp' || type == 'agentSignup'){
      url = `/users/sendSMSforSignup?number=${number.substring(1)}&subject=360Support`
-    }
-
-    
-   
-      
+    } 
   
   try {
     // http://13.211.132.117:3600/users/sendSMSforLogin?number=61403140529&subject=360Support
@@ -590,19 +612,19 @@ export const verifyNumber = (number,verify) => async dispatch => {
         type: MOBILE_VERIFYING,
         payload: true,
       });
-      handleSnackbar({
-        message: 'Mobile Number Successfully verified',
-        type: 'success',
-        indefinite: true,
-      });
-    handleSnackbar({ message: 'Mobile Number Successfully verified' });
+      // handleSnackbar({
+      //   message: 'Mobile Number Successfully verified',
+      //   type: 'success',
+      //   indefinite: true,
+      // });
+    handleSnackbar({ message: 'Mobile Number Successfully verified',type: 'success' });
 
     }else{
       dispatch({
         type: MOBILE_VERIFYING,
         payload: false,
       });
-    handleSnackbar({ message: 'Incorrect Verification ID' });
+    // handleSnackbar({ message: 'Incorrect Verification ID' });
     throw new Error('Incorrect Verification ID')
 
     }
@@ -610,7 +632,8 @@ export const verifyNumber = (number,verify) => async dispatch => {
     console.log("Phone Verification Response",data);
   } catch (error) {
     console.log("verify number",error.data);
-    handleSnackbar({ message: 'Could not login at this time. Please retry in a bit.' });
+    handleSnackbar({ message: 'Please Enter Correct Code' });
+    throw new Error("Please Enter Correct Code")
   } finally {
     dispatch({ 
       type: PROFILE_IS_UPDATING,

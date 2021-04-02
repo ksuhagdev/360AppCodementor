@@ -232,9 +232,11 @@ export default class CameraSession extends Component {
       const { navigation } = this.props;
       const videoType = navigation.getParam('videoType', null);
       const data = await this.camera.recordAsync({ mute: false , orientation:'portrait',videoBitrate: 15*1000*1000 , forceUpOrientation: true, fixOrientation: true});
-      console.log("Navigation", data.uri)
+      console.log("Navigation", navigation.getParam('propertyId'))
+      
       navigate('EditVideo', {
         videoUri: data.uri,
+        propertyId: navigation.getParam('propertyId'),
         videoType,
         Trim:false,
       });

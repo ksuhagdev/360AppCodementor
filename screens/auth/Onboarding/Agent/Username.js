@@ -39,7 +39,6 @@ const Username = (props) => {
                         }
                     }
                     }
-
                 />
 
                 <View style={{ position: 'absolute', right: 20, top: 25 }}>

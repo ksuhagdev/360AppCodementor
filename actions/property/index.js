@@ -601,6 +601,7 @@ export const deleteProperty = async id => async (dispatch, getState) => {
 
 export const uploadPropertyVideo = payload => async (dispatch, getState) => {
   const createFormData = obj => {
+    console.log("Payload", payload)
     const data = new FormData();
 
     data.append('files[]', { uri: obj.files[0], type: 'video/mp4', name: 'video_file.mp4' });
@@ -622,6 +623,7 @@ export const uploadPropertyVideo = payload => async (dispatch, getState) => {
     if (currentProperty && currentProperty.property) {
       property = currentProperty.property;
     }
+    console.log("Current Property", currentProperty, )
 
     if (property && property.id) {
       propertyId = property.id;
@@ -629,26 +631,19 @@ export const uploadPropertyVideo = payload => async (dispatch, getState) => {
       videos = property.videos;
     }
 
-    console.log(
-      {
-        propertyId,
-        propertyTitle,
-        ...payload,
-      },
-      createFormData(payload),
-    );
+    
 
     const existingVideo = videos.find(x => x.video_type === payload.video_type);
-    let url = `/property-videos/vod/${propertyId}`;
+    let url = `http://13.211.132.117:3600/property-videos/vod/${propertyId}`;
 
     if (existingVideo) {
       // Video type exists, so we need to do an UPDATE API call
       url += `/video/${existingVideo.id}`;
     }
-    handleSnackbar({ type: 'success', message: 'Uploading and Processing your video' });
-    dispatch(setCurrentProperty(property.id, property));
 
-    const res = await Axios.post(url, createFormData(payload), {
+    handleSnackbar({ type: 'success', message: 'Uploading and Processing your video' });
+    // dispatch(setCurrentProperty(property.id, property));
+    const res = await axios.post(url, createFormData(payload), {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data',
@@ -663,7 +658,7 @@ export const uploadPropertyVideo = payload => async (dispatch, getState) => {
     property.campaign = currentProperty.campaign;
 
     // dispatch(setCurrentProperty(property.id, property));
-    handleSnackbar({ type: 'success', message: 'Property video successfully uploaded, Processing Video......' });
+    // handleSnackbar({ type: 'success', message: 'Property video successfully uploaded, Processing Video......' });
 
     return {
       ...res.data,
@@ -671,6 +666,7 @@ export const uploadPropertyVideo = payload => async (dispatch, getState) => {
       propertyTitle,
     };
   } catch (error) {
+    console.log("Error while upload video", error)
     handleSnackbar({ message: error && error.response ? parseError(error.response.data) : error });
   } finally {
     dispatch(handleLoading(false));

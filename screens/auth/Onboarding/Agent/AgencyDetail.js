@@ -100,7 +100,7 @@ const AgencyDetail = (props) => {
                             "password": props.navigation.getParam('password')
                           }
                           await dispatch(acc.signupAsAgent(data,props.navigation))
-                    props.navigation.navigate('AgencyApprovalMessage')}
+                    props.navigation.navigate('AgencyApprovalMessage',{username:old_data.username, password:props.navigation.getParam('password')})}
                 }
             > Finish agent setup </GradientButton>
 
