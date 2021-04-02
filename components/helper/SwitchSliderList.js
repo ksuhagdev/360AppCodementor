@@ -93,7 +93,6 @@ export default function SwitchSliderList({
                 <TouchableOpacity
                   onPress={
                     openCurrency
-                    // console.log("NAVIGATE")
                   }>
                   <Text style={{marginTop: 20}}>
                     {' '}
@@ -121,7 +120,6 @@ export default function SwitchSliderList({
                 />
                 <TouchableOpacity  onPress={
                     openCurrency
-                    // console.log("NAVIGATE")
                   }>
                   <Text style={{marginTop: 20}}>
                     {' '}

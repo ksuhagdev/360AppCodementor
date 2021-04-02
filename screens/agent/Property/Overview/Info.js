@@ -170,7 +170,8 @@ export default function AgentInfo({ navigation, currentProperty, isPreview, hasA
         </TouchableOpacity> */}
 
         <TouchableOpacity style={styles.btnSecondary} title="Get Directions" onPress={() => getDirections()}>
-          <Text style={styles.boxText}>Get Directions</Text>
+          
+          <Text style={styles.boxText}>Get Directions </Text>
         </TouchableOpacity>
       </View>
 
