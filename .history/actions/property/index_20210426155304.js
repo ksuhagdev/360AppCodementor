@@ -23,7 +23,7 @@ import {
 
 
 
-export const getAllProperties = () => async(dispatch, getState) => {
+export const getAllProperties = () => (dispatch, getState) => {
   dispatch({
     type: ALL_PROPERTIES_LOADING,
     payload: true,

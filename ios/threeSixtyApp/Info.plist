@@ -57,7 +57,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to use your location to display latest properties near your area</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Allow $(PRODUCT_NAME) to use your location to display latest properties near your area</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to use your microphone (for video recordings)</string>
 	<key>NSMotionUsageDescription</key>
@@ -95,6 +95,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

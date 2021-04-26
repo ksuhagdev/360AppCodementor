@@ -16,7 +16,7 @@ export default function GradientButton2({ children, ...rest }) {
 
 const styles = StyleSheet.create({
   gradient: {
-    padding: 5,
+    padding: 10,
     alignItems: 'center',
     borderRadius: 4,
     shadowColor: '#000',

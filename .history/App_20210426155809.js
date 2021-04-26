@@ -39,7 +39,7 @@ export default function App() {
             }}
           />
 
-        {/* <AppLoading fontLoaded={fontLoaded} /> */}
+        <AppLoading fontLoaded={fontLoaded} />
       </View>
     </Provider>
   );

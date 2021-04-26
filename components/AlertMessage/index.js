@@ -1,26 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GradientButton from '../Button';
+import Button2 from '../Button/Button2'
 
-export default function AlertMessage({ size, name, color, message, bgColor, textColor, textSize, showCtaButton, onButtonClicked }) {
+
+export default function AlertMessage({ size, name, color, message, bgColor, textColor, textSize, showCtaButton, onButtonClicked,showLoginButton }) {
   const DEFAULT_SIZE = 48;
   const iconBgSize = size ? size * 1.75 : DEFAULT_SIZE * 1.75;
 
   const styles = StyleSheet.create({
-    button: {
-      paddingHorizontal: 10,
-    },
+   
     container: {
       flex: 1,
+      width:'100%',
       alignItems: 'center',
       justifyContent: 'center',
       padding: 20,
     },
     ctaButton: {
-      marginTop: 20,
-      marginVertical: 3,
-      width: '50%',
+      // marginTop: 20,
+      // marginVertical: 3,
+      width: '60%',
+      height:70
     },
     iconContainer: {
       width: iconBgSize,

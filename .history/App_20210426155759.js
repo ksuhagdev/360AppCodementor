@@ -32,14 +32,14 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={{ flex: 1 }}>
-        
+        {fontLoaded && (
           <AppContainer
             ref={navigatorRef => {
               NavigationService.setTopLevelNavigator(navigatorRef);
             }}
           />
-
-        {/* <AppLoading fontLoaded={fontLoaded} /> */}
+        )}
+        <AppLoading fontLoaded={fontLoaded} />
       </View>
     </Provider>
   );

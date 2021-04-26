@@ -48,6 +48,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const [state, setState] = useState({
     showLoadingIndicator: true,
   });
+  console.log("Property", property)
 
 
   // const rotate = useRotation()
@@ -57,9 +58,7 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
 
 
 const [pauseVideo, setPauseVideo] =useState(false)
- 
-  const [videos, setVideo] = useState()
-  
+
   const placeholderImage = propertyImage;
   const videoPlayer = useRef(null)
   

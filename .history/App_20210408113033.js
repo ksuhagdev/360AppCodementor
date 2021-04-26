@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { View, Alert, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-// import useFont from './hooks/useFont';
+import useFont from './hooks/useFont';
 import AppLoading from './components/helper/AppLoading';
 import store from './store';
 import Axios from './utils/axios-plugin';
@@ -27,19 +27,19 @@ const MainNavigator = createStackNavigator(
 const AppContainer = createAppContainer(MainNavigator);
 
 export default function App() {
-  // const fontLoaded = useFont();
+  const fontLoaded = useFont();
   console.disableYellowBox = true;
   return (
     <Provider store={store}>
       <View style={{ flex: 1 }}>
-        
+        {fontLoaded && (
           <AppContainer
             ref={navigatorRef => {
               NavigationService.setTopLevelNavigator(navigatorRef);
             }}
           />
-
-        {/* <AppLoading fontLoaded={fontLoaded} /> */}
+        )}
+        <AppLoading fontLoaded={fontLoaded} />
       </View>
     </Provider>
   );

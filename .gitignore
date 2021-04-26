@@ -21,7 +21,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-
+*.history
+/.history
 # Gradle
 /build/
 /packages/react-native-codegen/android/build/

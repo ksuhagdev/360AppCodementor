@@ -48,7 +48,33 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
   const [state, setState] = useState({
     showLoadingIndicator: true,
   });
-
+  console.log("Property", property)
+  const data = [
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something two"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something three"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something four"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something five"
+    },
+    {
+      imageUrl: "http://via.placeholder.com/160x160",
+      title: "something six"
+    }
+  ];
 
   // const rotate = useRotation()
 
@@ -57,9 +83,19 @@ export default function PropertyDetail({ property, shouldPlay, navigation, video
 
 
 const [pauseVideo, setPauseVideo] =useState(false)
- 
+  const [likes, setLikes] = useState(property.total_likes);
+  const [shares, setShares] = useState(property.total_shares);
+  const [isLiked, setIsLiked] = useState(property.is_liked || false);
+  const [musicModalVisible, setMusicModalVisible] = useState(false)
+  // const [musicModalVisible, setm]
+  const [iconColor, setIconColor] = useState(property.is_liked ? '#f00' : '#fff');
+  // const { accessToken } = useSelector(store => store.account);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [shareModalVisible, setShareModalVisible] = useState(false)
+  const dispatch = useDispatch();
+
   const [videos, setVideo] = useState()
-  
+  const imageUrl = property.main_image_url ? { uri: property.main_image_url } : propertyImage;
   const placeholderImage = propertyImage;
   const videoPlayer = useRef(null)
   
@@ -85,6 +121,22 @@ const [pauseVideo, setPauseVideo] =useState(false)
     return video;
   };
 
+  const getCampaignType = campaignType => {
+    let type = 'Rent';
+
+    switch (campaignType) {
+      case 'PRIVATE_SALE':
+        type = 'Sale';
+        break;
+      case 'AUCTION':
+        type = 'Sale (Auction)';
+        break;
+      default:
+        type = 'Rent';
+    }
+
+    return type;
+  };
 
   const onBuffer = () => {
     console.log("Video Time when Buffering", new Date().getTime())
@@ -108,7 +160,21 @@ const [pauseVideo, setPauseVideo] =useState(false)
 
   }, [property])
 
-  
+  const spinValue = new Animated.Value(0);
+
+  Animated.loop(
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 5000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }),
+  ).start();
+
+  const rotateProp = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
 
 
 
